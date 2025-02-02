@@ -78,10 +78,10 @@
 #begin SoR Resources/Entities/Pheasant/skeleton.json
 /copy:SoR Resources/Entities/Pheasant/skeleton.json
 
-#begin SoR Resources/Entities/Player/MC.atlas
-/copy:SoR Resources/Entities/Player/MC.atlas
+#begin SoR Resources/Entities/Player/MC2.atlas
+/copy:SoR Resources/Entities/Player/MC2.atlas
 
-#begin SoR Resources/Entities/Player/MC.png
+#begin SoR Resources/Entities/Player/MC2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -91,7 +91,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SoR Resources/Entities/Player/MC.png
+/build:SoR Resources/Entities/Player/MC2.png
 
 #begin SoR Resources/Entities/Player/skeleton.json
 /copy:SoR Resources/Entities/Player/skeleton.json

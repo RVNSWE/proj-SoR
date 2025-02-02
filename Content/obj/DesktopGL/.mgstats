@@ -10,9 +10,9 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/savedthepheasant.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Pheasant/savedthepheasant.atlas","CopyItem","File",563,563,0.0009163
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/savedthepheasant.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Pheasant/savedthepheasant.xnb","TextureProcessor","Texture2DContent",18534,682861,0.0203212
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Pheasant/skeleton.json","CopyItem","File",33425,33425,0.0009938
-"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/MC.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Player/MC.atlas","CopyItem","File",3583,3583,0.0009628
-"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/MC.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Player/MC.xnb","TextureProcessor","Texture2DContent",90437,1546297,0.054074
-"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Player/skeleton.json","CopyItem","File",269553,269553,0.0009334
+"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/MC2.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Player/MC2.atlas","CopyItem","File",5085,5085,0.0016064
+"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/MC2.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Player/MC2.xnb","TextureProcessor","Texture2DContent",120453,1436629,0.1926054
+"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Player/skeleton.json","CopyItem","File",136765,136765,0.0010196
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Slime/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Slime/skeleton.json","CopyItem","File",2895,2895,0.0007567
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Slime/Slime.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Slime/Slime.atlas","CopyItem","File",398,398,0.0007088
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Slime/Slime.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Slime/Slime.xnb","TextureProcessor","Texture2DContent",2655,78421,0.0062551

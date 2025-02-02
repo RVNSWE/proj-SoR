@@ -34,9 +34,10 @@ namespace SoR.Logic.Character.Player
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC2.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
+            json.Scale = 0.5f;
 
             // Initialise skeleton json
             skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\skeleton.json"));
@@ -50,7 +51,7 @@ namespace SoR.Logic.Character.Player
             animStateData = new AnimationStateData(skeleton.Data);
             animState = new AnimationState(animStateData);
             animState.Apply(skeleton);
-            animStateData.DefaultMix = 0.2f;
+            animStateData.DefaultMix = 0.1f;
 
             // Set the "fidle" animation on track 1 and leave it looping forever
             trackEntry = animState.SetAnimation(0, "idledown", true);
@@ -80,7 +81,7 @@ namespace SoR.Logic.Character.Player
 
             Player = true;
 
-            Speed = 100f; // Set the entity's travel speed
+            Speed = 120f; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;
