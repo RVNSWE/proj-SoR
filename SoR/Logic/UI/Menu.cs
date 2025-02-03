@@ -70,16 +70,14 @@ namespace SoR.Logic.UI
          */
         public void OnKeyPressed(object sender, KeyboardEventArgs e)
         {
-            if (e.Key == Keys.Down ||
-                e.Key == Keys.S)
+            if (e.Key == Keys.Down || e.Key == Keys.S)
             {
                 if (Select < ItemCount)
                 {
                     Select++;
                 }
             }
-            else if (e.Key == Keys.Up ||
-                e.Key == Keys.W)
+            else if (e.Key == Keys.Up || e.Key == Keys.W)
             {
                 if (Select > 0)
                 {

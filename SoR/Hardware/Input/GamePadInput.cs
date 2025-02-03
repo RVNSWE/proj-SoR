@@ -4,6 +4,9 @@ using MonoGame.Extended.Input.InputListeners;
 
 namespace SoR.Hardware.Input
 {
+    /*
+     * Game pad input.
+     */
     public class GamePadInput
     {
         private GamePadListener gamePadListener;

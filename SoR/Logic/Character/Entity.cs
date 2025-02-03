@@ -96,29 +96,6 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * If something changes to trigger a new animation, apply the animation.
-         * If the animation is already applied, do nothing.
-         */
-        public virtual void ChangeAnimation(string eventTrigger)
-        {
-            string reaction; // Null if there will be no animation change
-
-            if (prevTrigger != eventTrigger)
-            {
-                foreach (string animation in animations.Keys)
-                {
-                    if (eventTrigger == animation)
-                    {
-                        prevTrigger = animOne = reaction = animation;
-                        animTwo = "idle";
-
-                        React(reaction, animations[animation]);
-                    }
-                }
-            }
-        }
-
-        /*
          * Update skin after loading game or changing screens.
          */
         public void UpdateSkin(string skin)
@@ -126,6 +103,22 @@ namespace SoR.Logic.Character
             skeleton.SetSkin(skeletonData.FindSkin(skin));
             skeleton.SetSlotsToSetupPose();
             animState.Apply(skeleton);
+        }
+
+        /*
+         * If something changes to trigger a new animation, apply the animation.
+         * If the animation is already applied, do nothing.
+         */
+        public virtual void ChangeAnimation(string eventTrigger)
+        {
+            string reaction; // Null if there will be no animation change
+
+            if (prevTrigger != eventTrigger && animations.TryGetValue(eventTrigger, out int animType))
+            {
+                prevTrigger = animOne = reaction = eventTrigger;
+                animTwo = "idle";
+                React(reaction, animType);
+            }
         }
 
         /*
@@ -138,7 +131,7 @@ namespace SoR.Logic.Character
          */
         public void React(string reaction, int animType)
         {
-            if (reaction != null)
+            if (!string.IsNullOrEmpty(reaction))
             {
                 switch (animType)
                 {
@@ -150,7 +143,14 @@ namespace SoR.Logic.Character
                         trackEntry = animState.AddAnimation(0, animTwo, true, 0);
                         break;
                     case 3:
-                        animState.AddAnimation(0, animOne, true, -trackEntry.TrackTime);
+                        if (trackEntry != null) // If there's a queue then buttons are being mashed, so just clear it and set next.
+                        {
+                            animState.SetAnimation(0, animOne, true);
+                        }
+                        else // Otherwise, add next to start on frame current anim finished on.
+                        {
+                            animState.AddAnimation(0, animOne, true, -trackEntry.TrackTime);
+                        }
                         break;
                 }
             }
