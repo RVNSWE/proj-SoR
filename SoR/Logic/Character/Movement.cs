@@ -57,19 +57,19 @@ namespace SoR.Logic.Character
 
             direction = Vector2.Zero;
 
-            if (entity.Position.X > Position.X) // Push right
+            if ((int)entity.Position.X > (int)Position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (entity.Position.X < Position.X) // Push left
+            else if ((int)entity.Position.X < (int)Position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (entity.Position.Y > Position.Y) // Push down
+            if ((int)entity.Position.Y > (int)Position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (entity.Position.Y < Position.Y) // Push up
+            else if ((int)entity.Position.Y < (int)Position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }
@@ -84,19 +84,19 @@ namespace SoR.Logic.Character
 
             direction = Vector2.Zero;
 
-            if (scenery.GetPosition().X > Position.X) // Push right
+            if (scenery.GetPosition().X > (int)Position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (scenery.GetPosition().X < Position.X) // Push left
+            else if (scenery.GetPosition().X < (int)Position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (scenery.GetPosition().Y > Position.Y) // Push down
+            if (scenery.GetPosition().Y > (int)Position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (scenery.GetPosition().Y < Position.Y) // Push up
+            else if (scenery.GetPosition().Y < (int)Position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }

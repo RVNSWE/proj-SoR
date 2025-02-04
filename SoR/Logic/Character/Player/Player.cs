@@ -81,7 +81,7 @@ namespace SoR.Logic.Character.Player
 
             Player = true;
 
-            Speed = 120f; // Set the entity's travel speed
+            Speed = 120; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;

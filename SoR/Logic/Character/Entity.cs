@@ -57,7 +57,7 @@ namespace SoR.Logic.Character
         public bool Player { get; set; }
         public string Type { get; set; }
         public int HitPoints { get; set; }
-        public float Speed { get; set; }
+        public int Speed { get; set; }
         public string Skin { get; set; }
 
         /*
@@ -245,8 +245,8 @@ namespace SoR.Logic.Character
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
-            skeleton.X = Position.X;
-            skeleton.Y = Position.Y;
+            skeleton.X = (int)Position.X;
+            skeleton.Y = (int)Position.Y;
 
             hitbox.Update(skeleton, true);
             animState.Update(GameLogic.GetTime(gameTime));
@@ -262,7 +262,7 @@ namespace SoR.Logic.Character
          */
         public void SetPosition(float xAdjustment, float yAdjustment)
         {
-            Position = new Vector2(xAdjustment, yAdjustment);
+            Position = new Vector2((int)xAdjustment, (int)yAdjustment);
         }
 
         /*

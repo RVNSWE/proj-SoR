@@ -64,7 +64,7 @@ namespace SoR.Logic.Character.Mobs
             BeenPushed = false;
             sinceFreeze = 0; // Time since entity movement was frozen
 
-            Speed = 50f; // Set the entity's travel speed
+            Speed = 50; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;
