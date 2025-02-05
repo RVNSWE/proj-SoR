@@ -97,7 +97,7 @@ namespace SoR.Logic.GameMap
             spriteBatch.DrawString(
                 font,
                 "",
-                new Vector2(position.X - 80, position.Y + 100),
+                new Vector2((int)position.X - 80, (int)position.Y + 100),
                 Color.BlueViolet);
             spriteBatch.End();
         }
@@ -115,8 +115,8 @@ namespace SoR.Logic.GameMap
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
-            skeleton.X = position.X;
-            skeleton.Y = position.Y;
+            skeleton.X = (int)position.X;
+            skeleton.Y = (int)position.Y;
 
             hitbox.Update(skeleton, true);
             animState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -132,7 +132,7 @@ namespace SoR.Logic.GameMap
          */
         public virtual void SetPosition(float xAdjustment, float yAdjustment)
         {
-            position = new Vector2(xAdjustment, yAdjustment);
+            position = new Vector2((int)xAdjustment, (int)yAdjustment);
         }
 
         /*

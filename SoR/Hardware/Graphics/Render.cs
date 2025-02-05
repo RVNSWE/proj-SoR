@@ -327,8 +327,8 @@ namespace SoR.Hardware.Graphics
             spriteBatch.DrawString(
                 font,
                 "HP: " + entity.GetHitPoints()
-                + "\nX: " + (int)entity.Position.X + " Y: " + (int)entity.Position.Y,
-                new Vector2((int)entity.Position.X - 30, (int)entity.Position.Y + 30),
+                + "\nX: " + entity.Position.X + " Y: " + entity.Position.Y,
+                new Vector2(entity.Position.X - 30, entity.Position.Y + 30),
                 Color.BlueViolet);
         }
 
@@ -453,7 +453,7 @@ namespace SoR.Hardware.Graphics
             int tileNumber = Convert.ToInt32(tile);
 
             // Offset drawing position by tile height to draw in front of any components using a different positioning reference
-            position.Y -= (float)(map.Height * 1.25);
+            position.Y -= (map.Height * 1.25f);
 
             spriteBatch.Draw(atlas[tileNumber], position, Color.White); // Draw the tile to the screen
         }

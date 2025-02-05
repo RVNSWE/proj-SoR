@@ -242,16 +242,13 @@ namespace SoR.Logic
             {
                 foreach (var scenery in Scenery.Values)
                 {
-                    // Update animations
                     scenery.UpdateAnimations(gameTime);
                 }
 
                 foreach (var entity in Entities.Values)
                 {
-                    // Update position according to user input
                     entity.UpdatePosition(gameTime, graphics);
 
-                    // Update animations
                     entity.UpdateAnimations(gameTime);
 
                     if (entity != player & player.CollidesWith(entity))
@@ -322,7 +319,10 @@ namespace SoR.Logic
             }
             foreach (var tile in mapLowerWalls.Values)
             {
-                positions.Add(tile);
+                if (!positions.Contains(tile))
+                {
+                    positions.Add(tile);
+                }
             }
         }
 
@@ -374,10 +374,10 @@ namespace SoR.Logic
                         }
                     }
 
+                    // Draw elements to the screen in order of y-axis position
                     RefreshPositions();
                     var sortPositionsByYAxis = positions.OrderBy(position => position.Y);
 
-                    // Draw elements to the screen in order of y-axis position
                     foreach (var position in sortPositionsByYAxis)
                     {
                         render.StartDrawingSpriteBatch(camera.GetCamera());

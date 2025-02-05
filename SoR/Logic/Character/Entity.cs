@@ -245,8 +245,8 @@ namespace SoR.Logic.Character
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
-            skeleton.X = (int)Position.X;
-            skeleton.Y = (int)Position.Y;
+            skeleton.X = Position.X;
+            skeleton.Y = Position.Y;
 
             hitbox.Update(skeleton, true);
             animState.Update(GameLogic.GetTime(gameTime));
@@ -262,7 +262,7 @@ namespace SoR.Logic.Character
          */
         public void SetPosition(float xAdjustment, float yAdjustment)
         {
-            Position = new Vector2((int)xAdjustment, (int)yAdjustment);
+            Position = new Vector2(xAdjustment, yAdjustment);
         }
 
         /*
