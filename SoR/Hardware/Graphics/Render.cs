@@ -293,14 +293,6 @@ namespace SoR.Hardware.Graphics
         }
 
         /*
-         * Start drawing SpriteBatch.
-         */
-        public void StartDrawingSpriteBatch(OrthographicCamera camera)
-        {
-            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
-        }
-
-        /*
          * Draw entity skeletons.
          */
         public void DrawEntitySkeleton(Entity entity)
@@ -319,6 +311,26 @@ namespace SoR.Hardware.Graphics
         }
 
         /*
+         * Finish drawing Skeleton.
+         */
+        public void FinishDrawingSkeleton()
+        {
+            skeletonRenderer.End();
+        }
+
+        /*
+         * Start drawing SpriteBatch.
+         * 
+         * SamplerState.PointClamp stops pixel snapping.
+         */
+        public void StartDrawingSpriteBatch(OrthographicCamera camera)
+        {
+            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.LinearClamp);
+                //samplerState: SamplerState.PointClamp,
+                //blendState: BlendState.AlphaBlend);
+        }
+
+        /*
          * Draw SpriteBatch for entities.
          */
         public void DrawEntitySpriteBatch(Entity entity, SpriteFont font)
@@ -330,6 +342,27 @@ namespace SoR.Hardware.Graphics
                 + "\nX: " + entity.Position.X + " Y: " + entity.Position.Y,
                 new Vector2(entity.Position.X - 30, entity.Position.Y + 30),
                 Color.BlueViolet);
+        }
+
+        /*
+         * Draw SpriteBatch for scenery.
+         */
+        public void DrawScenerySpriteBatch(Scenery scenery, SpriteFont font)
+        {
+            // Scenery text
+            spriteBatch.DrawString(
+                font,
+                "X: " + scenery.GetPosition().X + " Y: " + scenery.GetPosition().Y,
+                new Vector2(scenery.GetPosition().X - 80, scenery.GetPosition().Y + 100),
+                Color.BlueViolet);
+        }
+
+        /*
+         * Finish drawing SpriteBatch.
+         */
+        public void FinishDrawingSpriteBatch()
+        {
+            spriteBatch.End();
         }
 
         /*
@@ -348,19 +381,6 @@ namespace SoR.Hardware.Graphics
                 scale,
                 SpriteEffects.None,
                 0);
-        }
-
-        /*
-         * Draw SpriteBatch for scenery.
-         */
-        public void DrawScenerySpriteBatch(Scenery scenery, SpriteFont font)
-        {
-            // Scenery text
-            spriteBatch.DrawString(
-                font,
-                "",
-                new Vector2(scenery.GetPosition().X - 80, scenery.GetPosition().Y + 100),
-                Color.BlueViolet);
         }
 
         /*
@@ -456,22 +476,6 @@ namespace SoR.Hardware.Graphics
             position.Y -= (map.Height * 1.25f);
 
             spriteBatch.Draw(atlas[tileNumber], position, Color.White); // Draw the tile to the screen
-        }
-
-        /*
-         * Finish drawing Skeleton.
-         */
-        public void FinishDrawingSkeleton()
-        {
-            skeletonRenderer.End();
-        }
-
-        /*
-         * Finish drawing SpriteBatch.
-         */
-        public void FinishDrawingSpriteBatch()
-        {
-            spriteBatch.End();
         }
     }
 }

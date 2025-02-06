@@ -66,6 +66,7 @@ namespace SoR.Logic.Character.Mobs
 
             Speed = 50; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
+            depth = 0;
 
             ImpassableArea = impassableArea;
         }

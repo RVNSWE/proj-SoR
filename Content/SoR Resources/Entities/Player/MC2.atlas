@@ -1,6 +1,6 @@
 MC2.png
 size:697,523
-filter:MipMap,MipMap
+filter:Linear,Linear
 pma:true
 down/armLL
 bounds:588,416,10,26

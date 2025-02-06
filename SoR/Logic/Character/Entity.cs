@@ -48,6 +48,7 @@ namespace SoR.Logic.Character
         protected TrackEntry trackEntry;
         protected Vector2 prevPosition;
         protected bool inMotion;
+        protected float depth;
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
@@ -263,6 +264,22 @@ namespace SoR.Logic.Character
         public void SetPosition(float xAdjustment, float yAdjustment)
         {
             Position = new Vector2(xAdjustment, yAdjustment);
+        }
+
+        /*
+         * Set the relative depth on the map.
+         */
+        public void SetDepth(float depth)
+        {
+            this.depth = depth;
+        }
+
+        /*
+         * Set the relative depth on the map.
+         */
+        public float GetDepth()
+        {
+            return depth;
         }
 
         /*

@@ -157,7 +157,7 @@ namespace SoR.Logic
             mapUpperWalls = [];
             mapFloor = [];
             mapFloorDecor = [];
-            positions = [];
+            depths = [];
             impassableArea = [];
             InGameScreen = "none";
             PlayerLocation = "none";
@@ -208,6 +208,7 @@ namespace SoR.Logic
             mapFloorDecor = render.CreateMap(map, map.FloorDecor);
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
+            GetTileDepths();
 
             // Re-initialise the entity and scenery arrays
             Entities = [];
@@ -247,6 +248,7 @@ namespace SoR.Logic
             mapFloorDecor = [];
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
+            GetTileDepths();
 
             // Re-initialise the entity and scenery arrays
             Entities = [];

@@ -39,7 +39,8 @@ namespace SoR.Logic
         private Dictionary<string, Vector2> mapUpperWalls;
         private Dictionary<string, Vector2> mapFloor;
         private Dictionary<string, Vector2> mapFloorDecor;
-        private List<Vector2> positions;
+        private Dictionary<Vector2, float> tileDepths;
+        private List<float> depths;
         private List<Rectangle> impassableArea;
         private string currentMenuItem;
         private bool menu;
@@ -242,13 +243,14 @@ namespace SoR.Logic
             {
                 foreach (var scenery in Scenery.Values)
                 {
+                    scenery.SetDepth(scenery.GetPosition().Y / screenHeight);
                     scenery.UpdateAnimations(gameTime);
                 }
 
                 foreach (var entity in Entities.Values)
                 {
                     entity.UpdatePosition(gameTime, graphics);
-
+                    entity.SetDepth(entity.Position.Y / screenHeight);
                     entity.UpdateAnimations(gameTime);
 
                     if (entity != player & player.CollidesWith(entity))
@@ -298,30 +300,44 @@ namespace SoR.Logic
         }
 
         /*
+         * Build a dictionary of relative tile depths for this map.
+         */
+        public void GetTileDepths()
+        {
+            tileDepths = [];
+
+            foreach (var tile in mapLowerWalls.Values)
+            {
+                var depth = tile.Y / screenHeight;
+                tileDepths.Add(tile, depth);
+            }
+        }
+
+        /*
          * Get the positions of game elements before rendering.
          */
         public void RefreshPositions()
         {
-            positions = [];
+            depths = [];
+            foreach (var tile in tileDepths)
+            {
+                if (!depths.Contains(tile.Value))
+                {
+                    depths.Add(tile.Value);
+                }
+            }
             foreach (var scenery in Scenery.Values)
             {
-                if (!positions.Contains(scenery.GetPosition()))
+                if (!depths.Contains(scenery.GetDepth()))
                 {
-                    positions.Add(scenery.GetPosition());
+                    depths.Add(scenery.GetDepth());
                 }
             }
             foreach (var entity in Entities.Values)
             {
-                if (!positions.Contains(entity.Position))
+                if (!depths.Contains(entity.GetDepth()))
                 {
-                    positions.Add(entity.Position);
-                }
-            }
-            foreach (var tile in mapLowerWalls.Values)
-            {
-                if (!positions.Contains(tile))
-                {
-                    positions.Add(tile);
+                    depths.Add(entity.GetDepth());
                 }
             }
         }
@@ -376,41 +392,40 @@ namespace SoR.Logic
 
                     // Draw elements to the screen in order of y-axis position
                     RefreshPositions();
-                    var sortPositionsByYAxis = positions.OrderBy(position => position.Y);
+                    depths.Sort();
 
-                    foreach (var position in sortPositionsByYAxis)
+                    foreach (var depth in depths)
                     {
+                        render.StartDrawingSkeleton(GraphicsDevice, camera);
                         render.StartDrawingSpriteBatch(camera.GetCamera());
                         foreach (var entity in Entities.Values)
                         {
-                            if (entity.Position.Y == position.Y)
+                            if (entity.GetDepth() == depth)
                             {
-                                render.StartDrawingSkeleton(GraphicsDevice, camera);
                                 render.DrawEntitySkeleton(entity);
-                                render.FinishDrawingSkeleton();
 
                                 render.DrawEntitySpriteBatch(entity, font);
                             }
                         }
                         foreach (var scenery in Scenery.Values)
                         {
-                            if (scenery.GetPosition().Y == position.Y)
+                            if (scenery.GetDepth() == depth)
                             {
-                                render.StartDrawingSkeleton(GraphicsDevice, camera);
                                 render.DrawScenerySkeleton(scenery);
-                                render.FinishDrawingSkeleton();
 
                                 render.DrawScenerySpriteBatch(scenery, font);
                             }
                         }
+                        render.FinishDrawingSkeleton();
                         render.FinishDrawingSpriteBatch();
 
                         foreach (var tileName in mapLowerWalls)
                         {
-                            if (tileName.Value.Y == position.Y && tileName.Value.X == position.X)
+                            tileDepths.TryGetValue(tileName.Value, out float tileDepth);
+                            if (tileName.Value.Y / screenHeight == tileDepth)
                             {
                                 render.StartDrawingSpriteBatch(camera.GetCamera());
-                                render.DrawMap(map.GetWallAtlas(), map, tileName.Key, position);
+                                render.DrawMap(map.GetWallAtlas(), map, tileName.Key, tileName.Value);
                                 render.FinishDrawingSpriteBatch();
                             }
                         }
