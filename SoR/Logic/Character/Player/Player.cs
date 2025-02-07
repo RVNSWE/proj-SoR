@@ -37,7 +37,7 @@ namespace SoR.Logic.Character.Player
             atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC2.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
-            json.Scale = 0.5f;
+            json.Scale = 0.33f;
 
             // Initialise skeleton json
             skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\skeleton.json"));
@@ -83,7 +83,6 @@ namespace SoR.Logic.Character.Player
 
             Speed = 120; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
-            depth = 0;
 
             ImpassableArea = impassableArea;
         }

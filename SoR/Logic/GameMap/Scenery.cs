@@ -47,7 +47,6 @@ namespace SoR.Logic.GameMap
         protected Slot slot;
         protected TrackEntry trackEntry;
         protected Vector2 position;
-        protected float depth;
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
@@ -134,22 +133,6 @@ namespace SoR.Logic.GameMap
         public virtual void SetPosition(float xAdjustment, float yAdjustment)
         {
             position = new Vector2((int)xAdjustment, (int)yAdjustment);
-        }
-
-        /*
-         * Set the relative depth on the map.
-         */
-        public void SetDepth(float depth)
-        {
-            this.depth = depth;
-        }
-
-        /*
-         * Set the relative depth on the map.
-         */
-        public float GetDepth()
-        {
-            return depth;
         }
 
         /*

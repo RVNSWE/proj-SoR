@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Spine;
 
 namespace SoR.Logic.Character.Player
 {

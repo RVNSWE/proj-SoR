@@ -23,7 +23,7 @@ namespace SoR.Hardware.Data
         {
             GameState save = new()
             {
-                Position = player.Position,
+                Position = player.GetPosition(),
                 HitPoints = player.HitPoints,
                 Skin = player.Skin,
                 CurrentMap = playerLocation

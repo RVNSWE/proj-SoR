@@ -40,8 +40,6 @@ namespace SoR.Logic.GameMap.Interactables
             skeleton.SetAttachment("hitbox", "hitbox");
 
             hitbox = new SkeletonBounds();
-
-            depth = 0;
         }
 
         /*

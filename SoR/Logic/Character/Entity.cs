@@ -47,14 +47,13 @@ namespace SoR.Logic.Character
         protected Slot slot;
         protected TrackEntry trackEntry;
         protected Vector2 prevPosition;
+        protected Vector2 position;
         protected bool inMotion;
-        protected float depth;
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
         protected string isFacing;
         public List<Rectangle> ImpassableArea { get; protected set; }
-        public Vector2 Position { get; set; }
         public bool Player { get; set; }
         public string Type { get; set; }
         public int HitPoints { get; set; }
@@ -93,7 +92,7 @@ namespace SoR.Logic.Character
         {
             inMotion = false;
             ChangeAnimation("idle");
-            Position = prevPosition;
+            position = prevPosition;
         }
 
         /*
@@ -246,8 +245,8 @@ namespace SoR.Logic.Character
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
-            skeleton.X = Position.X;
-            skeleton.Y = Position.Y;
+            skeleton.X = position.X;
+            skeleton.Y = position.Y;
 
             hitbox.Update(skeleton, true);
             animState.Update(GameLogic.GetTime(gameTime));
@@ -263,23 +262,7 @@ namespace SoR.Logic.Character
          */
         public void SetPosition(float xAdjustment, float yAdjustment)
         {
-            Position = new Vector2(xAdjustment, yAdjustment);
-        }
-
-        /*
-         * Set the relative depth on the map.
-         */
-        public void SetDepth(float depth)
-        {
-            this.depth = depth;
-        }
-
-        /*
-         * Set the relative depth on the map.
-         */
-        public float GetDepth()
-        {
-            return depth;
+            position = new Vector2(xAdjustment, yAdjustment);
         }
 
         /*
@@ -304,6 +287,11 @@ namespace SoR.Logic.Character
         public int GetHitPoints()
         {
             return HitPoints;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return position;
         }
     }
 }

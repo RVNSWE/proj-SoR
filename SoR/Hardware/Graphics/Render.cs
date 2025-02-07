@@ -321,11 +321,11 @@ namespace SoR.Hardware.Graphics
         /*
          * Start drawing SpriteBatch.
          * 
-         * SamplerState.PointClamp stops pixel snapping.
+         * SamplerState.PointClamp snaps to pixels - fixes misaligned map tiles.
          */
         public void StartDrawingSpriteBatch(OrthographicCamera camera)
         {
-            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.LinearClamp);
+            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
                 //samplerState: SamplerState.PointClamp,
                 //blendState: BlendState.AlphaBlend);
         }
@@ -339,8 +339,8 @@ namespace SoR.Hardware.Graphics
             spriteBatch.DrawString(
                 font,
                 "HP: " + entity.GetHitPoints()
-                + "\nX: " + entity.Position.X + " Y: " + entity.Position.Y,
-                new Vector2(entity.Position.X - 30, entity.Position.Y + 30),
+                + "\nX: " + entity.GetPosition().X + " Y: " + entity.GetPosition().Y,
+                new Vector2(entity.GetPosition().X - 30, entity.GetPosition().Y + 30),
                 Color.BlueViolet);
         }
 
@@ -469,13 +469,17 @@ namespace SoR.Hardware.Graphics
          */
         public void DrawMap(Texture2DAtlas atlas, Map map, string tileName, Vector2 position)
         {
+            Vector2 blockPosition = position;
+
             string tile = tileName.Remove(0, 4); // Remove the unique ID to get the atlas position
             int tileNumber = Convert.ToInt32(tile);
 
             // Offset drawing position by tile height to draw in front of any components using a different positioning reference
-            position.Y -= (map.Height * 1.25f);
+            blockPosition.Y -= map.Height * 1.25f;
 
-            spriteBatch.Draw(atlas[tileNumber], position, Color.White); // Draw the tile to the screen
+            blockPosition.X = (int)blockPosition.X;
+            blockPosition.Y = (int)blockPosition.Y;
+            spriteBatch.Draw(atlas[tileNumber], blockPosition, Color.White); // Draw the tile to the screen
         }
     }
 }

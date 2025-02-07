@@ -57,19 +57,19 @@ namespace SoR.Logic.Character
 
             direction = Vector2.Zero;
 
-            if (entity.Position.X > Position.X) // Push right
+            if (entity.GetPosition().X > position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (entity.Position.X < Position.X) // Push left
+            else if (entity.GetPosition().X < position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (entity.Position.Y > Position.Y) // Push down
+            if (entity.GetPosition().Y > position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (entity.Position.Y < Position.Y) // Push up
+            else if (entity.GetPosition().Y < position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }
@@ -84,19 +84,19 @@ namespace SoR.Logic.Character
 
             direction = Vector2.Zero;
 
-            if (scenery.GetPosition().X > Position.X) // Push right
+            if (scenery.GetPosition().X > position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (scenery.GetPosition().X < Position.X) // Push left
+            else if (scenery.GetPosition().X < position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (scenery.GetPosition().Y > Position.Y) // Push down
+            if (scenery.GetPosition().Y > position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (scenery.GetPosition().Y < Position.Y) // Push up
+            else if (scenery.GetPosition().Y < position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }
@@ -191,7 +191,7 @@ namespace SoR.Logic.Character
             float deltaTime = GameLogic.GetTime(gameTime);
             int newDirection;
             sinceLastChange += deltaTime;
-            newPosition = Position;
+            newPosition = position;
 
             if (IsMoving())
             {
@@ -205,7 +205,7 @@ namespace SoR.Logic.Character
                 }
             }
 
-            prevPosition = Position;
+            prevPosition = position;
         }
 
         /*
@@ -213,7 +213,7 @@ namespace SoR.Logic.Character
          */
         public void AdjustPosition(GameTime gameTime, List<Rectangle> impassableArea)
         {
-            newPosition = Position;
+            newPosition = position;
 
             float newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
 
@@ -275,8 +275,8 @@ namespace SoR.Logic.Character
                 }
             }
 
-            Position = newPosition;
-            prevPosition = Position;
+            position = newPosition;
+            prevPosition = position;
         }
     }
 }
