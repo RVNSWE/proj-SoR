@@ -359,7 +359,7 @@ namespace SoR.Logic
                 default: // Otherwise default to drawing game
                     foreach (var tileName in mapFloor)
                     {
-                        render.StartDrawingSpriteBatch(camera.GetCamera());
+                        render.StartDrawingMapSpriteBatch(camera.GetCamera());
                         render.DrawMap(map.GetFloorAtlas(), map, tileName.Key, tileName.Value);
                         render.FinishDrawingSpriteBatch();
                     }
@@ -367,7 +367,7 @@ namespace SoR.Logic
                     {
                         foreach (var tileName in mapFloorDecor)
                         {
-                            render.StartDrawingSpriteBatch(camera.GetCamera());
+                            render.StartDrawingMapSpriteBatch(camera.GetCamera());
                             render.DrawMap(map.GetFloorDecorAtlas(), map, tileName.Key, tileName.Value);
                             render.FinishDrawingSpriteBatch();
                         }
@@ -377,7 +377,7 @@ namespace SoR.Logic
 
                     foreach (var depth in depths)
                     {
-                        render.StartDrawingSpriteBatch(camera.GetCamera());
+                        render.StartDrawingMapSpriteBatch(camera.GetCamera());
                         foreach (var tileName in mapLowerWalls)
                         {
                             if (tileName.Value.Y == depth)
@@ -418,7 +418,7 @@ namespace SoR.Logic
                     {
                         foreach (var tileName in mapUpperWalls)
                         {
-                            render.StartDrawingSpriteBatch(camera.GetCamera());
+                            render.StartDrawingMapSpriteBatch(camera.GetCamera());
                             render.DrawMap(map.GetWallAtlas(), map, tileName.Key, tileName.Value);
                             render.FinishDrawingSpriteBatch();
                         }

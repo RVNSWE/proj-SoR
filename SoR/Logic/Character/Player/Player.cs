@@ -37,7 +37,7 @@ namespace SoR.Logic.Character.Player
             atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC2.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
-            json.Scale = 0.33f;
+            json.Scale = 0.5f;
 
             // Initialise skeleton json
             skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\skeleton.json"));

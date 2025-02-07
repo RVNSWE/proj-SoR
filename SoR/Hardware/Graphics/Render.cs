@@ -320,14 +320,22 @@ namespace SoR.Hardware.Graphics
 
         /*
          * Start drawing SpriteBatch.
-         * 
-         * SamplerState.PointClamp snaps to pixels - fixes misaligned map tiles.
          */
         public void StartDrawingSpriteBatch(OrthographicCamera camera)
         {
+            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
+        }
+
+        /*
+         * Start drawing map SpriteBatch.
+         * 
+         * SamplerState.PointClamp snaps to pixels - fixes misaligned map tiles.
+         */
+        public void StartDrawingMapSpriteBatch(OrthographicCamera camera)
+        {
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
-                //samplerState: SamplerState.PointClamp,
-                //blendState: BlendState.AlphaBlend);
+            //samplerState: SamplerState.PointClamp,
+            //blendState: BlendState.AlphaBlend);
         }
 
         /*
