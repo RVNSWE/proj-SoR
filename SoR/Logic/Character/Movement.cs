@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoGame.Extended.Timers;
 using SoR.Logic.GameMap;
 using System;
 using System.Collections.Generic;
@@ -107,20 +108,20 @@ namespace SoR.Logic.Character
          */
         public void RedirectNPC()
         {
-            if (newPosition.X > prevPosition.X)
+            if (newPosition.X > position.X)
             {
                 NewDirection(1); // Redirect left
             }
-            else if (newPosition.X < prevPosition.X)
+            else if (newPosition.X < position.X)
             {
                 NewDirection(2); // Redirect right
             }
 
-            if (newPosition.Y > prevPosition.Y)
+            if (newPosition.Y > position.Y)
             {
                 NewDirection(3); // Redirect up
             }
-            else if (newPosition.Y < prevPosition.Y)
+            else if (newPosition.Y < position.Y)
             {
                 NewDirection(4); // Redirect down
             }
@@ -205,30 +206,36 @@ namespace SoR.Logic.Character
                 }
             }
 
-            prevPosition = position;
+            position = newPosition;
         }
 
         /*
-         * Set the new position after moving, and halve the speed if moving diagonally.
+         * 
          */
-        public void AdjustPosition(GameTime gameTime, List<Rectangle> impassableArea)
+        public void CalculateNewSpeed(GameTime gameTime)
         {
-            newPosition = position;
-
-            float newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
+            newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
 
             if (direction.X > 0 | direction.X < 0 && direction.Y > 0 | direction.Y < 0) // If moving diagonally
             {
                 newSpeed /= 1.5f; // Reduce the speed by 25%
             }
+        }
 
-            newPosition += direction * newSpeed;
+        /*
+         * Set the new position after moving, and halve the speed if moving diagonally.
+         */
+        public void AdjustXPosition(List<Rectangle> impassableArea)
+        {
+            newPosition.X = position.X;
+
+            newPosition.X += direction.X * newSpeed;
 
             foreach (Rectangle area in impassableArea)
             {
-                if (area.Contains(newPosition) && !area.Contains(prevPosition))
+                if (area.Contains(newPosition) && !area.Contains(position))
                 {
-                    direction = Vector2.Zero;
+                    direction.X = 0;
 
                     if (!Player) // If entity is not the player
                     {
@@ -240,16 +247,14 @@ namespace SoR.Logic.Character
                     }
 
                     Traversable = false;
-                    newPosition = prevPosition;
+                    newPosition.X = position.X;
 
                     break;
                 }
-                if (area.Contains(newPosition) && area.Contains(prevPosition)) // If entity is stuck inside the wall
+                if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
                 {
-                    bool left = prevPosition.X < area.Center.X;
-                    bool right = prevPosition.X > area.Center.X;
-                    bool top = prevPosition.Y < area.Center.Y;
-                    bool bottom = prevPosition.Y > area.Center.Y;
+                    bool left = position.X < area.Center.X;
+                    bool right = position.X > area.Center.X;
 
                     if (left) // If it is in the left half of the wall
                     {
@@ -259,6 +264,49 @@ namespace SoR.Logic.Character
                     {
                         newPosition.X += newSpeed;
                     }
+                }
+                else
+                {
+                    Traversable = true;
+                }
+            }
+
+            position.X = newPosition.X;
+        }
+
+        /*
+         * Set the new position after moving, and halve the speed if moving diagonally.
+         */
+        public void AdjustYPosition(List<Rectangle> impassableArea)
+        {
+            newPosition.Y = position.Y;
+
+            newPosition.Y += direction.Y * newSpeed;
+
+            foreach (Rectangle area in impassableArea)
+            {
+                if (area.Contains(newPosition) && !area.Contains(position))
+                {
+                    direction.Y = 0;
+
+                    if (!Player) // If entity is not the player
+                    {
+                        if (!DirectionReversed) // If the direction has not already been reversed
+                        {
+                            RedirectNPC(); // Move in the opposite direction
+                            DirectionReversed = true;
+                        }
+                    }
+
+                    Traversable = false;
+                    newPosition.Y = position.Y;
+
+                    break;
+                }
+                if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
+                {
+                    bool top = position.Y < area.Center.Y;
+                    bool bottom = position.Y > area.Center.Y;
 
                     if (top)
                     {
@@ -275,8 +323,7 @@ namespace SoR.Logic.Character
                 }
             }
 
-            position = newPosition;
-            prevPosition = position;
+            position.Y = newPosition.Y;
         }
     }
 }

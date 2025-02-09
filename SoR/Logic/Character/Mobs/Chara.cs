@@ -71,6 +71,7 @@ namespace SoR.Logic.Character.Mobs
             DirectionReversed = false;
             BeenPushed = false;
             sinceFreeze = 0; // Time since entity movement was frozen
+            newSpeed = 0;
 
             Speed = 50; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints

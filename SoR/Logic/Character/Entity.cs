@@ -46,13 +46,13 @@ namespace SoR.Logic.Character
         protected SkeletonBounds hitbox;
         protected Slot slot;
         protected TrackEntry trackEntry;
-        protected Vector2 prevPosition;
         protected Vector2 position;
         protected bool inMotion;
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
         protected string isFacing;
+        protected float newSpeed;
         public List<Rectangle> ImpassableArea { get; protected set; }
         public bool Player { get; set; }
         public string Type { get; set; }
@@ -92,7 +92,7 @@ namespace SoR.Logic.Character
         {
             inMotion = false;
             ChangeAnimation("idle");
-            position = prevPosition;
+            newPosition = position;
         }
 
         /*
@@ -188,7 +188,9 @@ namespace SoR.Logic.Character
                     BeenPushed = true;
                 }
 
-                AdjustPosition(gameTime, ImpassableArea);
+                CalculateNewSpeed(gameTime);
+                AdjustXPosition(ImpassableArea);
+                AdjustYPosition(ImpassableArea);
 
                 CountDistance--;
             }
@@ -226,7 +228,9 @@ namespace SoR.Logic.Character
                 BeMoved(gameTime);
                 NonPlayerMovement(gameTime);
 
-                AdjustPosition(gameTime, ImpassableArea);
+                CalculateNewSpeed(gameTime);
+                AdjustXPosition(ImpassableArea);
+                AdjustYPosition(ImpassableArea);
 
                 DirectionReversed = false;
             }

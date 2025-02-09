@@ -78,6 +78,7 @@ namespace SoR.Logic.Character.Player
             BeenPushed = false;
             sinceFreeze = 0; // Time since entity movement was frozen
             isFacing = "idledown";
+            newSpeed = 0;
 
             Player = true;
 
@@ -182,7 +183,9 @@ namespace SoR.Logic.Character.Player
 
                 BeMoved(gameTime);
 
-                AdjustPosition(gameTime, ImpassableArea);
+                CalculateNewSpeed(gameTime);
+                AdjustXPosition(ImpassableArea);
+                AdjustYPosition(ImpassableArea);
 
                 lastAnimation = movementAnimation;
             }
