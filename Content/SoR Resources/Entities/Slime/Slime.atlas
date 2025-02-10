@@ -1,20 +1,11 @@
 Slime.png
-size:204,96
+size:299,91
 filter:MipMap,MipMap
 pma:true
 scale:2.0
-jellyanim/atkd and idle/01
-bounds:142,2,60,54
-offsets:24,22,108,104
-jellyanim/atkd and idle/02
-bounds:74,8,66,46
-offsets:22,22,108,104
-jellyanim/atkd and idle/03
-bounds:2,10,70,44
-offsets:20,22,108,104
-jellyanim/atkd and idle/04
-bounds:98,58,80,36
-offsets:14,22,108,104
-jellyanim/atkd and idle/05
-bounds:2,56,94,38
-offsets:8,22,108,104
+jellyanim/atkd and idle/shadow
+bounds:2,4,195,85
+offsets:108,0,400,400
+jellyanim/atkd and idle/slime
+bounds:199,2,98,87
+offsets:55,0,200,200

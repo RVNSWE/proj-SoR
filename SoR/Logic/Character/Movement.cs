@@ -210,15 +210,15 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * 
+         * Calculate movement speed. 75% speed if moving diagonally.
          */
         public void CalculateNewSpeed(GameTime gameTime)
         {
             newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
 
-            if (direction.X > 0 | direction.X < 0 && direction.Y > 0 | direction.Y < 0) // If moving diagonally
+            if (direction.X > 0 | direction.X < 0 && direction.Y > 0 | direction.Y < 0)
             {
-                newSpeed /= 1.5f; // Reduce the speed by 25%
+                newSpeed *= 0.75f;
             }
         }
 
