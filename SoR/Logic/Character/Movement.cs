@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGame.Extended.Timers;
 using SoR.Logic.GameMap;
 using System;
 using System.Collections.Generic;
@@ -228,8 +227,22 @@ namespace SoR.Logic.Character
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
             newPosition.X = position.X;
-
             newPosition.X += direction.X * newSpeed;
+            int facingDirection = 0;
+
+            if (direction.X > 0)
+            {
+                newPosition.X += 25;
+                position.X += 25;
+                facingDirection = 1;
+            }
+
+            if (direction.X < 0)
+            {
+                newPosition.X -= 25;
+                position.X -= 25;
+                facingDirection = -1;
+            }
 
             foreach (Rectangle area in impassableArea)
             {
@@ -269,6 +282,15 @@ namespace SoR.Logic.Character
                 {
                     Traversable = true;
                 }
+            }
+
+            if (facingDirection > 0)
+            {
+                newPosition.X -= 25;
+            }
+            if (facingDirection < 0)
+            {
+                newPosition.X += 25;
             }
 
             position.X = newPosition.X;

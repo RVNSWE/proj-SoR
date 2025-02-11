@@ -69,9 +69,11 @@
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/TiledScenery/t-grass/15.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/TiledScenery/Temple/floorSpritesheet.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/TiledScenery/Temple/wallSpritesheet.png</File>
+    <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/TiledScenery/Walls/1.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Screens/Screen Transitions/curtain.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

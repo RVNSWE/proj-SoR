@@ -202,7 +202,7 @@ namespace SoR.Logic.Character
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
         {
             entity.TakeDamage(1);
-            entity.ChangeAnimation("hit");
+            entity.ChangeAnimation("attack");
             RepelledFromEntity(10, entity);
         }
 

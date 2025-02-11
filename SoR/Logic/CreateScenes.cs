@@ -18,7 +18,8 @@ namespace SoR.Logic
         {
             MainMenu,
             Village,
-            Temple
+            Temple,
+            Wall
         }
 
         /*
@@ -63,7 +64,7 @@ namespace SoR.Logic
 
                     if (newGame) // If starting a new game
                     {
-                        Village(game, GraphicsDevice); // Load the starting area
+                        Wall(game, GraphicsDevice); // Load the starting area
                     }
                     if (loadingGame) // If loading from save file
                     {
@@ -265,6 +266,53 @@ namespace SoR.Logic
             // Create scenery
             sceneryType = SceneryType.Campfire;
             CreateScenery(GraphicsDevice, 224, 160);
+        }
+
+        /*
+         * Create the Wall scene.
+         */
+        public void Wall(MainGame game, GraphicsDevice GraphicsDevice)
+        {
+            menu = false;
+            InGameScreen = "game";
+
+            // Get the map to be used
+            map = new Map(2);
+            currentMapEnum = CurrentMap.Wall;
+            LoadGameContent(GraphicsDevice, game);
+            hasFloorDecor = false;
+            hasUpperWalls = false;
+
+            // Create the map
+            map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);
+            mapLowerWalls = render.CreateMap(map, map.LowerWalls, true);
+            mapFloorDecor = [];
+            render.ImpassableMapArea();
+            impassableArea = render.ImpassableTiles;
+
+            // Re-initialise the entity and scenery arrays
+            Entities = [];
+            Scenery = [];
+
+            // Create entities
+            entityType = EntityType.Player;
+            CreateEntity(GraphicsDevice, 500, 500);
+
+            entityType = EntityType.Fishy;
+            CreateEntity(GraphicsDevice, 300, 300);
+
+            entityType = EntityType.Slime;
+            CreateEntity(GraphicsDevice, 250, 400);
+
+            entityType = EntityType.Chara;
+            CreateEntity(GraphicsDevice, 400, 400);
+
+            entityType = EntityType.Pheasant;
+            CreateEntity(GraphicsDevice, 300, 400);
+
+            // Create scenery
+            sceneryType = SceneryType.Campfire;
+            CreateScenery(GraphicsDevice, 224, 300);
         }
     }
 }

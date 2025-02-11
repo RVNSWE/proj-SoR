@@ -122,6 +122,9 @@ namespace SoR.Logic
                 case CurrentMap.Temple:
                     PlayerLocation = "temple";
                     break;
+                case CurrentMap.Wall:
+                    PlayerLocation = "wall";
+                    break;
             }
             GameState.SaveFile(player, PlayerLocation);
             PlayerLocation = "none";
@@ -141,6 +144,9 @@ namespace SoR.Logic
                     break;
                 case "temple":
                     Temple(game, GraphicsDevice);
+                    break;
+                case "wall":
+                    Wall(game, GraphicsDevice);
                     break;
             }
 

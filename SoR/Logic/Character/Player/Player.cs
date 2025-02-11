@@ -130,7 +130,7 @@ namespace SoR.Logic.Character.Player
         public override void EntityCollision(Entity entity, GameTime gameTime)
         {
             entity.TakeDamage(1);
-            entity.ChangeAnimation("hit");
+            entity.ChangeAnimation("attack");
             RepelledFromEntity(4, entity);
         }
 
