@@ -217,7 +217,7 @@ namespace SoR.Logic.Character
 
             if (direction.X > 0 | direction.X < 0 && direction.Y > 0 | direction.Y < 0)
             {
-                newSpeed *= 0.75f;
+                newSpeed /= 1.25f;
             }
         }
 

@@ -231,6 +231,7 @@ namespace SoR.Logic
         public void Temple(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = false;
+            newGame = false;
             InGameScreen = "game";
 
             // Get the map to be used
@@ -274,6 +275,7 @@ namespace SoR.Logic
         public void Wall(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = false;
+            newGame = false;
             InGameScreen = "game";
 
             // Get the map to be used
@@ -286,6 +288,8 @@ namespace SoR.Logic
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);
             mapLowerWalls = render.CreateMap(map, map.LowerWalls, true);
+            mapUpperWalls = [];
+            mapFloor = [];
             mapFloorDecor = [];
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;

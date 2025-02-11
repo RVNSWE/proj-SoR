@@ -180,7 +180,7 @@ namespace SoR.Logic.GameMap.TiledScenery
                     };
 
                     Width = 100;
-                    Height = 100;
+                    Height = 33;
 
                     FloorSpriteSheet = "SoR Resources/Locations/TiledScenery/Grass/spritesheet";
                     WallSpriteSheet = "SoR Resources/Locations/TiledScenery/Walls/1";
