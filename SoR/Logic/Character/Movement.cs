@@ -171,7 +171,7 @@ namespace SoR.Logic.Character
         /*
          * Freeze entity movement for a short while after spawning.
          */
-        public void FrozenTimer(GameTime gameTime)
+        public void CheckIfFrozen(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
             float freezeTime = 1f;
@@ -211,7 +211,7 @@ namespace SoR.Logic.Character
         /*
          * Calculate movement speed. 75% speed if moving diagonally.
          */
-        public void CalculateNewSpeed(GameTime gameTime)
+        public void CalculateNewPosition(GameTime gameTime)
         {
             newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
 
@@ -219,6 +219,9 @@ namespace SoR.Logic.Character
             {
                 newSpeed /= 1.25f;
             }
+
+            newPosition = position;
+            newPosition += direction * newSpeed;
         }
 
         /*
@@ -226,8 +229,6 @@ namespace SoR.Logic.Character
          */
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
-            newPosition.X = position.X;
-            newPosition.X += direction.X * newSpeed;
             int facingDirection = 0;
 
             if (direction.X > 0)
@@ -301,10 +302,6 @@ namespace SoR.Logic.Character
          */
         public void AdjustYPosition(List<Rectangle> impassableArea)
         {
-            newPosition.Y = position.Y;
-
-            newPosition.Y += direction.Y * newSpeed;
-
             foreach (Rectangle area in impassableArea)
             {
                 if (area.Contains(newPosition) && !area.Contains(position))

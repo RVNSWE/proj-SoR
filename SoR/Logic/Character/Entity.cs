@@ -188,7 +188,7 @@ namespace SoR.Logic.Character
                     BeenPushed = true;
                 }
 
-                CalculateNewSpeed(gameTime);
+                CalculateNewPosition(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
@@ -221,14 +221,14 @@ namespace SoR.Logic.Character
          */
         public virtual void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            FrozenTimer(gameTime);
+            CheckIfFrozen(gameTime);
 
             if (!Frozen)
             {
                 BeMoved(gameTime);
                 NonPlayerMovement(gameTime);
 
-                CalculateNewSpeed(gameTime);
+                CalculateNewPosition(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 

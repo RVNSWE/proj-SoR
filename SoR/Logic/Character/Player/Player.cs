@@ -34,7 +34,7 @@ namespace SoR.Logic.Character.Player
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC2.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC3.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
             json.Scale = 0.5f;
@@ -161,7 +161,7 @@ namespace SoR.Logic.Character.Player
          */
         public override void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            FrozenTimer(gameTime);
+            CheckIfFrozen(gameTime);
 
             if (!Frozen)
             {
@@ -183,7 +183,7 @@ namespace SoR.Logic.Character.Player
 
                 BeMoved(gameTime);
 
-                CalculateNewSpeed(gameTime);
+                CalculateNewPosition(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
