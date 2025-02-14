@@ -14,6 +14,10 @@ namespace SoR.Hardware.Input
         private bool down;
         private bool left;
         private bool right;
+        private bool unpressedUp;
+        private bool unpressedDown;
+        private bool unpressedLeft;
+        private bool unpressedRight;
         public bool CurrentInputDevice { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -21,11 +25,15 @@ namespace SoR.Hardware.Input
 
         public KeyboardInput()
         {
-            CurrentInputDevice = false;
+            CurrentInputDevice = true;
             up = false;
             down = false;
             left = false;
             right = false;
+            unpressedUp = false;
+            unpressedDown = false;
+            unpressedLeft = false;
+            unpressedRight = false;
         }
 
         /*
@@ -43,14 +51,25 @@ namespace SoR.Hardware.Input
             }
 
             Key = CheckKeyInput();
-            X = CheckXMoveInput();
-            Y = CheckYMoveInput();
+            X = CheckXMovementDirection();
+            Y = CheckYMovementDirection();
+
+            if (!up && !down && !left && !right)
+            {
+                X = Y = 4;
+            }
+            if (right && left && down && up)
+            {
+                X = Y = 0;
+            }
+
+            lastKeyState = keyState; // Get the previous keyboard state
         }
 
         /*
          * Check keyboard input.
          * F4 = toggle fullscreen. F8 = save. F9 = load. Esc = exit. Enter = select menu item.
-         * Space = change skin. Escape = open start menu.
+         * Space = sit. Escape = open start menu.
          */
             public string CheckKeyInput()
         {
@@ -91,50 +110,26 @@ namespace SoR.Hardware.Input
         /*
          * Check for and process keyboard x-axis movement inputs.
          */
-        public int CheckXMoveInput()
+        public int CheckXMovementDirection()
         {
             keyState = KeyboardExtended.GetState(); // Get the current keyboard state
-
-            X = 0;
 
             if (keyState.IsKeyDown(Keys.Left) ||
                 keyState.IsKeyDown(Keys.A))
             {
                 left = true;
-
-                if (!lastKeyState.IsKeyDown(Keys.Left) ||
-                    !lastKeyState.IsKeyDown(Keys.A))
-                {
-                    X = 1;
-                }
             }
-            else if (keyState.IsKeyDown(Keys.Right) ||
+            if (keyState.IsKeyDown(Keys.Right) ||
                 keyState.IsKeyDown(Keys.D))
             {
                 right = true;
-
-                if (!lastKeyState.IsKeyDown(Keys.Right) ||
-                !lastKeyState.IsKeyDown(Keys.D))
-                {
-                    X = 2;
-                }
             }
 
-            if ((keyState.IsKeyDown(Keys.Left) ||
-            keyState.IsKeyDown(Keys.A)) &&
-            (keyState.IsKeyDown(Keys.Right) ||
-            keyState.IsKeyDown(Keys.D)))
-            {
-                X = 4;
-                left = true;
-                right = true;
-            }
-
-            bool unpressedLeft =
+            unpressedLeft =
                 keyState.WasKeyReleased(Keys.Left) ||
                 keyState.WasKeyReleased(Keys.A);
 
-            bool unpressedRight =
+            unpressedRight =
                 keyState.WasKeyReleased(Keys.Right) ||
                 keyState.WasKeyReleased(Keys.D);
 
@@ -146,71 +141,34 @@ namespace SoR.Hardware.Input
             {
                 right = false;
             }
-            if (unpressedLeft || unpressedRight)
-            {
-                X = 3;
-            }
 
-            lastKeyState = keyState; // Get the previous keyboard state
-
+            XMovement();
             return X;
         }
 
         /*
          * Check for and process keyboard y-axis movement inputs.
          */
-        public int CheckYMoveInput()
+        public int CheckYMovementDirection()
         {
             keyState = KeyboardExtended.GetState(); // Get the current keyboard state
-
-            Y = 0;
 
             if (keyState.IsKeyDown(Keys.Up) ||
                 keyState.IsKeyDown(Keys.W))
             {
                 up = true;
-
-                if (!lastKeyState.IsKeyDown(Keys.Up) ||
-                !lastKeyState.IsKeyDown(Keys.W))
-                {
-                    Y = 1;
-                }
             }
-            else if (keyState.IsKeyDown(Keys.Down) ||
+            if (keyState.IsKeyDown(Keys.Down) ||
                 keyState.IsKeyDown(Keys.S))
             {
                 down = true;
-
-                if (!lastKeyState.IsKeyDown(Keys.Down) ||
-                !lastKeyState.IsKeyDown(Keys.S))
-                {
-                    Y = 2;
-                }
             }
 
-            if ((keyState.IsKeyDown(Keys.Up) ||
-            keyState.IsKeyDown(Keys.W)) &&
-            (keyState.IsKeyDown(Keys.Down) ||
-            keyState.IsKeyDown(Keys.S)))
-            {
-                up = true;
-                down = true;
-
-                if (left || right)
-                {
-                    Y = 5;
-                }
-                else
-                {
-                    Y = 4;
-                }
-            }
-
-            bool unpressedUp =
+            unpressedUp =
                 keyState.WasKeyReleased(Keys.Up) ||
                 keyState.WasKeyReleased(Keys.W);
 
-            bool unpressedDown =
+            unpressedDown =
                 keyState.WasKeyReleased(Keys.Down) ||
                 keyState.WasKeyReleased(Keys.S);
 
@@ -222,18 +180,75 @@ namespace SoR.Hardware.Input
             {
                 down = false;
             }
-            if (unpressedUp || unpressedDown)
-            {
-                Y = 3;
-            }
-            if (!up && !down && !left && !right)
-            {
-                Y = 4;
-            }
 
-            lastKeyState = keyState; // Get the previous keyboard state
-
+            YMovement();
             return Y;
+        }
+
+        /*
+         * Set x-axis movement.
+         */
+        public void XMovement()
+        {
+            X = 0;
+
+            if (!(right && left && down && !up) ||
+                !(right && left && up && !down))
+            {
+                if (left && !right &&
+                    (!lastKeyState.IsKeyDown(Keys.Left) ||
+                    !lastKeyState.IsKeyDown(Keys.A)))
+                {
+                    X = 1;
+                }
+                if (right && !left &&
+                    (!lastKeyState.IsKeyDown(Keys.Right) ||
+                    !lastKeyState.IsKeyDown(Keys.D)))
+                {
+                    X = 2;
+                }
+                if (unpressedLeft || unpressedRight)
+                {
+                    X = 3;
+                }
+                if (right && left && !down && !up)
+                {
+                    X = 4;
+                }
+            }
+        }
+
+        /*
+         * Set y-axis movement.
+         */
+        public void YMovement()
+        {
+            Y = 0;
+
+            if (!(down && up && right && !left) ||
+                !(down && up && left && !right))
+            {
+                if (up && !down &&
+                    (!lastKeyState.IsKeyDown(Keys.Up) ||
+                    !lastKeyState.IsKeyDown(Keys.W)))
+                {
+                    Y = 1;
+                }
+                if (down && !up &&
+                    (!lastKeyState.IsKeyDown(Keys.Down) ||
+                    !lastKeyState.IsKeyDown(Keys.S)))
+                {
+                    Y = 2;
+                }
+                if (unpressedUp || unpressedDown)
+                {
+                    Y = 3;
+                }
+                if (down && up && !right && !left)
+                {
+                    Y = 4;
+                }
+            }
         }
     }
 }

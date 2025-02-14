@@ -30,7 +30,11 @@ namespace SoR.Logic.Character.Player
                 { "runup", 3 },
                 { "rundown", 3 },
                 { "runleft", 3 },
-                { "runright", 3 }
+                { "runright", 3 },
+                { "sitdown", 2 },
+                { "sittingdown", 1 },
+                { "situp", 2 },
+                { "sittingup", 1 }
             };
 
             // Load texture atlas and attachment loader
@@ -76,7 +80,7 @@ namespace SoR.Logic.Character.Player
             CountDistance = 0; // Count how far to automatically move the entity
             direction = new Vector2(0, 0); // The direction of movement
             BeenPushed = false;
-            sinceFreeze = 0; // Time since entity movement was frozen
+            freezeForSeconds = 1;
             isFacing = "idledown";
             newSpeed = 0;
 
@@ -109,18 +113,11 @@ namespace SoR.Logic.Character.Player
         {
             string reaction; // Null if there will be no animation change
 
-            if (prevTrigger != eventTrigger)
+            if (prevTrigger != eventTrigger && animations.TryGetValue(eventTrigger, out int animType))
             {
-                foreach (string animation in animations.Keys)
-                {
-                    if (eventTrigger == animation)
-                    {
-                        prevTrigger = animOne = reaction = animation;
-                        animTwo = isFacing;
-
-                        React(reaction, animations[animation]);
-                    }
-                }
+                prevTrigger = animOne = reaction = eventTrigger;
+                animTwo = isFacing;
+                React(reaction, animType);
             }
         }
 
@@ -169,6 +166,7 @@ namespace SoR.Logic.Character.Player
                 gamePadInput.GetInput();
 
                 CheckIdle();
+                CheckSitting();
 
                 if (keyboardInput.CurrentInputDevice)
                 {

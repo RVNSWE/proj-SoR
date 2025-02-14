@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Input.InputListeners;
+//using MonoGame.Extended.Input.InputListeners;
 
 namespace SoR.Hardware.Input
 {
@@ -9,7 +9,7 @@ namespace SoR.Hardware.Input
      */
     public class GamePadInput
     {
-        private GamePadListener gamePadListener;
+        //private GamePadListener gamePadListener;
         private GamePadState gamePadState;
         private GamePadState lastGamePadState;
         private GamePadCapabilities gamePadCapabilities;
@@ -19,7 +19,7 @@ namespace SoR.Hardware.Input
 
         public GamePadInput()
         {
-            gamePadListener = new GamePadListener();
+            //gamePadListener = new GamePadListener();
             gamePadCapabilities = GamePad.GetCapabilities(PlayerIndex.One);
         }
 
@@ -28,52 +28,51 @@ namespace SoR.Hardware.Input
          */
         public void GetInput()
         {
-            Button = CheckButtonInput();
-            X = CheckXMoveInput();
-            Y = CheckYMoveInput();
+            if (gamePadCapabilities.IsConnected)
+            {
+                Button = CheckButtonInput();
+                X = CheckXMoveInput();
+                Y = CheckYMoveInput();
+            }
         }
 
         /*
          * Check button input.
-         * A = load. B = save. Start = open start menu. Back = toggle fullscreen. DPad = navigation. B = change skin.
+         * A = load. B = save. Start = open start menu. Back = toggle fullscreen. DPad = navigation. B = sit.
          */
         public string CheckButtonInput()
         {
             Button = "none";
+            gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
 
-            if (gamePadCapabilities.IsConnected) // If the gamepad is connected
+            if (gamePadState.Buttons.B == ButtonState.Pressed && lastGamePadState.Buttons.B != ButtonState.Pressed)
             {
-                gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
-
-                if (gamePadState.Buttons.B == ButtonState.Pressed && lastGamePadState.Buttons.B != ButtonState.Pressed)
-                {
-                    Button = "B";
-                }
-                if (gamePadState.Buttons.A == ButtonState.Pressed && lastGamePadState.Buttons.A != ButtonState.Pressed)
-                {
-                    Button = "A";
-                }
-                if (gamePadState.Buttons.Start == ButtonState.Pressed && lastGamePadState.Buttons.Start != ButtonState.Pressed)
-                {
-                    Button = "Start";
-                }
-                if (gamePadState.Buttons.Back == ButtonState.Pressed && lastGamePadState.Buttons.Back != ButtonState.Pressed)
-                {
-                    Button = "Back";
-                }
-                if (gamePadState.DPad.Up == ButtonState.Pressed &&
-                    lastGamePadState.DPad.Up != ButtonState.Pressed)
-                {
-                    Button = "Up";
-                }
-                if (gamePadState.DPad.Down == ButtonState.Pressed &&
-                    lastGamePadState.DPad.Down != ButtonState.Pressed)
-                {
-                    Button = "Down";
-                }
-
-                lastGamePadState = gamePadState; // Get the previous gamepad state
+                Button = "B";
             }
+            if (gamePadState.Buttons.A == ButtonState.Pressed && lastGamePadState.Buttons.A != ButtonState.Pressed)
+            {
+                Button = "A";
+            }
+            if (gamePadState.Buttons.Start == ButtonState.Pressed && lastGamePadState.Buttons.Start != ButtonState.Pressed)
+            {
+                Button = "Start";
+            }
+            if (gamePadState.Buttons.Back == ButtonState.Pressed && lastGamePadState.Buttons.Back != ButtonState.Pressed)
+            {
+                Button = "Back";
+            }
+            if (gamePadState.DPad.Up == ButtonState.Pressed &&
+                lastGamePadState.DPad.Up != ButtonState.Pressed)
+            {
+                Button = "Up";
+            }
+            if (gamePadState.DPad.Down == ButtonState.Pressed &&
+                lastGamePadState.DPad.Down != ButtonState.Pressed)
+            {
+                Button = "Down";
+            }
+
+            lastGamePadState = gamePadState; // Get the previous gamepad state
 
             return Button;
         }
@@ -85,27 +84,24 @@ namespace SoR.Hardware.Input
         {
             X = 0;
 
-            if (gamePadCapabilities.IsConnected) // If the gamepad is connected
+            gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
+
+            if (gamePadState.ThumbSticks.Left.X < -0.5f)
             {
-                gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
-
-                if (gamePadState.ThumbSticks.Left.X < -0.5f)
-                {
-                    X = 1;
-                }
-                else if (gamePadState.ThumbSticks.Left.X > 0.5f)
-                {
-                    X = 2;
-                }
-
-                if (gamePadState.ThumbSticks.Left.X !< -0.5f &&
-                    gamePadState.ThumbSticks.Left.X !> 0.5f)
-                {
-                    X = 0;
-                }
-
-                lastGamePadState = gamePadState;
+                X = 1;
             }
+            else if (gamePadState.ThumbSticks.Left.X > 0.5f)
+            {
+                X = 2;
+            }
+
+            if (gamePadState.ThumbSticks.Left.X! < -0.5f &&
+                gamePadState.ThumbSticks.Left.X! > 0.5f)
+            {
+                X = 0;
+            }
+
+            lastGamePadState = gamePadState;
 
             return X;
         }
@@ -117,27 +113,24 @@ namespace SoR.Hardware.Input
         {
             Y = 0;
 
-            if (gamePadCapabilities.IsConnected) // If the gamepad is connected
+            gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
+
+            if (gamePadState.ThumbSticks.Left.Y < -0.5f)
             {
-                gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
-
-                if (gamePadState.ThumbSticks.Left.Y < -0.5f)
-                {
-                    Y = 2;
-                }
-                else if (gamePadState.ThumbSticks.Left.Y > 0.5f)
-                {
-                    Y = 1;
-                }
-
-                if (gamePadState.ThumbSticks.Left.Y !< -0.5f &&
-                    gamePadState.ThumbSticks.Left.Y !> 0.5f)
-                {
-                    Y = 0;
-                }
-
-                lastGamePadState = gamePadState;
+                Y = 2;
             }
+            else if (gamePadState.ThumbSticks.Left.Y > 0.5f)
+            {
+                Y = 1;
+            }
+
+            if (gamePadState.ThumbSticks.Left.Y! < -0.5f &&
+                gamePadState.ThumbSticks.Left.Y! > 0.5f)
+            {
+                Y = 0;
+            }
+
+            lastGamePadState = gamePadState;
 
             return Y;
         }

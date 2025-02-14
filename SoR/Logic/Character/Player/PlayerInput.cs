@@ -7,7 +7,7 @@ namespace SoR.Logic.Character.Player
         /*
          * Check whether the skin has changed.
          */
-        public void SkinChange()
+        public void CheckSkin()
         {
             switch (isFacing)
             {
@@ -30,6 +30,39 @@ namespace SoR.Logic.Character.Player
         }
 
         /*
+         * Check for sit animation.
+         * 
+         * Currently Space to sit.
+         */
+        public void CheckSitting()
+        {
+            if ((keyboardInput.Key == "Space" &&
+                idle == true) ||
+                (gamePadInput.Button == "B" &&
+                idle == true))
+            {
+                switch (isFacing)
+                {
+                    case "idledown":
+                        movementAnimation = "sitdown";
+                        isFacing = animTwo = "sittingdown";
+                        break;
+                    case "sittingdown":
+                        movementAnimation = isFacing = "idledown";
+                        break;
+                    case "idleup":
+                    movementAnimation = "situp";
+                    isFacing = animTwo = "sittingup";
+                    break;
+                case "sittingup":
+                    movementAnimation = isFacing = "idleup";
+                    break;
+                }
+                CheckSkin();
+            }
+        }
+
+        /*
          * Check whether player is idle.
          */
         public void CheckIdle()
@@ -43,7 +76,7 @@ namespace SoR.Logic.Character.Player
                 {
                     idle = true; // Idle is now playing
                     movementAnimation = isFacing; // Set idle animation according to direction player is facing
-                    SkinChange();
+                    CheckSkin();
                 }
 
                 if (CountDistance == 0)
@@ -68,17 +101,17 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 1:
                     MovementDirectionX(-1);
-                    idle = false;
                     movementAnimation = "runleft";
                     isFacing = "idleleft";
-                    SkinChange();
+                    CheckSkin();
+                    idle = false;
                     break;
                 case 2:
                     MovementDirectionX(1);
-                    idle = false;
                     movementAnimation = "runright";
                     isFacing = "idleright";
-                    SkinChange();
+                    CheckSkin();
+                    idle = false;
                     break;
                 case 3:
                     direction.X = 0;
@@ -86,9 +119,8 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.X = 0;
-                    movementAnimation = "idledown";
-                    isFacing = "idledown";
-                    SkinChange();
+                    movementAnimation = isFacing;
+                    CheckSkin();
                     break;
             }
         }
@@ -110,14 +142,14 @@ namespace SoR.Logic.Character.Player
                     MovementDirectionY(-1);
                     movementAnimation = "runup";
                     isFacing = "idleup";
-                    SkinChange();
+                    CheckSkin();
                     idle = false;
                     break;
                 case 2:
                     MovementDirectionY(1);
                     movementAnimation = "rundown";
                     isFacing = "idledown";
-                    SkinChange();
+                    CheckSkin();
                     idle = false;
                     break;
                 case 3:
@@ -127,9 +159,7 @@ namespace SoR.Logic.Character.Player
                 case 4:
                     direction.Y = 0;
                     movementAnimation = isFacing;
-                    break;
-                case 5:
-                    direction.Y = 0;
+                    CheckSkin();
                     break;
             }
         }

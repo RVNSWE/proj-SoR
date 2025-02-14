@@ -39,7 +39,7 @@ namespace SoR.Logic.Screens
                     break;
                 case "game":
                     gameLogic.UpdateWorld(game, gameTime, GraphicsDevice, graphics);
-                    foreach (var entity in gameLogic.Entities.Values)
+                    /*foreach (var entity in gameLogic.Entities.Values)
                     {
                         if (gameLogic.Entities.TryGetValue("chara", out Entity chara))
                         {
@@ -52,7 +52,7 @@ namespace SoR.Logic.Screens
                                 }
                             }
                         }
-                    }
+                    }*/
                     break;
             }
         }

@@ -136,7 +136,14 @@ namespace SoR.Logic.Character
                 switch (animType)
                 {
                     case 1:
-                        animState.AddAnimation(0, animOne, true, -trackEntry.TrackComplete);
+                        if (trackEntry != null) // If there's a queue then buttons are being mashed, so just clear it and set next.
+                        {
+                            animState.SetAnimation(0, animOne, true);
+                        }
+                        else
+                        {
+                            animState.AddAnimation(0, animOne, true, -trackEntry.TrackComplete);
+                        }
                         break;
                     case 2:
                         animState.SetAnimation(0, animOne, false);
@@ -149,7 +156,7 @@ namespace SoR.Logic.Character
                         }
                         else // Otherwise, add next to start on frame current anim finished on.
                         {
-                            animState.AddAnimation(0, animOne, true, -trackEntry.TrackTime);
+                            trackEntry = animState.AddAnimation(0, animOne, true, -trackEntry.TrackTime);
                         }
                         break;
                 }

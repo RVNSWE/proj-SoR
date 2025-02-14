@@ -70,7 +70,7 @@ namespace SoR.Logic.Character.Mobs
             newDirectionTime = (float)random.NextDouble() * 1f + 0.25f; // After 0.25-1 seconds, NPC chooses a new movement direction
             DirectionReversed = false;
             BeenPushed = false;
-            sinceFreeze = 0; // Time since entity movement was frozen
+            freezeForSeconds = 1;
             newSpeed = 0;
 
             Speed = 50; // Set the entity's travel speed

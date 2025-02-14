@@ -16,7 +16,7 @@ namespace SoR.Logic.Character
         protected bool idle;
         protected float sinceLastChange;
         protected float newDirectionTime;
-        protected float sinceFreeze;
+        protected float freezeForSeconds;
         public bool Frozen { get; set; }
         public bool Traversable { get; set; }
         public bool DirectionReversed { get; set; }
@@ -174,10 +174,9 @@ namespace SoR.Logic.Character
         public void CheckIfFrozen(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
-            float freezeTime = 1f;
-            sinceFreeze += deltaTime;
+            freezeForSeconds -= deltaTime;
 
-            if (sinceFreeze >= freezeTime)
+            if (freezeForSeconds <= 0)
             {
                 Frozen = false;
             }
