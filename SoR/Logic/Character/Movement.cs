@@ -218,9 +218,6 @@ namespace SoR.Logic.Character
             {
                 newSpeed /= 1.25f;
             }
-
-            newPosition = position;
-            newPosition += direction * newSpeed;
         }
 
         /*
@@ -229,6 +226,9 @@ namespace SoR.Logic.Character
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
             int facingDirection = 0;
+
+            newPosition.X = position.X;
+            newPosition.X += direction.X * newSpeed;
 
             if (direction.X > 0)
             {
@@ -301,6 +301,9 @@ namespace SoR.Logic.Character
          */
         public void AdjustYPosition(List<Rectangle> impassableArea)
         {
+            newPosition.Y = position.Y;
+            newPosition.Y += direction.Y * newSpeed;
+
             foreach (Rectangle area in impassableArea)
             {
                 if (area.Contains(newPosition) && !area.Contains(position))
