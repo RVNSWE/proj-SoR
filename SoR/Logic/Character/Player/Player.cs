@@ -33,12 +33,16 @@ namespace SoR.Logic.Character.Player
                 { "runright", 3 },
                 { "sitdown", 2 },
                 { "sittingdown", 1 },
+                { "standdown", 2 },
                 { "situp", 2 },
                 { "sittingup", 1 },
+                { "standup", 2 },
                 { "sitleft", 2 },
                 { "sittingleft", 1 },
+                { "standleft", 2 },
                 { "sitright", 2 },
-                { "sittingright", 1 }
+                { "sittingright", 1 },
+                { "standright", 2 }
             };
 
             // Load texture atlas and attachment loader
@@ -86,7 +90,6 @@ namespace SoR.Logic.Character.Player
             BeenPushed = false;
             freezeForSeconds = 1;
             isFacing = "idledown";
-            sitting = false;
             newSpeed = 0;
 
             Player = true;

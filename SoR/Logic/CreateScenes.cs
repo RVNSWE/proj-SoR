@@ -258,9 +258,6 @@ namespace SoR.Logic
             entityType = EntityType.Player;
             CreateEntity(GraphicsDevice, 220, 100);
 
-            entityType = EntityType.Fishy;
-            CreateEntity(GraphicsDevice, 280, 180);
-
             entityType = EntityType.Slime;
             CreateEntity(GraphicsDevice, 250, 200);
 

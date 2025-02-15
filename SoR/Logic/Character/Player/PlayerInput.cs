@@ -4,8 +4,6 @@ namespace SoR.Logic.Character.Player
 {
     internal partial class Player : Entity
     {
-        protected bool sitting;
-
         /*
          * Check whether the skin has changed.
          */
@@ -45,60 +43,36 @@ namespace SoR.Logic.Character.Player
                 switch (isFacing)
                 {
                     case "idledown":
-                        if (!sitting)
-                        {
-                            movementAnimation = "sitdown";
-                            isFacing = "sittingdown";
-                            sitting = true;
-                        }
-                        else
-                        {
-                            movementAnimation = "idledown";
-                            isFacing = "idledown";
-                            sitting = false;
-                        }
+                        movementAnimation = "sitdown";
+                        isFacing = "sittingdown";
+                        break;
+                    case "sittingdown":
+                        movementAnimation = "standdown";
+                        isFacing = "idledown";
                         break;
                     case "idleup":
-                        if (!sitting)
-                        {
-                            movementAnimation = "situp";
-                            isFacing = "sittingup";
-                            sitting = true;
-                        }
-                        else
-                        {
-                            movementAnimation = "idleup";
-                            isFacing = "idleup";
-                            sitting = false;
-                        }
+                        movementAnimation = "situp";
+                        isFacing = "sittingup";
+                        break;
+                    case "sittingup":
+                        movementAnimation = "standup";
+                        isFacing = "idleup";
                         break;
                     case "idleleft":
-                        if (!sitting)
-                        {
-                            movementAnimation = "sitleft";
-                            isFacing = "sittingleft";
-                            sitting = true;
-                        }
-                        else
-                        {
-                            movementAnimation = "idleleft";
-                            isFacing = "idleleft";
-                            sitting = false;
-                        }
+                        movementAnimation = "sitleft";
+                        isFacing = "sittingleft";
+                        break;
+                    case "sittingleft":
+                        movementAnimation = "standleft";
+                        isFacing = "idleleft";
                         break;
                     case "idleright":
-                        if (!sitting)
-                        {
-                            movementAnimation = "sitright";
-                            isFacing = "sittingright";
-                            sitting = true;
-                        }
-                        else
-                        {
-                            movementAnimation = "idleright";
-                            isFacing = "idleright";
-                            sitting = false;
-                        }
+                        movementAnimation = "sitright";
+                        isFacing = "sittingright";
+                        break;
+                    case "sittingright":
+                        movementAnimation = "standright";
+                        isFacing = "idleright";
                         break;
                 }
                 CheckSkin();
@@ -162,10 +136,7 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.X = 0;
-                    if (!sitting)
-                    {
-                        movementAnimation = isFacing;
-                    }
+                    movementAnimation = isFacing;
                     CheckSkin();
                     break;
             }
@@ -204,10 +175,7 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.Y = 0;
-                    if (!sitting)
-                    {
-                        movementAnimation = isFacing;
-                    }
+                    movementAnimation = isFacing;
                     CheckSkin();
                     break;
             }

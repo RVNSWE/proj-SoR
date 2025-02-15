@@ -45,19 +45,23 @@ namespace SoR.Hardware.Input
             Button = "none";
             gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
 
-            if (gamePadState.Buttons.B == ButtonState.Pressed && lastGamePadState.Buttons.B != ButtonState.Pressed)
+            if (gamePadState.Buttons.B == ButtonState.Pressed &&
+                lastGamePadState.Buttons.B != ButtonState.Pressed)
             {
                 Button = "B";
             }
-            if (gamePadState.Buttons.A == ButtonState.Pressed && lastGamePadState.Buttons.A != ButtonState.Pressed)
+            if (gamePadState.Buttons.A == ButtonState.Pressed &&
+                lastGamePadState.Buttons.A != ButtonState.Pressed)
             {
                 Button = "A";
             }
-            if (gamePadState.Buttons.Start == ButtonState.Pressed && lastGamePadState.Buttons.Start != ButtonState.Pressed)
+            if (gamePadState.Buttons.Start == ButtonState.Pressed &&
+                lastGamePadState.Buttons.Start != ButtonState.Pressed)
             {
                 Button = "Start";
             }
-            if (gamePadState.Buttons.Back == ButtonState.Pressed && lastGamePadState.Buttons.Back != ButtonState.Pressed)
+            if (gamePadState.Buttons.Back == ButtonState.Pressed &&
+                lastGamePadState.Buttons.Back != ButtonState.Pressed)
             {
                 Button = "Back";
             }
