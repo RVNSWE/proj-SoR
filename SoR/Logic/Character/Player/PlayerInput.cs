@@ -4,6 +4,8 @@ namespace SoR.Logic.Character.Player
 {
     internal partial class Player : Entity
     {
+        protected bool sitting;
+
         /*
          * Check whether the skin has changed.
          */
@@ -36,27 +38,68 @@ namespace SoR.Logic.Character.Player
          */
         public void CheckSitting()
         {
-            if ((keyboardInput.Key == "Space" &&
-                idle == true) ||
-                (gamePadInput.Button == "B" &&
-                idle == true))
+            if ((keyboardInput.Key == "Space" ||
+                gamePadInput.Button == "B") &&
+                idle == true)
             {
                 switch (isFacing)
                 {
                     case "idledown":
-                        movementAnimation = "sitdown";
-                        isFacing = animTwo = "sittingdown";
-                        break;
-                    case "sittingdown":
-                        movementAnimation = isFacing = "idledown";
+                        if (!sitting)
+                        {
+                            movementAnimation = "sitdown";
+                            isFacing = "sittingdown";
+                            sitting = true;
+                        }
+                        else
+                        {
+                            movementAnimation = "idledown";
+                            isFacing = "idledown";
+                            sitting = false;
+                        }
                         break;
                     case "idleup":
-                    movementAnimation = "situp";
-                    isFacing = animTwo = "sittingup";
-                    break;
-                case "sittingup":
-                    movementAnimation = isFacing = "idleup";
-                    break;
+                        if (!sitting)
+                        {
+                            movementAnimation = "situp";
+                            isFacing = "sittingup";
+                            sitting = true;
+                        }
+                        else
+                        {
+                            movementAnimation = "idleup";
+                            isFacing = "idleup";
+                            sitting = false;
+                        }
+                        break;
+                    case "idleleft":
+                        if (!sitting)
+                        {
+                            movementAnimation = "sitleft";
+                            isFacing = "sittingleft";
+                            sitting = true;
+                        }
+                        else
+                        {
+                            movementAnimation = "idleleft";
+                            isFacing = "idleleft";
+                            sitting = false;
+                        }
+                        break;
+                    case "idleright":
+                        if (!sitting)
+                        {
+                            movementAnimation = "sitright";
+                            isFacing = "sittingright";
+                            sitting = true;
+                        }
+                        else
+                        {
+                            movementAnimation = "idleright";
+                            isFacing = "idleright";
+                            sitting = false;
+                        }
+                        break;
                 }
                 CheckSkin();
             }
@@ -67,15 +110,15 @@ namespace SoR.Logic.Character.Player
          */
         public void CheckIdle()
         {
-            if ((keyboardInput.CurrentInputDevice && 
+            if ((keyboardInput.CurrentInputDevice &&
                 keyboardInput.X == 0 && keyboardInput.Y == 0) ||
                 (!keyboardInput.CurrentInputDevice &&
                 gamePadInput.X == 0 && gamePadInput.Y == 0))
             {
                 if (!idle) // If idle animation is not currently playing
                 {
-                    idle = true; // Idle is now playing
                     movementAnimation = isFacing; // Set idle animation according to direction player is facing
+                    idle = true; // Idle is now playing
                     CheckSkin();
                 }
 
@@ -119,7 +162,10 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.X = 0;
-                    movementAnimation = isFacing;
+                    if (!sitting)
+                    {
+                        movementAnimation = isFacing;
+                    }
                     CheckSkin();
                     break;
             }
@@ -158,7 +204,10 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.Y = 0;
-                    movementAnimation = isFacing;
+                    if (!sitting)
+                    {
+                        movementAnimation = isFacing;
+                    }
                     CheckSkin();
                     break;
             }

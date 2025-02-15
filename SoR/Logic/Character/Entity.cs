@@ -136,13 +136,13 @@ namespace SoR.Logic.Character
                 switch (animType)
                 {
                     case 1:
-                        if (trackEntry != null) // If there's a queue then buttons are being mashed, so just clear it and set next.
+                        if (trackEntry != null)
                         {
                             animState.SetAnimation(0, animOne, true);
                         }
                         else
                         {
-                            animState.AddAnimation(0, animOne, true, -trackEntry.TrackComplete);
+                            trackEntry = animState.AddAnimation(0, animOne, true, trackEntry.TrackComplete);
                         }
                         break;
                     case 2:
@@ -209,7 +209,7 @@ namespace SoR.Logic.Character
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
         {
             entity.TakeDamage(1);
-            entity.ChangeAnimation("attack");
+            ChangeAnimation("attack");
             RepelledFromEntity(10, entity);
         }
 

@@ -34,7 +34,11 @@ namespace SoR.Logic.Character.Player
                 { "sitdown", 2 },
                 { "sittingdown", 1 },
                 { "situp", 2 },
-                { "sittingup", 1 }
+                { "sittingup", 1 },
+                { "sitleft", 2 },
+                { "sittingleft", 1 },
+                { "sitright", 2 },
+                { "sittingright", 1 }
             };
 
             // Load texture atlas and attachment loader
@@ -82,6 +86,7 @@ namespace SoR.Logic.Character.Player
             BeenPushed = false;
             freezeForSeconds = 1;
             isFacing = "idledown";
+            sitting = false;
             newSpeed = 0;
 
             Player = true;
@@ -127,7 +132,6 @@ namespace SoR.Logic.Character.Player
         public override void EntityCollision(Entity entity, GameTime gameTime)
         {
             entity.TakeDamage(1);
-            entity.ChangeAnimation("attack");
             RepelledFromEntity(4, entity);
         }
 
