@@ -62,8 +62,6 @@ namespace SoR.Hardware.Input
             {
                 X = Y = 0;
             }
-
-            lastKeyState = keyState; // Get the previous keyboard state
         }
 
         /*
@@ -74,7 +72,6 @@ namespace SoR.Hardware.Input
             public string CheckKeyInput()
         {
             Key = "none";
-
             keyState = KeyboardExtended.GetState(); // Get the current keyboard state
 
             if (keyState.IsKeyDown(Keys.F4) && !lastKeyState.IsKeyDown(Keys.F4))
@@ -143,6 +140,8 @@ namespace SoR.Hardware.Input
             }
 
             XMovement();
+            lastKeyState = keyState; // Get the previous keyboard state
+
             return X;
         }
 
@@ -182,6 +181,8 @@ namespace SoR.Hardware.Input
             }
 
             YMovement();
+            lastKeyState = keyState; // Get the previous keyboard state
+
             return Y;
         }
 

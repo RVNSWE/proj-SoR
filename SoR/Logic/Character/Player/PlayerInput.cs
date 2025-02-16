@@ -136,7 +136,10 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.X = 0;
-                    movementAnimation = isFacing;
+                    if (movementAnimation != lastAnimation)
+                    {
+                        movementAnimation = isFacing;
+                    }
                     CheckSkin();
                     break;
             }
@@ -175,7 +178,10 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 4:
                     direction.Y = 0;
-                    movementAnimation = isFacing;
+                    if (movementAnimation != lastAnimation)
+                    {
+                        movementAnimation = isFacing;
+                    }
                     CheckSkin();
                     break;
             }
