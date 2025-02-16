@@ -55,8 +55,8 @@ namespace SoR.Logic.Character.Mobs
             defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";
-            animOne = "";
             animTwo = "";
+            movementAnimation = "idle";
 
             random = new Random();
 

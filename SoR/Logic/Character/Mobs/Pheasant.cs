@@ -60,6 +60,7 @@ namespace SoR.Logic.Character.Mobs
             prevTrigger = "";
             animOne = "";
             animTwo = "";
+            movementAnimation = "run";
 
             random = new Random();
 

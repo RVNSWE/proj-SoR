@@ -168,11 +168,11 @@ namespace SoR.Logic.Character
             switch (newDirection)
             {
                 case 1:
-                    ChangeAnimation("turnleft");
+                    movementAnimation = "run";
                     GetSkeleton().ScaleX = 1;
                     break;
                 case 2:
-                    ChangeAnimation("turnright");
+                    movementAnimation = "run";
                     GetSkeleton().ScaleX = -1;
                     break;
             }

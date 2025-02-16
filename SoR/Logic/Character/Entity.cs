@@ -199,7 +199,7 @@ namespace SoR.Logic.Character
         /*
          * Wait to move.
          */
-        public void WaitForPausingSeconds(GameTime gameTime)
+        public void WaitForPauseSeconds(GameTime gameTime)
         {
             if (pauseSeconds >= 0)
             {
@@ -213,6 +213,8 @@ namespace SoR.Logic.Character
 
         /*
          * Define what happens on collision with an entity.
+         * 
+         * Currently only reacts when receives a new eventTrigger.
          */
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
         {
@@ -220,7 +222,7 @@ namespace SoR.Logic.Character
             {
                 TakeDamage(1);
                 animTwo = defaultAnim;
-                ChangeAnimation("attack");
+                movementAnimation = "attack";
                 collisionSeconds = 1;
                 Colliding = true;
             }
@@ -237,7 +239,7 @@ namespace SoR.Logic.Character
             {
                 TakeDamage(1);
                 animTwo = defaultAnim;
-                ChangeAnimation("hit");
+                movementAnimation = "hit";
                 collisionSeconds = 1;
                 Colliding = true;
             }
@@ -275,7 +277,7 @@ namespace SoR.Logic.Character
         {
             CheckIfFrozen(gameTime);
             WaitForCollisionSeconds(gameTime);
-            WaitForPausingSeconds(gameTime);
+            WaitForPauseSeconds(gameTime);
 
             if (!Frozen)
             {
@@ -289,18 +291,13 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Update the hitbox after a collision.
-         */
-        public void UpdateHitbox(SkeletonBounds updatedHitbox)
-        {
-            hitbox = updatedHitbox;
-        }
-
-        /*
          * Update the entity position, animation state and skeleton.
          */
-        public virtual void UpdateAnimations(GameTime gameTime)
+        public void UpdateAnimations(GameTime gameTime)
         {
+            lastAnimation = movementAnimation;
+            ChangeAnimation(movementAnimation);
+
             skeleton.X = position.X;
             skeleton.Y = position.Y;
 
@@ -311,6 +308,14 @@ namespace SoR.Logic.Character
 
             // Update skeletal transformations
             skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
+        }
+
+        /*
+         * Update the hitbox after a collision.
+         */
+        public void UpdateHitbox(SkeletonBounds updatedHitbox)
+        {
+            hitbox = updatedHitbox;
         }
 
         /*

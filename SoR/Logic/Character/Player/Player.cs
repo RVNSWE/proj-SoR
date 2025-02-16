@@ -183,13 +183,13 @@ namespace SoR.Logic.Character.Player
 
             if (!Frozen)
             {
+                BeMoved(gameTime);
+
                 keyboardInput.GetInput();
                 gamePadInput.GetInput();
 
                 CheckIdle();
                 CheckSitting();
-
-                BeMoved(gameTime);
 
                 if (keyboardInput.CurrentInputDevice)
                 {
@@ -205,19 +205,7 @@ namespace SoR.Logic.Character.Player
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
-
-                lastAnimation = movementAnimation;
             }
-        }
-
-        /*
-         * Update the skeleton position, skin and animation state.
-         */
-        public override void UpdateAnimations(GameTime gameTime)
-        {
-            ChangeAnimation(movementAnimation);
-
-            base.UpdateAnimations(gameTime);
         }
     }
 }
