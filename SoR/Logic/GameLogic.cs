@@ -257,28 +257,26 @@ namespace SoR.Logic
 
                     if (entity != player & player.CollidesWith(entity))
                     {
-                        entity.StopMoving();
+                        entity.PauseMoving(gameTime);
 
                         player.EntityCollision(entity, gameTime);
                         entity.EntityCollision(player, gameTime);
-                    }
-                    else if (!entity.IsMoving())
-                    {
-                        entity.StartMoving();
                     }
 
                     foreach (var scenery in Scenery.Values)
                     {
                         if (scenery.CollidesWith(entity))
                         {
-                            entity.StopMoving();
+                            if (entity != player)
+                            {
+                                entity.PauseMoving(gameTime);
+                            }
+                            entity.SceneryCollision(scenery, gameTime);
+                        }
+                    }
+                    if (!entity.Pausing)
+                    {
 
-                            scenery.Collision(entity, gameTime);
-                        }
-                        else if (!entity.IsMoving())
-                        {
-                            entity.StartMoving();
-                        }
                     }
                 }
             }

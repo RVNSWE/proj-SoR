@@ -256,10 +256,19 @@ namespace SoR.Logic
 
             // Create entities
             entityType = EntityType.Player;
-            CreateEntity(GraphicsDevice, 220, 100);
+            CreateEntity(GraphicsDevice, 200, 250);
+
+            entityType = EntityType.Fishy;
+            CreateEntity(GraphicsDevice, 300, 200);
 
             entityType = EntityType.Slime;
-            CreateEntity(GraphicsDevice, 250, 200);
+            CreateEntity(GraphicsDevice, 250, 150);
+
+            entityType = EntityType.Chara;
+            CreateEntity(GraphicsDevice, 200, 200);
+
+            entityType = EntityType.Pheasant;
+            CreateEntity(GraphicsDevice, 300, 300);
 
             // Create scenery
             sceneryType = SceneryType.Campfire;

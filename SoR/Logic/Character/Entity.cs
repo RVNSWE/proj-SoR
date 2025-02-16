@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Spine;
 using System.Collections.Generic;
+using System;
 
 namespace SoR.Logic.Character
 {
@@ -47,18 +48,23 @@ namespace SoR.Logic.Character
         protected Slot slot;
         protected TrackEntry trackEntry;
         protected Vector2 position;
-        protected bool inMotion;
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
+        protected string defaultAnim;
+        protected string lastAnimation;
+        protected string movementAnimation;
         protected string isFacing;
         protected float newSpeed;
+        protected string waitType;
         public List<Rectangle> ImpassableArea { get; protected set; }
         public bool Player { get; set; }
         public string Type { get; set; }
         public int HitPoints { get; set; }
         public int Speed { get; set; }
         public string Skin { get; set; }
+        public bool Colliding { get; set; }
+        public bool Pausing { get; set; }
 
         /*
          * Placeholder function for dealing damage.
@@ -66,33 +72,6 @@ namespace SoR.Logic.Character
         public void TakeDamage(int damage)
         {
             HitPoints -= damage;
-        }
-
-        /*
-         * Check if moving.
-         */
-        public bool IsMoving()
-        {
-            return inMotion;
-        }
-
-        /*
-         * Start moving and switch to running animation.
-         */
-        public void StartMoving()
-        {
-            inMotion = true;
-            ChangeAnimation("run");
-        }
-
-        /*
-         * Stop moving.
-         */
-        public void StopMoving()
-        {
-            inMotion = false;
-            ChangeAnimation("idle");
-            newPosition = position;
         }
 
         /*
@@ -116,7 +95,6 @@ namespace SoR.Logic.Character
             if (prevTrigger != eventTrigger && animations.TryGetValue(eventTrigger, out int animType))
             {
                 prevTrigger = animOne = reaction = eventTrigger;
-                animTwo = "idle";
                 React(reaction, animType);
             }
         }
@@ -142,12 +120,12 @@ namespace SoR.Logic.Character
                         }
                         else
                         {
-                            trackEntry = animState.AddAnimation(0, animOne, true, trackEntry.TrackComplete);
+                            animState.AddAnimation(0, animOne, true, trackEntry.TrackComplete);
                         }
                         break;
                     case 2:
                         animState.SetAnimation(0, animOne, false);
-                        trackEntry = animState.AddAnimation(0, animTwo, true, 0);
+                        animState.AddAnimation(0, animTwo, true, 0);
                         break;
                     case 3:
                         if (trackEntry != null) // If there's a queue then buttons are being mashed, so just clear it and set next.
@@ -195,7 +173,7 @@ namespace SoR.Logic.Character
                     BeenPushed = true;
                 }
 
-                CalculateNewPosition(gameTime);
+                CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
@@ -204,12 +182,49 @@ namespace SoR.Logic.Character
         }
 
         /*
+         * Wait for a collision.
+         */
+        public void WaitForCollisionSeconds(GameTime gameTime)
+        {
+            if (collisionSeconds >= 0)
+            {
+                collisionSeconds = SecondsRemaining(gameTime, collisionSeconds);
+            }
+            else
+            {
+                Colliding = false;
+            }
+        }
+
+        /*
+         * Wait to move.
+         */
+        public void WaitForPausingSeconds(GameTime gameTime)
+        {
+            if (pauseSeconds >= 0)
+            {
+                pauseSeconds = SecondsRemaining(gameTime, pauseSeconds);
+            }
+            else
+            {
+                Pausing = false;
+            }
+        }
+
+        /*
          * Define what happens on collision with an entity.
          */
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
         {
-            entity.TakeDamage(1);
-            ChangeAnimation("attack");
+            if (!Colliding)
+            {
+                TakeDamage(1);
+                animTwo = defaultAnim;
+                ChangeAnimation("attack");
+                collisionSeconds = 1;
+                Colliding = true;
+            }
+
             RepelledFromEntity(10, entity);
         }
 
@@ -218,9 +233,39 @@ namespace SoR.Logic.Character
          */
         public virtual void SceneryCollision(Scenery scenery, GameTime gameTime)
         {
-            TakeDamage(1);
-            ChangeAnimation("hit");
+            if (!Colliding)
+            {
+                TakeDamage(1);
+                animTwo = defaultAnim;
+                ChangeAnimation("hit");
+                collisionSeconds = 1;
+                Colliding = true;
+            }
+
             RepelledFromScenery(8, scenery);
+        }
+
+        /*
+         * Stop moving.
+         */
+        public void PauseMoving(GameTime gameTime)
+        {
+            if (!Pausing)
+            {
+                pauseSeconds = 0.5f;
+                Pausing = true;
+            }
+        }
+
+        /*
+         * Wait for something.
+         */
+        public float SecondsRemaining(GameTime gameTime, float seconds)
+        {
+            float deltaTime = GameLogic.GetTime(gameTime);
+            seconds -= deltaTime;
+
+            return seconds;
         }
 
         /*
@@ -229,17 +274,17 @@ namespace SoR.Logic.Character
         public virtual void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             CheckIfFrozen(gameTime);
+            WaitForCollisionSeconds(gameTime);
+            WaitForPausingSeconds(gameTime);
 
             if (!Frozen)
             {
                 BeMoved(gameTime);
                 NonPlayerMovement(gameTime);
 
-                CalculateNewPosition(gameTime);
+                CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
-
-                DirectionReversed = false;
             }
         }
 

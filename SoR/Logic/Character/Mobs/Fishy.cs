@@ -49,8 +49,14 @@ namespace SoR.Logic.Character.Mobs
             hitbox = new SkeletonBounds();
             hitbox.Update(skeleton, true);
 
-            inMotion = true; // Move freely
+            Pausing = false;
+            Colliding = false;
             Player = false;
+            defaultAnim = "idle";
+            lastAnimation = "";
+            prevTrigger = "";
+            animOne = "";
+            animTwo = "";
 
             random = new Random();
 
@@ -58,11 +64,13 @@ namespace SoR.Logic.Character.Mobs
 
             CountDistance = 0; // Count how far to automatically move the entity
             direction = new Vector2(0, 0); // The direction of movement
+            prevDirection = direction;
             sinceLastChange = 0; // Time since last NPC direction change
             newDirectionTime = (float)random.NextDouble() * 1f + 0.25f; // After 0.25-1 seconds, NPC chooses a new movement direction
-            DirectionReversed = false;
             BeenPushed = false;
-            freezeForSeconds = 1;
+            collisionSeconds = 0;
+            frozenSeconds = 1;
+            pauseSeconds = 0;
             newSpeed = 0;
 
             Speed = 50; // Set the entity's travel speed

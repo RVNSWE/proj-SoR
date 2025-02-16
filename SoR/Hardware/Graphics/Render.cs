@@ -346,8 +346,7 @@ namespace SoR.Hardware.Graphics
             // Entity text
             spriteBatch.DrawString(
                 font,
-                //"HP: " + entity.GetHitPoints()
-                "",
+                "HP: " + entity.GetHitPoints(),
                 new Vector2(entity.GetPosition().X - 30, entity.GetPosition().Y + 30),
                 Color.BlueViolet);
         }
@@ -361,7 +360,7 @@ namespace SoR.Hardware.Graphics
             spriteBatch.DrawString(
                 font,
                 "X: " + scenery.GetPosition().X + " Y: " + scenery.GetPosition().Y,
-                new Vector2(scenery.GetPosition().X - 80, scenery.GetPosition().Y + 100),
+                new Vector2(scenery.GetPosition().X - 80, scenery.GetPosition().Y +50),
                 Color.BlueViolet);
         }
 

@@ -13,13 +13,15 @@ namespace SoR.Logic.Character
         protected Random random;
         protected Vector2 newPosition;
         protected Vector2 direction;
+        protected Vector2 prevDirection;
         protected bool idle;
         protected float sinceLastChange;
         protected float newDirectionTime;
-        protected float freezeForSeconds;
+        protected float collisionSeconds;
+        protected float frozenSeconds;
+        protected float pauseSeconds;
         public bool Frozen { get; set; }
         public bool Traversable { get; set; }
-        public bool DirectionReversed { get; set; }
         public int CountDistance { get; set; }
         public bool BeenPushed { get; set; }
 
@@ -55,6 +57,7 @@ namespace SoR.Logic.Character
         {
             CountDistance = distance;
 
+            prevDirection = direction;
             direction = Vector2.Zero;
 
             if (entity.GetPosition().X > position.X) // Push right
@@ -82,6 +85,7 @@ namespace SoR.Logic.Character
         {
             CountDistance = distance;
 
+            prevDirection = direction;
             direction = Vector2.Zero;
 
             if (scenery.GetPosition().X > position.X) // Push right
@@ -135,11 +139,17 @@ namespace SoR.Logic.Character
             {
                 case 1:
                     direction = new Vector2(-1, 0); // Left
-                    RedirectAnimation(1);
+                    if (direction != prevDirection)
+                    {
+                        RedirectAnimation(1);
+                    }
                     break;
                 case 2:
                     direction = new Vector2(1, 0); // Right
-                    RedirectAnimation(2);
+                    if (direction != prevDirection)
+                    {
+                        RedirectAnimation(2);
+                    }
                     break;
                 case 3:
                     direction = new Vector2(0, -1); // Up
@@ -174,9 +184,9 @@ namespace SoR.Logic.Character
         public void CheckIfFrozen(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
-            freezeForSeconds -= deltaTime;
+            frozenSeconds -= deltaTime;
 
-            if (freezeForSeconds <= 0)
+            if (frozenSeconds <= 0)
             {
                 Frozen = false;
             }
@@ -192,10 +202,11 @@ namespace SoR.Logic.Character
             sinceLastChange += deltaTime;
             newPosition = position;
 
-            if (IsMoving())
+            if (!Pausing)
             {
                 if (sinceLastChange >= newDirectionTime || BeenPushed)
                 {
+                    prevDirection = direction;
                     newDirection = random.Next(4);
                     NewDirection(newDirection);
                     newDirectionTime = (float)random.NextDouble() * 3f + 0.33f;
@@ -210,7 +221,7 @@ namespace SoR.Logic.Character
         /*
          * Calculate movement speed. 75% speed if moving diagonally.
          */
-        public void CalculateNewPosition(GameTime gameTime)
+        public void CalculateSpeed(GameTime gameTime)
         {
             newSpeed = (float)(Speed * 1.5) * GameLogic.GetTime(gameTime);
 
@@ -225,24 +236,8 @@ namespace SoR.Logic.Character
          */
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
-            int facingDirection = 0;
-
             newPosition.X = position.X;
             newPosition.X += direction.X * newSpeed;
-
-            if (direction.X > 0)
-            {
-                newPosition.X += 25;
-                position.X += 25;
-                facingDirection = 1;
-            }
-
-            if (direction.X < 0)
-            {
-                newPosition.X -= 25;
-                position.X -= 25;
-                facingDirection = -1;
-            }
 
             foreach (Rectangle area in impassableArea)
             {
@@ -252,11 +247,8 @@ namespace SoR.Logic.Character
 
                     if (!Player) // If entity is not the player
                     {
-                        if (!DirectionReversed) // If the direction has not already been reversed
-                        {
-                            RedirectNPC(); // Move in the opposite direction
-                            DirectionReversed = true;
-                        }
+                        prevDirection = direction;
+                        RedirectNPC(); // Move in the opposite direction
                     }
 
                     Traversable = false;
@@ -284,15 +276,6 @@ namespace SoR.Logic.Character
                 }
             }
 
-            if (facingDirection > 0)
-            {
-                newPosition.X -= 25;
-            }
-            if (facingDirection < 0)
-            {
-                newPosition.X += 25;
-            }
-
             position.X = newPosition.X;
         }
 
@@ -312,11 +295,8 @@ namespace SoR.Logic.Character
 
                     if (!Player) // If entity is not the player
                     {
-                        if (!DirectionReversed) // If the direction has not already been reversed
-                        {
-                            RedirectNPC(); // Move in the opposite direction
-                            DirectionReversed = true;
-                        }
+                        prevDirection = direction;
+                        RedirectNPC(); // Move in the opposite direction
                     }
 
                     Traversable = false;

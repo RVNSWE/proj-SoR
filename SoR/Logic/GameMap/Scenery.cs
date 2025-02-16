@@ -67,7 +67,7 @@ namespace SoR.Logic.GameMap
         /*
          * Define what happens on collision with an entity.
          */
-        public abstract void Collision(Entity entity, GameTime gameTime);
+        //public abstract void Collision(Entity entity, GameTime gameTime);
 
         /*
          * Check for collision with other entities.
@@ -86,28 +86,6 @@ namespace SoR.Logic.GameMap
             }
 
             return false;
-        }
-
-        /*
-         * Draw text to the screen.
-         */
-        public void DrawText(SpriteBatch spriteBatch, SpriteFont font, OrthographicCamera camera)
-        {
-            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
-            spriteBatch.DrawString(
-                font,
-                "",
-                new Vector2((int)position.X - 80, (int)position.Y + 100),
-                Color.BlueViolet);
-            spriteBatch.End();
-        }
-
-        /*
-         * Update the hitbox after a collision.
-         */
-        public void UpdateHitbox(SkeletonBounds updatedHitbox)
-        {
-            hitbox = updatedHitbox;
         }
 
         /*
@@ -141,14 +119,6 @@ namespace SoR.Logic.GameMap
         public Skeleton GetSkeleton()
         {
             return skeleton;
-        }
-
-        /*
-         * Get the hitbox.
-         */
-        public SkeletonBounds GetHitbox()
-        {
-            return hitbox;
         }
 
         public Vector2 GetPosition()

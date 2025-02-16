@@ -14,8 +14,6 @@ namespace SoR.Logic.Character.Player
     {
         protected GamePadInput gamePadInput;
         protected KeyboardInput keyboardInput;
-        protected string lastAnimation;
-        protected string movementAnimation;
 
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
@@ -80,22 +78,31 @@ namespace SoR.Logic.Character.Player
             gamePadInput = new GamePadInput();
             keyboardInput = new KeyboardInput();
 
-            idle = true; // Player is currently idle
-            lastAnimation = ""; // Get the last key pressed
-
-            Traversable = true; // Whether the entity is on walkable terrain
-
-            CountDistance = 0; // Count how far to automatically move the entity
-            direction = new Vector2(0, 0); // The direction of movement
-            BeenPushed = false;
-            freezeForSeconds = 1;
+            Pausing = false;
+            Colliding = false;
+            idle = true;
+            lastAnimation = "";
+            prevTrigger = "";
+            animOne = "";
+            animTwo = "";
             isFacing = "idledown";
+            movementAnimation = "idledown";
+
+            Traversable = true;
+
+            CountDistance = 0;
+            direction = new Vector2(0, 0);
+            prevDirection = direction;
+            BeenPushed = false;
+            collisionSeconds = 0;
+            frozenSeconds = 1;
+            pauseSeconds = 0;
             newSpeed = 0;
 
             Player = true;
 
-            Speed = 120; // Set the entity's travel speed
-            HitPoints = 100; // Set the starting number of hitpoints
+            Speed = 120;
+            HitPoints = 100;
 
             ImpassableArea = impassableArea;
         }
@@ -134,29 +141,35 @@ namespace SoR.Logic.Character.Player
          */
         public override void EntityCollision(Entity entity, GameTime gameTime)
         {
-            entity.TakeDamage(1);
-            RepelledFromEntity(4, entity);
+            if (!Colliding)
+            {
+                TakeDamage(1);
+                collisionSeconds = 1;
+                Colliding = true;
+            }
+
+            RepelledFromEntity(5, entity);
         }
 
         /*
          * Change the player x-axis direction according to keyboard input.
          */
-        public void MovementDirectionX(int changeDirection)
+        public void MovementDirectionX(int adjustDirection)
         {
-            if (changeDirection != 0)
+            if (adjustDirection != 0)
             {
-                direction.X = changeDirection;
+                direction.X = adjustDirection;
             }
         }
 
         /*
          * Change the player y-axis direction according to keyboard input.
          */
-        public void MovementDirectionY(int changeDirection)
+        public void MovementDirectionY(int adjustDirection)
         {
-            if (changeDirection != 0)
+            if (adjustDirection != 0)
             {
-                direction.Y = changeDirection;
+                direction.Y = adjustDirection;
             }
         }
 
@@ -166,6 +179,7 @@ namespace SoR.Logic.Character.Player
         public override void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             CheckIfFrozen(gameTime);
+            WaitForCollisionSeconds(gameTime);
 
             if (!Frozen)
             {
@@ -174,6 +188,8 @@ namespace SoR.Logic.Character.Player
 
                 CheckIdle();
                 CheckSitting();
+
+                BeMoved(gameTime);
 
                 if (keyboardInput.CurrentInputDevice)
                 {
@@ -186,9 +202,7 @@ namespace SoR.Logic.Character.Player
                     ProcessYMovementInput(gamePadInput.Y);
                 }
 
-                BeMoved(gameTime);
-
-                CalculateNewPosition(gameTime);
+                CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 

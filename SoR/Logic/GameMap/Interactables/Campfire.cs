@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Spine;
 using SoR.Logic.Character;
 
@@ -48,16 +47,17 @@ namespace SoR.Logic.GameMap.Interactables
         public override void ChangeAnimation(string eventTrigger) { }
 
         /*
-         * Perform an interaction. Won't just deal damage later on - only collision will.
+         * Placeholder for performing an interaction.
          */
         public override void InteractWith(Entity entity) { }
 
         /*
          * Define what happens on collision with an entity.
          */
-        public override void Collision(Entity entity, GameTime gameTime)
+        /*public override void Collision(Entity entity, GameTime gameTime)
         {
             entity.SceneryCollision(this, gameTime);
-        }
+            //entity.ChangeAnimation("hit");
+        }*/
     }
 }
