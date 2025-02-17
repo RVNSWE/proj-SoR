@@ -163,16 +163,14 @@ namespace SoR.Logic.Character
         /*
          * Animate NPC redirection.
          */
-        public void RedirectAnimation(int newDirection)
+        public virtual void RedirectAnimation(int newDirection)
         {
             switch (newDirection)
             {
                 case 1:
-                    movementAnimation = "run";
                     GetSkeleton().ScaleX = 1;
                     break;
                 case 2:
-                    movementAnimation = "run";
                     GetSkeleton().ScaleX = -1;
                     break;
             }
@@ -208,6 +206,7 @@ namespace SoR.Logic.Character
                 {
                     prevDirection = direction;
                     newDirection = random.Next(4);
+                    movementAnimation = "run";
                     NewDirection(newDirection);
                     newDirectionTime = (float)random.NextDouble() * 3f + 0.33f;
                     sinceLastChange = 0;

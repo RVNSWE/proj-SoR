@@ -94,6 +94,7 @@ namespace SoR.Logic.Character
 
             if (prevTrigger != eventTrigger && animations.TryGetValue(eventTrigger, out int animType))
             {
+                animTwo = defaultAnim;
                 prevTrigger = animOne = reaction = eventTrigger;
                 React(reaction, animType);
             }
@@ -134,7 +135,7 @@ namespace SoR.Logic.Character
                         }
                         else // Otherwise, add next to start on frame current anim finished on.
                         {
-                            trackEntry = animState.AddAnimation(0, animOne, true, -trackEntry.TrackTime);
+                            trackEntry = animState.AddAnimation(0, animOne, true, trackEntry.TrackTime);
                         }
                         break;
                 }

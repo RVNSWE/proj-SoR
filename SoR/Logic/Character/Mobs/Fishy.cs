@@ -78,5 +78,23 @@ namespace SoR.Logic.Character.Mobs
 
             ImpassableArea = impassableArea;
         }
+
+        /*
+         * Animate NPC redirection.
+         */
+        public override void RedirectAnimation(int newDirection)
+        {
+            switch (newDirection)
+            {
+                case 1:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = 1;
+                    break;
+                case 2:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = -1;
+                    break;
+            }
+        }
     }
 }
