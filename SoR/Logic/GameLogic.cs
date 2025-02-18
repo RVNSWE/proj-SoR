@@ -26,6 +26,7 @@ namespace SoR.Logic
         private CurrentMap currentMapEnum;
         private MainMenu mainMenu;
         private StartMenu startMenu;
+        private ChooseName chooseName;
         private Map map;
         private Render render;
         private Camera camera;
@@ -53,6 +54,7 @@ namespace SoR.Logic
         private float curtainTimer;
         private int screenWidth;
         private int screenHeight;
+        private string playerName;
         public Dictionary<string, Entity> Entities { get; set; }
         public Dictionary<string, Scenery> Scenery { get; set; }
         public string InGameScreen { get; set; }
@@ -107,6 +109,7 @@ namespace SoR.Logic
             backgroundColour = new Color(0, 11, 8);
             screenWidth = 0;
             screenHeight = 0;
+            playerName = "Mercura";
         }
 
         /*
@@ -152,8 +155,9 @@ namespace SoR.Logic
 
             player.SetPosition(gameState.Position.X, gameState.Position.Y);
             player.HitPoints = gameState.HitPoints;
-            player.Skin = gameState.Skin;
             player.UpdateSkin(gameState.Skin);
+            playerName = player.Name = gameState.Name;
+
             loadingGame = false;
         }
 
@@ -338,6 +342,12 @@ namespace SoR.Logic
 
             switch (currentMapEnum)
             {
+                case CurrentMap.Intro:
+                    ScreenFadeIn(gameTime, game, GraphicsDevice);
+                    render.StartDrawingSpriteBatch(camera.GetCamera());
+                    render.DrawDistortSpriteBatch(font, player.GetPosition());
+                    render.FinishDrawingSpriteBatch();
+                    break;
                 case CurrentMap.MainMenu: // If current screen is MainMenu
                     currentMenuItem = render.DrawMainMenu(
                         gameTime,

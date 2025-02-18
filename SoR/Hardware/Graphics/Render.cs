@@ -17,7 +17,7 @@ namespace SoR.Hardware.Graphics
      * Draw graphics to the screen, collect the impassable sections of the map, and convert map arrays into atlas positions
      * for drawing tiles.
      */
-    internal class Render
+    internal partial class Render
     {
         private SpriteBatch spriteBatch;
         private SkeletonRenderer skeletonRenderer;

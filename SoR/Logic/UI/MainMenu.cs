@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace SoR.Logic.UI
+﻿namespace SoR.Logic.UI
 {
     internal class MainMenu : Menu
     {
@@ -8,7 +6,7 @@ namespace SoR.Logic.UI
          * Set up the main menu.
          */
 
-        public MainMenu(MainGame game, GraphicsDeviceManager graphics)
+        public MainMenu(MainGame game)
         {
             InitialiseInput(game);
             InitialiseMenu(game);

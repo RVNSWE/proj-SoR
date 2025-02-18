@@ -54,6 +54,7 @@ namespace SoR.Logic.Character.Mobs
             Pausing = false;
             Colliding = false;
             Player = false;
+            Name = "Slime";
             defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";

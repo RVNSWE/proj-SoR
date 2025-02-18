@@ -55,6 +55,7 @@ namespace SoR.Logic.Character.Mobs
             Pausing = false;
             Colliding = false;
             Player = false;
+            Name = "Pheasant";
             defaultAnim = "run";
             lastAnimation = "";
             prevTrigger = "";

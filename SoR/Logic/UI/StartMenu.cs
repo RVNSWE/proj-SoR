@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-
-namespace SoR.Logic.UI
+﻿namespace SoR.Logic.UI
 {
     /*
      * Set up the start menu.
      */
     internal class StartMenu : Menu
     {
-        public StartMenu(MainGame game, GraphicsDevice GraphicsDevice)
+        public StartMenu(MainGame game)
         {
             InitialiseInput(game);
             InitialiseMenu(game);

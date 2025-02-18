@@ -60,6 +60,7 @@ namespace SoR.Logic.Character.Mobs
             Pausing = false;
             Colliding = false;
             Player = false;
+            Name = "Chara";
             defaultAnim = "run";
             lastAnimation = "";
             prevTrigger = "";

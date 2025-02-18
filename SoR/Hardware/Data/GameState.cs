@@ -14,6 +14,7 @@ namespace SoR.Hardware.Data
         public Vector2 Position { get; set; }
         public int HitPoints { get; set; }
         public string Skin { get; set; }
+        public string Name { get; set; }
         public string CurrentMap { get; set; }
 
         /*
@@ -26,6 +27,7 @@ namespace SoR.Hardware.Data
                 Position = player.GetPosition(),
                 HitPoints = player.HitPoints,
                 Skin = player.Skin,
+                Name = player.Name,
                 CurrentMap = playerLocation
             };
 

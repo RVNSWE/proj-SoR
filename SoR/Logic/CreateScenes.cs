@@ -17,6 +17,7 @@ namespace SoR.Logic
         enum CurrentMap
         {
             MainMenu,
+            Intro,
             Village,
             Temple,
             Wall
@@ -64,7 +65,10 @@ namespace SoR.Logic
 
                     if (newGame) // If starting a new game
                     {
-                        Wall(game, GraphicsDevice); // Load the starting area
+                        StartNewGame(game, GraphicsDevice); // Load the starting area
+                        //Temple(game, GraphicsDevice);
+                        //Village(game, GraphicsDevice);
+                        //Wall(game, GraphicsDevice);
                     }
                     if (loadingGame) // If loading from save file
                     {
@@ -149,7 +153,7 @@ namespace SoR.Logic
         /*
          * Set up the main game menu.
          */
-        public void GameMainMenu(MainGame game, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
+        public void GameMainMenu(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = true;
             Entities = [];
@@ -167,7 +171,7 @@ namespace SoR.Logic
             camera.UpdateViewportAdapter(game.Window);
             camera.NewWidth = screenWidth;
             camera.NewHeight = screenHeight;
-            mainMenu = new MainMenu(game, graphics);
+            mainMenu = new MainMenu(game);
             mainMenu.ItemCount = 4; // Reset the number of StartMenu items to 4
             currentMapEnum = CurrentMap.MainMenu;
             LoadGameContent(GraphicsDevice, game);
@@ -180,9 +184,41 @@ namespace SoR.Logic
         {
             menu = true;
             InGameScreen = "game";
-            startMenu = new StartMenu(game, GraphicsDevice);
+            startMenu = new StartMenu(game);
             startMenu.ItemCount = 3; // Reset the number of StartMenu items to 3
             LoadGameContent(GraphicsDevice, game);
+        }
+
+        /*
+         * Start a new game.
+         */
+        public void StartNewGame(MainGame game, GraphicsDevice GraphicsDevice)
+        {
+            menu = true;
+            newGame = true;
+            Entities = [];
+            Scenery = [];
+            mapLowerWalls = [];
+            mapUpperWalls = [];
+            mapFloor = [];
+            mapFloorDecor = [];
+            depths = [];
+            impassableArea = [];
+            InGameScreen = "none";
+            PlayerLocation = "none";
+            currentMenuItem = "none";
+            camera = new Camera(game.Window, GraphicsDevice, 800, 600);
+            camera.UpdateViewportAdapter(game.Window);
+            camera.NewWidth = screenWidth;
+            camera.NewHeight = screenHeight;
+            chooseName = new ChooseName(game);
+            mainMenu.ItemCount = 1; // Reset the number of StartMenu items to 1
+            currentMapEnum = CurrentMap.Intro;
+            LoadGameContent(GraphicsDevice, game);
+
+            entityType = EntityType.Player;
+            CreateEntity(GraphicsDevice, 400, 300);
+            //player.Name = playerName; // Move to where name is set
         }
 
         /*
@@ -213,10 +249,12 @@ namespace SoR.Logic
             // Re-initialise the entity and scenery arrays
             Entities = [];
             Scenery = [];
+            depths = [];
 
             // Create entities
             entityType = EntityType.Player;
             CreateEntity(GraphicsDevice, 250, 200);
+            player.Name = playerName; // Move to where name is set
 
             entityType = EntityType.Chara;
             CreateEntity(GraphicsDevice, 200, 250);
@@ -253,10 +291,12 @@ namespace SoR.Logic
             // Re-initialise the entity and scenery arrays
             Entities = [];
             Scenery = [];
+            depths = [];
 
             // Create entities
             entityType = EntityType.Player;
-            CreateEntity(GraphicsDevice, 200, 250);
+            CreateEntity(GraphicsDevice, 250, 200);
+            player.Name = playerName; // Move to where name is set
 
             entityType = EntityType.Fishy;
             CreateEntity(GraphicsDevice, 300, 200);
@@ -303,10 +343,12 @@ namespace SoR.Logic
             // Re-initialise the entity and scenery arrays
             Entities = [];
             Scenery = [];
+            depths = [];
 
             // Create entities
             entityType = EntityType.Player;
-            CreateEntity(GraphicsDevice, 200, 250);
+            CreateEntity(GraphicsDevice, 250, 200);
+            player.Name = playerName; // Move to where name is set
 
             entityType = EntityType.Fishy;
             CreateEntity(GraphicsDevice, 300, 200);

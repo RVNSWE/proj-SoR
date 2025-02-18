@@ -12,7 +12,7 @@ namespace SoR.Logic.Screens
          */
         public void LoadGame(MainGame game, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
         {
-            gameLogic.GameMainMenu(game, GraphicsDevice, graphics);
+            gameLogic.GameMainMenu(game, GraphicsDevice);
         }
 
         /*

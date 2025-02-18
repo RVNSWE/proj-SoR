@@ -32,10 +32,13 @@ namespace SoR.Logic.Screens
             switch (gameLogic.InGameScreen)
             {
                 case "mainMenu":
-                    gameLogic.GameMainMenu(game, GraphicsDevice, graphics);
+                    gameLogic.GameMainMenu(game, GraphicsDevice);
                     break;
                 case "startMenu":
                     gameLogic.GameStartMenu(game, GraphicsDevice);
+                    break;
+                case "startNewGame":
+                    gameLogic.StartNewGame(game, GraphicsDevice);
                     break;
                 case "game":
                     gameLogic.UpdateWorld(game, gameTime, GraphicsDevice, graphics);

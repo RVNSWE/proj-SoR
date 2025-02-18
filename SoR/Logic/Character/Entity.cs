@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Spine;
 using System.Collections.Generic;
-using System;
 
 namespace SoR.Logic.Character
 {
@@ -65,6 +64,7 @@ namespace SoR.Logic.Character
         public string Skin { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
+        public string Name { get; set; }
 
         /*
          * Placeholder function for dealing damage.
