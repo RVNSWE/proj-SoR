@@ -12,6 +12,8 @@ using SoR.Logic.Character.Mobs;
 using SoR.Logic.UI;
 using SoR.Logic.GameMap;
 using System.IO;
+using SoR.Gameplay.Intro;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SoR.Logic
 {
@@ -24,17 +26,17 @@ namespace SoR.Logic
         private EntityType entityType;
         private SceneryType sceneryType;
         private CurrentMap currentMapEnum;
+        private Color backgroundColour;
         private MainMenu mainMenu;
         private StartMenu startMenu;
         private ChooseName chooseName;
         private Map map;
         private Render render;
         private Camera camera;
-        private SpriteFont font;
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
         private Entity player;
-        private Color backgroundColour;
+        private Intro intro;
         private Dictionary<string, Vector2> mapLowerWalls;
         private Dictionary<string, Vector2> mapUpperWalls;
         private Dictionary<string, Vector2> mapFloor;
@@ -167,9 +169,6 @@ namespace SoR.Logic
         public void LoadGameContent(GraphicsDevice GraphicsDevice, MainGame game)
         {
             render = new Render(game, GraphicsDevice);
-
-            // Font used for drawing text
-            font = game.Content.Load<SpriteFont>("Fonts/File");
         }
 
         /*
@@ -343,11 +342,15 @@ namespace SoR.Logic
             switch (currentMapEnum)
             {
                 case CurrentMap.Intro:
+
+
                     ScreenFadeIn(gameTime, game, GraphicsDevice);
                     render.StartDrawingSpriteBatch(camera.GetCamera());
-                    render.DrawDistortSpriteBatch(font, player.GetPosition());
+                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentText), intro.TextPosition, 0.2f);
+                    render.DrawText(player.GetPosition(), intro.CurrentText);
                     render.FinishDrawingSpriteBatch();
                     break;
+
                 case CurrentMap.MainMenu: // If current screen is MainMenu
                     currentMenuItem = render.DrawMainMenu(
                         gameTime,
@@ -356,8 +359,6 @@ namespace SoR.Logic
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
-                        render.Curtain,
-                        font,
                         mainMenu.MenuOptions[0],
                         mainMenu.MenuOptions[1],
                         mainMenu.MenuOptions[2],
@@ -366,7 +367,6 @@ namespace SoR.Logic
                         mainMenu.MenuOptions[5],
                         mainMenu.NavigateMenu(gameTime),
                         SaveFile);
-
                     ScreenFadeIn(gameTime, game, GraphicsDevice);
                     break;
 
@@ -409,7 +409,7 @@ namespace SoR.Logic
                                 render.DrawScenerySkeleton(scenery);
                                 render.FinishDrawingSkeleton();
 
-                                render.DrawScenerySpriteBatch(scenery, font);
+                                render.DrawScenerySpriteBatch(scenery);
                             }
                         }
                         render.FinishDrawingSpriteBatch();
@@ -422,7 +422,7 @@ namespace SoR.Logic
                                 render.DrawEntitySkeleton(entity);
                                 render.FinishDrawingSkeleton();
 
-                                render.DrawEntitySpriteBatch(entity, font);
+                                render.DrawEntitySpriteBatch(entity);
                             }
                         }
                         render.FinishDrawingSpriteBatch();
@@ -447,8 +447,6 @@ namespace SoR.Logic
                             camera.GetCamera(),
                             camera.NewWidth,
                             camera.NewHeight,
-                            render.Curtain,
-                            font,
                             startMenu.MenuOptions[0],
                             startMenu.MenuOptions[1],
                             startMenu.MenuOptions[2],
@@ -544,6 +542,13 @@ namespace SoR.Logic
                         ScreenFadeIn(gameTime, game, GraphicsDevice); // Start fading in the curtain
                     }
                     else System.Diagnostics.Debug.WriteLine("No save file found."); // Otherwise write to debug console "No save file found."
+                }
+                if (input == "A" || input == "Enter")
+                {
+                    if (intro.NextLine)
+                    {
+                        intro.StartNewLine();
+                    }
                 }
             }
 

@@ -67,9 +67,9 @@ namespace SoR.Hardware.Input
         /*
          * Check keyboard input.
          * F4 = toggle fullscreen. F8 = save. F9 = load. Esc = exit. Enter = select menu item.
-         * Space = sit. Escape = open start menu.
+         * Space = sit. Escape = open start menu. Enter = OK.
          */
-            public string CheckKeyInput()
+        public string CheckKeyInput()
         {
             Key = "none";
             keyState = KeyboardExtended.GetState(); // Get the current keyboard state
@@ -97,6 +97,10 @@ namespace SoR.Hardware.Input
             if (keyState.IsKeyDown(Keys.Escape) & !lastKeyState.IsKeyDown(Keys.Escape))
             {
                 Key = "Escape";
+            }
+            if (keyState.IsKeyDown(Keys.Enter) & !lastKeyState.IsKeyDown(Keys.Enter))
+            {
+                Key = "Enter";
             }
 
             lastKeyState = keyState; // Get the previous keyboard state

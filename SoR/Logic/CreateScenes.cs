@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SoR.Logic.UI;
 using SoR.Logic.GameMap.TiledScenery;
 using SoR.Hardware.Graphics;
+using SoR.Gameplay.Intro;
 
 namespace SoR.Logic
 {
@@ -49,7 +50,6 @@ namespace SoR.Logic
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
-                        render.Curtain,
                         curtainOpacity); // Draw the curtain with the current opacity
                 }
 
@@ -60,8 +60,7 @@ namespace SoR.Logic
                         camera.PlayerPosition.Y,
                         camera.GetCamera(),
                         camera.NewWidth,
-                        camera.NewHeight,
-                        render.Curtain); // Draw the curtain at full opacity
+                        camera.NewHeight); // Draw the curtain at full opacity
 
                     if (newGame) // If starting a new game
                     {
@@ -100,8 +99,7 @@ namespace SoR.Logic
                     camera.PlayerPosition.Y,
                     camera.GetCamera(),
                     camera.NewWidth,
-                    camera.NewHeight,
-                    render.Curtain); // Draw the curtain
+                    camera.NewHeight); // Draw the curtain
 
                 if (curtainTimer >= timeLength) // If the max curtainTime has reached or exceeded timeLength
                 {
@@ -137,7 +135,6 @@ namespace SoR.Logic
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
-                        render.Curtain,
                         curtainOpacity); // Draw curtain at current opacity
                 }
 
@@ -194,7 +191,7 @@ namespace SoR.Logic
          */
         public void StartNewGame(MainGame game, GraphicsDevice GraphicsDevice)
         {
-            menu = true;
+            menu = false;
             newGame = true;
             Entities = [];
             Scenery = [];
@@ -212,6 +209,7 @@ namespace SoR.Logic
             camera.NewWidth = screenWidth;
             camera.NewHeight = screenHeight;
             chooseName = new ChooseName(game);
+            intro = new Intro();
             mainMenu.ItemCount = 1; // Reset the number of StartMenu items to 1
             currentMapEnum = CurrentMap.Intro;
             LoadGameContent(GraphicsDevice, game);

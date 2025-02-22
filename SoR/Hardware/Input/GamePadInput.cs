@@ -38,22 +38,22 @@ namespace SoR.Hardware.Input
 
         /*
          * Check button input.
-         * A = load. B = save. Start = open start menu. Back = toggle fullscreen. DPad = navigation. B = sit.
+         * LeftStick = save. RightStick = load. Start = open start menu. Back = toggle fullscreen. DPad = navigation. B = sit.
          */
         public string CheckButtonInput()
         {
             Button = "none";
             gamePadState = GamePad.GetState(PlayerIndex.One); // Get the current gamepad state
 
-            if (gamePadState.Buttons.B == ButtonState.Pressed &&
-                lastGamePadState.Buttons.B != ButtonState.Pressed)
+            if (gamePadState.Buttons.LeftStick == ButtonState.Pressed &&
+                lastGamePadState.Buttons.LeftStick != ButtonState.Pressed)
             {
-                Button = "B";
+                Button = "LeftStick";
             }
-            if (gamePadState.Buttons.A == ButtonState.Pressed &&
-                lastGamePadState.Buttons.A != ButtonState.Pressed)
+            if (gamePadState.Buttons.RightStick == ButtonState.Pressed &&
+                lastGamePadState.Buttons.RightStick != ButtonState.Pressed)
             {
-                Button = "A";
+                Button = "RightStick";
             }
             if (gamePadState.Buttons.Start == ButtonState.Pressed &&
                 lastGamePadState.Buttons.Start != ButtonState.Pressed)
@@ -74,6 +74,11 @@ namespace SoR.Hardware.Input
                 lastGamePadState.DPad.Down != ButtonState.Pressed)
             {
                 Button = "Down";
+            }
+            if (gamePadState.Buttons.A == ButtonState.Pressed &&
+                lastGamePadState.Buttons.A != ButtonState.Pressed)
+            {
+                Button = "A";
             }
 
             lastGamePadState = gamePadState; // Get the previous gamepad state
