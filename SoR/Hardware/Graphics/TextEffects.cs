@@ -56,13 +56,13 @@ namespace SoR.Hardware.Graphics
         /*
          * Draw Intro text.
          */
-        public void DrawText(Vector2 position, string text)
+        public void DrawText(Vector2 position, string text, float fadeAlpha = 1f)
         {
             spriteBatch.DrawString(
             font,
             text,
             position,
-            Color.White);
+            Color.White * fadeAlpha);
         }
 
         /*

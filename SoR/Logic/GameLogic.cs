@@ -339,8 +339,10 @@ namespace SoR.Logic
                 case CurrentMap.Intro:
 
                     render.StartDrawingSpriteBatch(camera.GetCamera());
-                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition, 0.2f);
+                    intro.GetText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition);
+
                     render.DrawText(intro.TextPosition, intro.CurrentText);
+
                     render.FinishDrawingSpriteBatch();
 
                     if (freezeGame)

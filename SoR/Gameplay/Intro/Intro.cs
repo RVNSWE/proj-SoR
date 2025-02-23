@@ -24,7 +24,7 @@ namespace SoR.Gameplay.Intro
             CharIndex = 0;
             LineIndex = 0;
             CurrentText = "";
-            CurrentSentence = text.Items.ElementAt(LineIndex);
+            CurrentSentence = text.Line.ElementAt(LineIndex);
             NextLine = false;
         }
 
@@ -33,29 +33,33 @@ namespace SoR.Gameplay.Intro
          */
         public void StartNewLine()
         {
-            if (LineIndex < text.Items.Length - 1)
+            if (LineIndex < text.Line.Count - 1)
             {
                 LineIndex++;
                 CharIndex = 0;
                 CurrentText = "";
-                CurrentSentence = text.Items.ElementAt(LineIndex);
+                CurrentSentence = text.Line.ElementAt(LineIndex);
             }
         }
 
         /*
-         * Write text to the screen character by character.
+         * Get the text to be written.
          */
-        public void WriteText(float gameTime, float textSize, Vector2 position, float interval)
+        public void GetText(float gameTime, float textSize, Vector2 position)
         {
-            if (CurrentText.Length < text.Items[LineIndex].Length)
+            if (CurrentText.Length < text.Line[LineIndex].Length)
             {
-                timer.CountDown(gameTime, position, interval);
+                if (text.WriteTime.TryGetValue(text.Line.ElementAt(LineIndex), out float seconds))
+                {
+                    timer.CountDown(gameTime, seconds);
+                }
+
                 NextLine = false;
 
                 if (timer.TimerComplete)
                 {
                     timer.TimeElapsed = 0;
-                    CurrentText = CurrentText + text.Items[LineIndex].ElementAt(CharIndex).ToString();
+                    CurrentText = CurrentText + text.Line[LineIndex].ElementAt(CharIndex).ToString();
                     CharIndex++;
                 }
             }
