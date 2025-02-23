@@ -13,7 +13,6 @@ using SoR.Logic.UI;
 using SoR.Logic.GameMap;
 using System.IO;
 using SoR.Gameplay.Intro;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SoR.Logic
 {
@@ -277,10 +276,6 @@ namespace SoR.Logic
                             entity.SceneryCollision(scenery, gameTime);
                         }
                     }
-                    if (!entity.Pausing)
-                    {
-
-                    }
                 }
             }
         }
@@ -343,19 +338,39 @@ namespace SoR.Logic
             {
                 case CurrentMap.Intro:
 
+                    render.StartDrawingSpriteBatch(camera.GetCamera());
+                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition, 0.2f);
+                    render.DrawText(intro.TextPosition, intro.CurrentText);
+                    render.FinishDrawingSpriteBatch();
+
+                    if (freezeGame)
+                    {
+                        currentMenuItem = render.DrawStartMenu(
+                            gameTime,
+                            camera.PlayerPosition,
+                            camera.GetCamera(),
+                            camera.NewWidth,
+                            camera.NewHeight,
+                            startMenu.MenuOptions[0],
+                            startMenu.MenuOptions[1],
+                            startMenu.MenuOptions[2],
+                            startMenu.MenuOptions[3],
+                            startMenu.MenuOptions[4],
+                            startMenu.MenuOptions[5],
+                            startMenu.NavigateMenu(gameTime),
+                            SaveFile,
+                            exitMenu);
+                    }
 
                     ScreenFadeIn(gameTime, game, GraphicsDevice);
-                    render.StartDrawingSpriteBatch(camera.GetCamera());
-                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentText), intro.TextPosition, 0.2f);
-                    render.DrawText(player.GetPosition(), intro.CurrentText);
-                    render.FinishDrawingSpriteBatch();
+                    ScreenCurtainHold(gameTime);
+                    ScreenFadeOut(gameTime);
                     break;
 
                 case CurrentMap.MainMenu: // If current screen is MainMenu
                     currentMenuItem = render.DrawMainMenu(
                         gameTime,
-                        camera.PlayerPosition.X,
-                        camera.PlayerPosition.Y,
+                        camera.PlayerPosition,
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
@@ -442,8 +457,7 @@ namespace SoR.Logic
                     {
                         currentMenuItem = render.DrawStartMenu(
                             gameTime,
-                            camera.PlayerPosition.X,
-                            camera.PlayerPosition.Y,
+                            camera.PlayerPosition,
                             camera.GetCamera(),
                             camera.NewWidth,
                             camera.NewHeight,

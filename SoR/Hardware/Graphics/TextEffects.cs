@@ -68,7 +68,7 @@ namespace SoR.Hardware.Graphics
         /*
          * Distort text to shake slightly.
          */
-        public void DrawDistortedText(SpriteFont font, Vector2 position, string text)
+        public void DrawDistortedText(Vector2 position, string text)
         {
             float distortAmp = new Random().Next(2);
             float distortFreq = new Random().Next(2);
@@ -92,7 +92,7 @@ namespace SoR.Hardware.Graphics
         public float TextSize(string text)
         {
             float textSize = 0;
-            font.MeasureString(text);
+            textSize = font.MeasureString(text).X / 2;
 
             return textSize;
         }

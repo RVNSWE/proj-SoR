@@ -45,8 +45,7 @@ namespace SoR.Logic
                     }
 
                     render.DrawCurtain(
-                        camera.PlayerPosition.X,
-                        camera.PlayerPosition.Y,
+                        camera.PlayerPosition,
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
@@ -56,8 +55,7 @@ namespace SoR.Logic
                 if (curtainTimer >= timeLength) // If the curtainTimer has reached or exceeded timeLength
                 {
                     render.DrawCurtain(
-                        camera.PlayerPosition.X,
-                        camera.PlayerPosition.Y,
+                        camera.PlayerPosition,
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight); // Draw the curtain at full opacity
@@ -95,8 +93,7 @@ namespace SoR.Logic
                 curtainTimer += deltaTime; // Increment the curtainTimer
 
                 render.DrawCurtain(
-                    camera.PlayerPosition.X,
-                    camera.PlayerPosition.Y,
+                    camera.PlayerPosition,
                     camera.GetCamera(),
                     camera.NewWidth,
                     camera.NewHeight); // Draw the curtain
@@ -130,8 +127,7 @@ namespace SoR.Logic
                     }
 
                     render.DrawCurtain(
-                        camera.PlayerPosition.X,
-                        camera.PlayerPosition.Y,
+                        camera.PlayerPosition,
                         camera.GetCamera(),
                         camera.NewWidth,
                         camera.NewHeight,
@@ -192,7 +188,9 @@ namespace SoR.Logic
         public void StartNewGame(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = false;
-            newGame = true;
+            newGame = false;
+            InGameScreen = "game";
+
             Entities = [];
             Scenery = [];
             mapLowerWalls = [];
@@ -201,18 +199,12 @@ namespace SoR.Logic
             mapFloorDecor = [];
             depths = [];
             impassableArea = [];
-            InGameScreen = "none";
-            PlayerLocation = "none";
-            currentMenuItem = "none";
-            camera = new Camera(game.Window, GraphicsDevice, 800, 600);
-            camera.UpdateViewportAdapter(game.Window);
-            camera.NewWidth = screenWidth;
-            camera.NewHeight = screenHeight;
-            chooseName = new ChooseName(game);
+
             intro = new Intro();
-            mainMenu.ItemCount = 1; // Reset the number of StartMenu items to 1
             currentMapEnum = CurrentMap.Intro;
             LoadGameContent(GraphicsDevice, game);
+            hasFloorDecor = false;
+            hasUpperWalls = false;
 
             entityType = EntityType.Player;
             CreateEntity(GraphicsDevice, 400, 300);

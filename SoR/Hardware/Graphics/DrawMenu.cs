@@ -9,13 +9,10 @@ namespace SoR.Hardware.Graphics
 
         /*
          * Draw the MainMenu.
-         * 
-         * *** TO DO *** Reposition *** TO DO ***
          */
         public string DrawMainMenu(
             GameTime gameTime,
-            float positionX,
-            float positionY,
+            Vector2 position,
             OrthographicCamera camera,
             int width,
             int height,
@@ -31,15 +28,15 @@ namespace SoR.Hardware.Graphics
             string currentMenuItem = "none";
 
             // Use camera.PlayerPosition as point of reference for positioning since it's updated with screen resolution
-            Vector2 backgroundPosition = new Vector2(positionX, positionY);
-            Vector2 titlePosition = new Vector2(positionX - 125, positionY - 156);
-            Vector2 newGamePosition = new Vector2(positionX - 250, positionY + 20);
-            Vector2 continueGamePosition = new Vector2(positionX - 250, positionY + 50);
-            Vector2 loadGamePosition = new Vector2(positionX - 250, positionY + 80);
-            Vector2 gameSettingsPosition = new Vector2(positionX - 250, positionY + 110);
-            Vector2 toDesktopPosition = new Vector2(positionX - 250, positionY + 140);
+            Vector2 backgroundPosition = new Vector2(position.X, position.Y);
+            Vector2 titlePosition = new Vector2(position.X - 125, position.Y - 156);
+            Vector2 newGamePosition = new Vector2(position.X - 250, position.Y + 20);
+            Vector2 continueGamePosition = new Vector2(position.X - 250, position.Y + 50);
+            Vector2 loadGamePosition = new Vector2(position.X - 250, position.Y + 80);
+            Vector2 gameSettingsPosition = new Vector2(position.X - 250, position.Y + 110);
+            Vector2 toDesktopPosition = new Vector2(position.X - 250, position.Y + 140);
 
-            DrawCurtain(positionX, positionY, camera, width, height);
+            DrawCurtain(position, camera, width, height);
 
             StartDrawingSpriteBatch(camera);
             MenuText(title, titlePosition, Color.GhostWhite, 2.5f);
@@ -112,8 +109,7 @@ namespace SoR.Hardware.Graphics
          */
         public string DrawStartMenu(
             GameTime gameTime,
-            float positionX,
-            float positionY,
+            Vector2 position,
             OrthographicCamera camera,
             int width,
             int height,
@@ -130,15 +126,15 @@ namespace SoR.Hardware.Graphics
             string currentMenuItem = "none";
 
             // Use camera.PlayerPosition as point of reference for positioning since it's updated with screen resolution
-            Vector2 backgroundPosition = new Vector2(positionX, positionY);
-            Vector2 inventoryPosition = new Vector2(positionX - 350, positionY - 156);
-            Vector2 gameSettingsPosition = new Vector2(positionX - 350, positionY - 56);
-            Vector2 loadGamePosition = new Vector2(positionX - 350, positionY + 44);
-            Vector2 exitGamePosition = new Vector2(positionX - 350, positionY + 144);
-            Vector2 toMainMenuPosition = new Vector2(positionX - 50, positionY - 56);
-            Vector2 toDesktopPosition = new Vector2(positionX - 50, positionY + 44);
+            Vector2 backgroundPosition = new Vector2(position.X, position.Y);
+            Vector2 inventoryPosition = new Vector2(position.X - 350, position.Y - 156);
+            Vector2 gameSettingsPosition = new Vector2(position.X - 350, position.Y - 56);
+            Vector2 loadGamePosition = new Vector2(position.X - 350, position.Y + 44);
+            Vector2 exitGamePosition = new Vector2(position.X - 350, position.Y + 144);
+            Vector2 toMainMenuPosition = new Vector2(position.X - 50, position.Y - 56);
+            Vector2 toDesktopPosition = new Vector2(position.X - 50, position.Y + 44);
 
-            DrawCurtain(positionX, positionY, camera, width, height, 0.75f);
+            DrawCurtain(position, camera, width, height, 0.75f);
 
             StartDrawingSpriteBatch(camera);
             MenuText(inventory, inventoryPosition, Color.Gray, 1);
@@ -189,7 +185,7 @@ namespace SoR.Hardware.Graphics
             }
             else
             {
-                DrawCurtain(positionX, positionY, camera, width, height, 0.15f);
+                DrawCurtain(position, camera, width, height, 0.15f);
 
                 StartDrawingSpriteBatch(camera);
                 MenuText(toMain, toMainMenuPosition, Color.Gray, 1.25f);

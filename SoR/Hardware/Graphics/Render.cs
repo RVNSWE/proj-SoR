@@ -40,16 +40,16 @@ namespace SoR.Hardware.Graphics
         /*
          * Draw the curtain.
          */
-        public void DrawCurtain(float positionX, float positionY, OrthographicCamera camera, int width, int height, float fadeAlpha = 1f)
+        public void DrawCurtain(Vector2 position, OrthographicCamera camera, int width, int height, float fadeAlpha = 1f)
         {
-            Vector2 backgroundPosition = new Vector2(positionX, positionY);
+            Vector2 backgroundPosition = new Vector2(position.X, position.Y);
             Vector2 scale = new Vector2(width, height);
-            Vector2 position = new Vector2(backgroundPosition.X - (width / 2), backgroundPosition.Y - (height / 2));
+            Vector2 adjustedPosition = new Vector2(backgroundPosition.X - (width / 2), backgroundPosition.Y - (height / 2));
 
             StartDrawingSpriteBatch(camera);
             spriteBatch.Draw(
                 Curtain,
-                position,
+                adjustedPosition,
                 null,
                 Color.White * fadeAlpha,
                 0f,
