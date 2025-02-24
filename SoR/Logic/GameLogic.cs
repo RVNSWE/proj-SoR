@@ -339,10 +339,8 @@ namespace SoR.Logic
                 case CurrentMap.Intro:
 
                     render.StartDrawingSpriteBatch(camera.GetCamera());
-                    intro.GetText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition);
-
-                    render.DrawText(intro.TextPosition, intro.CurrentText);
-
+                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition);
+                    render.DrawText(intro.TextPosition, intro.CurrentText, intro.TextOpacity);
                     render.FinishDrawingSpriteBatch();
 
                     if (freezeGame)
@@ -561,10 +559,10 @@ namespace SoR.Logic
                 }
                 if (input == "A" || input == "Enter")
                 {
-                    if (intro.NextLine)
+                    /*if (intro.NextLine)
                     {
                         intro.StartNewLine();
-                    }
+                    }*/
                 }
             }
 

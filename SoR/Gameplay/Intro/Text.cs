@@ -15,7 +15,7 @@ namespace SoR.Gameplay.Intro
                 { "...", 0.8f },
                 { "What are you?", 0.3f },
                 { "I don't recognise you.", 0.1f },
-                { "What are you even doing here?", 0.2f },
+                { "What are you even doing here?", 0.15f },
                 { "I thought everyone was dead...?", 0.1f },
             };
 

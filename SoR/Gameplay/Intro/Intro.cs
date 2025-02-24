@@ -8,12 +8,13 @@ namespace SoR.Gameplay.Intro
     {
         private Timer timer;
         private Text text;
+        private int charIndex;
+        private int lineIndex;
+        private bool newLine;
         public Vector2 TextPosition { get; set; }
         public string CurrentText { get; set; }
         public string CurrentSentence { get; set; }
-        public int LineIndex { get; set; }
-        public int CharIndex { get; set; }
-        public bool NextLine {  get; set; }
+        public float TextOpacity { get; set; }
 
         public Intro()
         {
@@ -21,54 +22,73 @@ namespace SoR.Gameplay.Intro
             text = new Text();
             TextPosition = new Vector2();
 
-            CharIndex = 0;
-            LineIndex = 0;
+            TextOpacity = 1f;
+            charIndex = 0;
+            lineIndex = 0;
             CurrentText = "";
-            CurrentSentence = text.Line.ElementAt(LineIndex);
-            NextLine = false;
+            CurrentSentence = text.Line.ElementAt(lineIndex);
+            newLine = false;
         }
 
         /*
          * Start a new line.
          */
-        public void StartNewLine()
+        public void NextLine(float gameTime)
         {
-            if (LineIndex < text.Line.Count - 1)
+            timer.CountDown(gameTime, 10f);
+            TextOpacity -= gameTime * 0.15f;
+
+            if (timer.CountDownComplete)
             {
-                LineIndex++;
-                CharIndex = 0;
-                CurrentText = "";
-                CurrentSentence = text.Line.ElementAt(LineIndex);
+                timer.TimeElapsed = 0;
+
+                if (lineIndex < text.Line.Count - 1)
+                {
+                    TextOpacity = 1f;
+                    charIndex = 0;
+                    lineIndex++;
+                    CurrentText = "";
+                    CurrentSentence = text.Line.ElementAt(lineIndex);
+                    newLine = false;
+                }
             }
         }
 
         /*
          * Get the text to be written.
          */
-        public void GetText(float gameTime, float textSize, Vector2 position)
+        public void WriteText(float gameTime, float textSize, Vector2 position)
         {
-            if (CurrentText.Length < text.Line[LineIndex].Length)
+            TextPosition = new Vector2(position.X - textSize, position.Y + 150);
+
+            if (CurrentText.Length < text.Line[lineIndex].Length)
             {
-                if (text.WriteTime.TryGetValue(text.Line.ElementAt(LineIndex), out float seconds))
+                if (text.WriteTime.TryGetValue(text.Line.ElementAt(lineIndex), out float seconds))
                 {
                     timer.CountDown(gameTime, seconds);
                 }
 
-                NextLine = false;
-
-                if (timer.TimerComplete)
+                if (timer.CountDownComplete)
                 {
                     timer.TimeElapsed = 0;
-                    CurrentText = CurrentText + text.Line[LineIndex].ElementAt(CharIndex).ToString();
-                    CharIndex++;
+                    CurrentText = CurrentText + text.Line[lineIndex].ElementAt(charIndex).ToString();
+                    charIndex++;
                 }
             }
-            else
+            else if (!newLine)
             {
-                NextLine = true;
-            }
+                timer.CountDown(gameTime, 3f);
 
-            TextPosition = new Vector2(position.X - textSize, position.Y);
+                if (timer.CountDownComplete)
+                {
+                    timer.TimeElapsed = 0;
+                    newLine = true;
+                }
+            }
+            if (newLine)
+            {
+                NextLine(gameTime);
+            }
         }
     }
 }

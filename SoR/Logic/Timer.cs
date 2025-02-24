@@ -2,14 +2,17 @@
 {
     internal class Timer
     {
-        public bool TimerComplete { get; set; }
+        public bool CountDownComplete { get; set; }
+        public bool CountDownTwoComplete { get; set; }
         public float TimeElapsed { get; set; }
-        public float TimeUntil { get; set; }
+        public float TimeElapsedTwo { get; set; }
 
         public Timer()
         {
-            TimerComplete = false;
+            CountDownComplete = false;
+            CountDownTwoComplete = false;
             TimeElapsed = 0;
+            TimeElapsedTwo = 0;
         }
 
         /*
@@ -22,24 +25,24 @@
             if (TimeElapsed < seconds)
             {
                 TimeElapsed += deltaTime;
-                TimerComplete = false;
+                CountDownComplete = false;
             }
-            else TimerComplete = true;
+            else CountDownComplete = true;
         }
 
         /*
          * Count up for events.
          */
-        public void CountUp(float gameTime, float seconds)
+        public void SecondCountDown(float gameTime, float seconds)
         {
             float deltaTime = gameTime;
 
-            if (TimeUntil < seconds)
+            if (TimeElapsedTwo < seconds)
             {
-                TimeUntil -= deltaTime;
-                TimerComplete = false;
+                TimeElapsedTwo += deltaTime;
+                CountDownTwoComplete = false;
             }
-            else TimerComplete = true;
+            else CountDownTwoComplete = true;
         }
     }
 }
