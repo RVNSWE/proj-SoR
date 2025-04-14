@@ -62,8 +62,8 @@ namespace SoR.Logic
 
                     if (newGame) // If starting a new game
                     {
-                        StartNewGame(game, GraphicsDevice); // Load the starting area
-                        //Temple(game, GraphicsDevice);
+                        //StartNewGame(game, GraphicsDevice); // Load the starting area
+                        Temple(game, GraphicsDevice);
                         //Village(game, GraphicsDevice);
                         //Wall(game, GraphicsDevice);
                     }
@@ -200,7 +200,7 @@ namespace SoR.Logic
             depths = [];
             impassableArea = [];
 
-            intro = new Intro();
+            text = new Text();
             currentMapEnum = CurrentMap.Intro;
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
