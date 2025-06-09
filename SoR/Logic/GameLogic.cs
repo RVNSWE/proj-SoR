@@ -19,9 +19,6 @@ namespace SoR.Logic
     /*
      * Game logic. Manages how game elements are created, destroyed, rendered and positioned,
      * as well as handling how, when and why various elements will interact.
-     * 
-     * This has become a monster. If it doesn't get split out into smaller classes, it'll at
-     * least get some more partial classes for the sake of organisation and personal sanity.
      */
     public partial class GameLogic
     {
