@@ -26,7 +26,6 @@ namespace SoR.Logic.Character.Mobs
             atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Pheasant\\savedthepheasant.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
-            json.Scale = 0.5f;
 
             // Initialise skeleton json
             skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Pheasant\\skeleton.json"));
@@ -79,7 +78,7 @@ namespace SoR.Logic.Character.Mobs
             pauseSeconds = 0;
             newSpeed = 0;
 
-            Speed = 40; // Set the entity's travel speed
+            Speed = 50; // Set the entity's travel speed
             HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;

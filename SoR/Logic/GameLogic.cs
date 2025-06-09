@@ -38,7 +38,7 @@ namespace SoR.Logic
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
         private Entity player;
-        private Text text;
+        private Intro intro;
         private Dictionary<string, Vector2> mapLowerWalls;
         private Dictionary<string, Vector2> mapUpperWalls;
         private Dictionary<string, Vector2> mapFloor;
@@ -342,8 +342,8 @@ namespace SoR.Logic
                 case CurrentMap.Intro:
 
                     render.StartDrawingSpriteBatch(camera.GetCamera());
-                    text.GetText(GetTime(gameTime), render.TextSize(text.CurrentSentence), camera.PlayerPosition);
-                    render.DrawText(text.TextPosition, text.CurrentText, text.TextOpacity);
+                    intro.WriteText(GetTime(gameTime), render.TextSize(intro.CurrentSentence), camera.PlayerPosition);
+                    render.DrawText(intro.TextPosition, intro.CurrentText, intro.TextOpacity);
                     render.FinishDrawingSpriteBatch();
 
                     if (freezeGame)
