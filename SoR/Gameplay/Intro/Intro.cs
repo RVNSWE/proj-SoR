@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using SoR.Logic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SoR.Gameplay.Intro
 {
-    internal class Intro
+    internal class Text
     {
         private Timer timer;
-        private Text text;
         private int charIndex;
         private int lineIndex;
         private bool newLine;
@@ -15,19 +15,33 @@ namespace SoR.Gameplay.Intro
         public string CurrentText { get; set; }
         public string CurrentSentence { get; set; }
         public float TextOpacity { get; set; }
+        public Dictionary<string, float> WriteTime { get; set; }
+        public List<string> Line { get; set; }
 
-        public Intro()
+        public Text()
         {
             timer = new Timer();
-            text = new Text();
             TextPosition = new Vector2();
 
             TextOpacity = 1f;
             charIndex = 0;
             lineIndex = 0;
             CurrentText = "";
-            CurrentSentence = text.Line.ElementAt(lineIndex);
+            CurrentSentence = Line.ElementAt(lineIndex);
             newLine = false;
+
+            WriteTime = new Dictionary<string, float>()
+            {
+                { "...", 0.8f },
+                { "What are you?", 0.3f },
+            };
+
+            Line = [];
+
+            foreach (string line in WriteTime.Keys)
+            {
+                Line.Add(line);
+            }
         }
 
         /*
@@ -42,13 +56,13 @@ namespace SoR.Gameplay.Intro
             {
                 timer.TimeElapsed = 0;
 
-                if (lineIndex < text.Line.Count - 1)
+                if (lineIndex < Line.Count - 1)
                 {
                     TextOpacity = 1f;
                     charIndex = 0;
                     lineIndex++;
                     CurrentText = "";
-                    CurrentSentence = text.Line.ElementAt(lineIndex);
+                    CurrentSentence = Line.ElementAt(lineIndex);
                     newLine = false;
                 }
             }
@@ -61,9 +75,9 @@ namespace SoR.Gameplay.Intro
         {
             TextPosition = new Vector2(position.X - textSize, position.Y + 150);
 
-            if (CurrentText.Length < text.Line[lineIndex].Length)
+            if (CurrentText.Length < Line[lineIndex].Length)
             {
-                if (text.WriteTime.TryGetValue(text.Line.ElementAt(lineIndex), out float seconds))
+                if (WriteTime.TryGetValue(Line.ElementAt(lineIndex), out float seconds))
                 {
                     timer.CountDown(gameTime, seconds);
                 }
@@ -71,7 +85,7 @@ namespace SoR.Gameplay.Intro
                 if (timer.CountDownComplete)
                 {
                     timer.TimeElapsed = 0;
-                    CurrentText = CurrentText + text.Line[lineIndex].ElementAt(charIndex).ToString();
+                    CurrentText = CurrentText + Line[lineIndex].ElementAt(charIndex).ToString();
                     charIndex++;
                 }
             }

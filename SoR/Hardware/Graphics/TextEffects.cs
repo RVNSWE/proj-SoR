@@ -54,7 +54,7 @@ namespace SoR.Hardware.Graphics
         }
 
         /*
-         * Draw Intro text.
+         * Draw Text text.
          */
         public void DrawText(Vector2 position, string text, float fadeAlpha = 1f)
         {
