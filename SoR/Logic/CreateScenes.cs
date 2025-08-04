@@ -144,19 +144,35 @@ namespace SoR.Logic
         }
 
         /*
+         * Initialise all lists.
+         */
+        public void InitialiseAllLists()
+        {
+            InitialiseEntSceneLists();
+            mapLowerWalls = [];
+            mapUpperWalls = [];
+            mapFloor = [];
+            mapFloorDecor = [];
+            impassableArea = [];
+        }
+
+        /*
+         * Initialise the entity and scenery lists.
+         */
+        public void InitialiseEntSceneLists()
+        {
+            Entities = [];
+            Scenery = [];
+            depths = [];
+        }
+
+        /*
          * Set up the main game menu.
          */
         public void GameMainMenu(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = true;
-            Entities = [];
-            Scenery = [];
-            mapLowerWalls = [];
-            mapUpperWalls = [];
-            mapFloor = [];
-            mapFloorDecor = [];
-            depths = [];
-            impassableArea = [];
+            InitialiseAllLists();
             InGameScreen = "none";
             PlayerLocation = "none";
             currentMenuItem = "none";
@@ -191,14 +207,7 @@ namespace SoR.Logic
             newGame = false;
             InGameScreen = "game";
 
-            Entities = [];
-            Scenery = [];
-            mapLowerWalls = [];
-            mapUpperWalls = [];
-            mapFloor = [];
-            mapFloorDecor = [];
-            depths = [];
-            impassableArea = [];
+            InitialiseAllLists();
 
             text = new Text();
             currentMapEnum = CurrentMap.Intro;
@@ -236,10 +245,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;
@@ -278,10 +284,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;
@@ -330,10 +333,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;

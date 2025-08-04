@@ -20,8 +20,8 @@ namespace SoR.Logic
      * Game logic. Manages how game elements are created, destroyed, rendered and positioned,
      * as well as handling how, when and why various elements will interact.
      * 
-     * This has become a monster. If it doesn't get split out into smaller classes, it'll at
-     * least get some more partial classes for the sake of organisation and personal sanity.
+     * I wrote this monstrous amalgam before I knew what I was doing. It wasn't planned or
+     * designed, it just organically grew here like this.
      */
     public partial class GameLogic
     {
@@ -59,6 +59,7 @@ namespace SoR.Logic
         private int screenWidth;
         private int screenHeight;
         private string playerName;
+        public int ShipId; // Increment by 1 each time a new ship is generated. Should uniquely identify each ship.
         public Dictionary<string, Entity> Entities { get; set; }
         public Dictionary<string, Scenery> Scenery { get; set; }
         public string InGameScreen { get; set; }
@@ -85,7 +86,8 @@ namespace SoR.Logic
          */
         enum SceneryType
         {
-            Campfire
+            Campfire,
+            Ship
         }
 
         /*
@@ -98,6 +100,7 @@ namespace SoR.Logic
 
             SaveFile = Globals.GetSavePath("SoR\\saveFile.json");
 
+            playerName = "Mercura";
             InGameScreen = "mainMenu";
             hasFloorDecor = false;
             hasUpperWalls = false;
@@ -113,7 +116,7 @@ namespace SoR.Logic
             backgroundColour = new Color(0, 11, 8);
             screenWidth = 0;
             screenHeight = 0;
-            playerName = "Mercura";
+            ShipId = 0;
         }
 
         /*
@@ -236,6 +239,13 @@ namespace SoR.Logic
                     if (Scenery.TryGetValue("campfire", out Scenery campfire))
                     {
                         campfire.SetPosition(positionX, positionY);
+                    }
+                    break;
+                case SceneryType.Ship:
+                    Scenery.Add("ship", new Ship(GraphicsDevice) { Name = "ship" });
+                    if (Scenery.TryGetValue("ship", out Scenery ship))
+                    {
+                        ship.SetPosition(positionX, positionY);
                     }
                     break;
             }

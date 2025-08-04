@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using SoR.Logic.Character;
 using Spine;
 
@@ -50,6 +48,7 @@ namespace SoR.Logic.GameMap
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
+        protected int id;
 
         public string Name { get; set; }
 
