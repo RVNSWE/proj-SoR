@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using SoR.Logic.Character;
 using Spine;
 using System.Collections.Generic;
+using SoR.Logic.GameMap.TiledScenery;
 
 namespace SoR.Hardware.Graphics
 {
@@ -57,6 +58,41 @@ namespace SoR.Hardware.Graphics
                 scale,
                 SpriteEffects.None,
                 0f);
+            FinishDrawingSpriteBatch();
+        }
+
+        /*
+         * Draw the tiled backdrop.
+         */
+        public void DrawBackdrop(Backdrop backdrop, OrthographicCamera camera)
+        {
+            StartDrawingSpriteBatch(camera);
+
+            if (backdrop.Position.X < backdrop.ScreenWidth)
+            {
+                spriteBatch.Draw(
+                    backdrop.Tile,
+                    backdrop.Position,
+                    null,
+                    Color.White,
+                    0,
+                    backdrop.Origin,
+                    1,
+                    SpriteEffects.None,
+                    0f);
+            }
+
+            spriteBatch.Draw(
+                backdrop.Tile,
+                backdrop.Position - backdrop.TileSize,
+                null,
+                Color.White,
+                0,
+                backdrop.Origin,
+                1,
+                SpriteEffects.None,
+                0f);
+
             FinishDrawingSpriteBatch();
         }
 

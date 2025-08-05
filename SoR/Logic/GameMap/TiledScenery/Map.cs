@@ -24,8 +24,8 @@ namespace SoR.Logic.GameMap.TiledScenery
         public int[,] FloorDecor { get; set; }
         public int[,] LowerWalls { get; set; }
         public int[,] UpperWalls { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
 
         public Map(int mapNumber)
         {
@@ -44,11 +44,11 @@ namespace SoR.Logic.GameMap.TiledScenery
             if (floorDecorTileset != null)
             {
                 floorDecorTexture = Content.Load<Texture2D>(floorDecorTileset);
-                floorDecorAtlas = Texture2DAtlas.Create("background decor", floorDecorTexture, Width, Height);
+                floorDecorAtlas = Texture2DAtlas.Create("background decor", floorDecorTexture, TileWidth, TileHeight);
             }
 
-            floorAtlas = Texture2DAtlas.Create("background", floorTexture, Width, Height);
-            wallAtlas = Texture2DAtlas.Create("foreground", wallTexture, Width, Height);
+            floorAtlas = Texture2DAtlas.Create("background", floorTexture, TileWidth, TileHeight);
+            wallAtlas = Texture2DAtlas.Create("foreground", wallTexture, TileWidth, TileHeight);
         }
 
         /*
@@ -92,8 +92,8 @@ namespace SoR.Logic.GameMap.TiledScenery
                         { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
                     };
 
-                    Width = 64;
-                    Height = 64;
+                    TileWidth = 64;
+                    TileHeight = 64;
 
                     FloorSpriteSheet = "SoR Resources/Locations/TiledScenery/Temple/floorSpritesheet";
                     WallSpriteSheet = "SoR Resources/Locations/TiledScenery/Temple/wallSpritesheet";
@@ -152,8 +152,8 @@ namespace SoR.Logic.GameMap.TiledScenery
                         { new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15), new Random().Next(-10, 15) }
                     };
 
-                    Width = 64;
-                    Height = 64;
+                    TileWidth = 64;
+                    TileHeight = 64;
 
                     FloorSpriteSheet = "SoR Resources/Locations/TiledScenery/Grass/spritesheet";
                     FloorDecorSpriteSheet = "SoR Resources/Locations/TiledScenery/Flowers/spritesheet";
@@ -179,8 +179,8 @@ namespace SoR.Logic.GameMap.TiledScenery
                         {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0  }
                     };
 
-                    Width = 100;
-                    Height = 33;
+                    TileWidth = 100;
+                    TileHeight = 33;
 
                     FloorSpriteSheet = "SoR Resources/Locations/TiledScenery/Grass/spritesheet";
                     WallSpriteSheet = "SoR Resources/Locations/TiledScenery/Walls/1";
@@ -198,7 +198,7 @@ namespace SoR.Logic.GameMap.TiledScenery
         }
 
         /*
-         * Get the floor atlas.
+         * Get the floor decor atlas.
          */
         public Texture2DAtlas GetFloorDecorAtlas()
         {

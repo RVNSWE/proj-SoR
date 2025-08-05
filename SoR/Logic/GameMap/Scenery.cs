@@ -88,7 +88,7 @@ namespace SoR.Logic.GameMap
         }
 
         /*
-         * Update the entity position, animation state and skeleton.
+         * Update the entity Position, animation state and skeleton.
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
@@ -105,7 +105,7 @@ namespace SoR.Logic.GameMap
         }
 
         /*
-         * Set entity position to the centre of the screen +/- any x,y axis adjustment.
+         * Set entity Position to the centre of the screen +/- any x,y axis adjustment.
          */
         public virtual void SetPosition(float xAdjustment, float yAdjustment)
         {

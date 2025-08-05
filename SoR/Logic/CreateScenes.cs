@@ -8,7 +8,7 @@ using SoR.Gameplay.Intro;
 namespace SoR.Logic
 {
     /*
-     * Create and position the elements of each map area, and remove them on scene transition.
+     * Create and Position the elements of each map area, and remove them on scene transition.
      */
     public partial class GameLogic
     {
@@ -63,8 +63,8 @@ namespace SoR.Logic
                     if (newGame) // If starting a new game
                     {
                         //StartNewGame(game, GraphicsDevice); // Load the starting area
-                        Temple(game, GraphicsDevice);
-                        //Village(game, GraphicsDevice);
+                        //Temple(game, GraphicsDevice);
+                        Village(game, GraphicsDevice);
                         //Wall(game, GraphicsDevice);
                     }
                     if (loadingGame) // If loading from save file
@@ -181,13 +181,13 @@ namespace SoR.Logic
             camera.NewWidth = screenWidth;
             camera.NewHeight = screenHeight;
             mainMenu = new MainMenu(game);
-            mainMenu.ItemCount = 4; // Reset the number of StartMenu items to 4
+            mainMenu.ItemCount = 4; // Reset the number of MainMenu items to 4
             currentMapEnum = CurrentMap.MainMenu;
             LoadGameContent(GraphicsDevice, game);
         }
 
         /*
-         * Set up the main game menu.
+         * Set up the in game start menu.
          */
         public void GameStartMenu(MainGame game, GraphicsDevice GraphicsDevice)
         {
@@ -214,6 +214,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = false;
+            hasBackdrop = false;
 
             entityType = EntityType.Player;
             CreateEntity(GraphicsDevice, 400, 300);
@@ -235,6 +236,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = true;
             hasUpperWalls = false;
+            hasBackdrop = true;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet, map.FloorDecorSpriteSheet);
@@ -274,6 +276,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = true;
+            hasBackdrop = false;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);
@@ -323,6 +326,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = false;
+            hasBackdrop = true;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);

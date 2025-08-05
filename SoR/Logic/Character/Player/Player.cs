@@ -175,7 +175,7 @@ namespace SoR.Logic.Character.Player
         }
 
         /*
-         * Update entity position.
+         * Update entity Position.
          */
         public override void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {

@@ -231,7 +231,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Set the new position after moving, and halve the speed if moving diagonally.
+         * Set the new Position after moving, and halve the speed if moving diagonally.
          */
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
@@ -279,7 +279,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Set the new position after moving, and halve the speed if moving diagonally.
+         * Set the new Position after moving, and halve the speed if moving diagonally.
          */
         public void AdjustYPosition(List<Rectangle> impassableArea)
         {

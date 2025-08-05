@@ -272,7 +272,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Update entity position.
+         * Update entity Position.
          */
         public virtual void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
@@ -292,7 +292,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Update the entity position, animation state and skeleton.
+         * Update the entity Position, animation state and skeleton.
          */
         public void UpdateAnimations(GameTime gameTime)
         {
@@ -320,7 +320,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Set entity position to the centre of the screen +/- any x,y axis adjustment.
+         * Set entity Position to the centre of the screen +/- any x,y axis adjustment.
          */
         public void SetPosition(float xAdjustment, float yAdjustment)
         {
