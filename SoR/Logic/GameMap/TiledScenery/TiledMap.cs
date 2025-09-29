@@ -36,8 +36,8 @@ namespace SoR.Logic.GameMap.TiledScenery
          */
         public void Update(Vector2 position)
         {
-            Position.X = position.X * 2;
-            Position.Y = position.Y * 2;
+            Position.X = position.X;
+            Position.Y = position.Y;
         }
     }
 }

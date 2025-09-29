@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using SoR.Logic.UI;
 using SoR.Logic.GameMap.TiledScenery;
 using SoR.Hardware.Graphics;
-using SoR.Gameplay.Intro;
 
 namespace SoR.Logic
 {

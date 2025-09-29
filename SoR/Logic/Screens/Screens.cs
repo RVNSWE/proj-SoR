@@ -15,7 +15,7 @@ namespace SoR.Logic.Screens
         private GameLogic gameLogic;
         public bool ExitGame { get; set; }
 
-        public Screens(MainGame game, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
+        public Screens(MainGame game, GraphicsDevice GraphicsDevice)
         {
             gameLogic = new GameLogic(game, GraphicsDevice);
             ExitGame = false;

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SoR.Gameplay.Intro;
 using SoR.Hardware.Data;
 using SoR.Hardware.Graphics;
 using SoR.Hardware.Input;
@@ -89,8 +87,7 @@ namespace SoR.Logic
          */
         enum SceneryType
         {
-            Campfire,
-            Ship
+            Campfire
         }
 
         /*
@@ -247,13 +244,6 @@ namespace SoR.Logic
                     if (Scenery.TryGetValue("campfire", out Scenery campfire))
                     {
                         campfire.SetPosition(positionX, positionY);
-                    }
-                    break;
-                case SceneryType.Ship:
-                    Scenery.Add("ship", new Ship(GraphicsDevice) { Name = "ship" });
-                    if (Scenery.TryGetValue("ship", out Scenery ship))
-                    {
-                        ship.SetPosition(positionX, positionY);
                     }
                     break;
             }

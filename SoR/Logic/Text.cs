@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using SoR.Logic;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SoR.Gameplay.Intro
+namespace SoR.Logic
 {
     internal class Text
     {
