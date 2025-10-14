@@ -187,7 +187,7 @@ namespace SoR.Logic.Character
          */
         public void WaitForCollisionSeconds(GameTime gameTime)
         {
-            if (collisionSeconds >= 0)
+            if (collisionSeconds > 0)
             {
                 collisionSeconds = SecondsRemaining(gameTime, collisionSeconds);
             }
@@ -202,7 +202,7 @@ namespace SoR.Logic.Character
          */
         public void WaitForPauseSeconds(GameTime gameTime)
         {
-            if (pauseSeconds >= 0)
+            if (pauseSeconds > 0)
             {
                 pauseSeconds = SecondsRemaining(gameTime, pauseSeconds);
             }
@@ -214,14 +214,11 @@ namespace SoR.Logic.Character
 
         /*
          * Define what happens on collision with an entity.
-         * 
-         * Currently only reacts when receives a new eventTrigger.
          */
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
         {
             if (!Colliding)
             {
-                TakeDamage(1);
                 animTwo = defaultAnim;
                 movementAnimation = "attack";
                 collisionSeconds = 1;

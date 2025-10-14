@@ -109,19 +109,6 @@ namespace SoR.Logic.Character.Player
         }
 
         /*
-         * Placeholder function for handling battles.
-         */
-        public void Battle(Entity entity)
-        {
-            /*
-                    If (entity.CollidesWith(player))
-                    {
-                        player.Battle(entity);
-                    }
-             */
-        }
-
-        /*
          * If something changes to trigger a new animation, apply the animation.
          * If the animation is already applied, do nothing.
          */
@@ -144,7 +131,6 @@ namespace SoR.Logic.Character.Player
         {
             if (!Colliding)
             {
-                TakeDamage(1);
                 collisionSeconds = 1;
                 Colliding = true;
             }
