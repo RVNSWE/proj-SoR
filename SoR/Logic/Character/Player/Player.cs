@@ -21,14 +21,14 @@ namespace SoR.Logic.Character.Player
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
-                { "idleup", 1 },
-                { "idledown", 1 },
-                { "idleleft", 1 },
-                { "idleright", 1 },
-                { "runup", 3 },
-                { "rundown", 3 },
-                { "runleft", 3 },
-                { "runright", 3 },
+                { "D_idle", 1 },
+                { "U_idle", 1 },
+                { "L_idle", 1 },
+                { "R_idle", 1 },
+                { "D_run", 3 },
+                { "U_run", 3 },
+                { "L_run", 3 },
+                { "R_run", 3 },
                 { "sitdown", 2 },
                 { "sittingdown", 1 },
                 { "standdown", 2 },
@@ -44,7 +44,7 @@ namespace SoR.Logic.Character.Player
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC3.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC4.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
             json.Scale = 0.5f;
@@ -64,7 +64,7 @@ namespace SoR.Logic.Character.Player
             animState.Apply(skeleton);
 
             // Set the "fidle" animation on track 1 and leave it looping forever
-            trackEntry = animState.SetAnimation(0, "idledown", true);
+            trackEntry = animState.SetAnimation(0, "D_idle", true);
 
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
@@ -85,8 +85,8 @@ namespace SoR.Logic.Character.Player
             prevTrigger = "";
             animOne = "";
             animTwo = "";
-            isFacing = "idledown";
-            movementAnimation = "idledown";
+            isFacing = "D_idle";
+            movementAnimation = "D_idle";
 
             Traversable = true;
 
