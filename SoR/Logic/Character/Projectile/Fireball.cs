@@ -6,18 +6,17 @@ using System.Collections.Generic;
 
 namespace SoR.Logic.Character.Projectile
 {
-    internal class Spell : Entity
+    /*
+     * Currently using Spine, will likely switch to MonoGame.Extended particle effects.
+     */
+    internal class Fireball : Entity
     {
-        public Spell(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
+        public Fireball(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
-                { "idle", 1 },
-                { "hit", 2 },
-                { "attack", 2 },
-                { "run", 1 },
-                { "jump", 2 }
+                { "idle", 1 }
             };
 
             // Load texture atlas and attachment loader

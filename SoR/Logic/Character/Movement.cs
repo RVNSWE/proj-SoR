@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace SoR.Logic.Character
 {
     /*
-     * This class handles player input and animation application.
+     * Handles player input and animation application.
      */
     public partial class Entity
     {

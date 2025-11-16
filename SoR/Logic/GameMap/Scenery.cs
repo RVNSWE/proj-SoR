@@ -28,7 +28,7 @@ namespace SoR.Logic.GameMap
      **************************************************************************************************************************/
 
     /*
-     * Common functions and fields for environmental entities.
+     * Parent class for environmental entities.
      */
     public abstract class Scenery
     {

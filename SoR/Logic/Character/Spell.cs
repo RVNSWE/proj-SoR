@@ -29,9 +29,9 @@ namespace SoR.Logic.Character
      **************************************************************************************************************************/
 
     /*
-     * Parent class for player and non-player characters.
+     * Parent class for spells.
      */
-    public partial class Entity
+    public partial class Spell
     {
         protected Dictionary<string, int> animations;
         protected Atlas atlas;
