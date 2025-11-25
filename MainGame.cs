@@ -86,7 +86,7 @@ namespace SoR
          */
         protected override void LoadContent()
         {
-            screens.LoadGame(game, GraphicsDevice);
+            screens.LoadGame(game, GraphicsDevice, graphics);
         }
 
         /*
