@@ -9,7 +9,7 @@ namespace SoR.Logic.Character
      * Spine Runtimes License
      */
     /**************************************************************************************************************************
-     * Copyright (c) 2013-2025, Esoteric Software LLC
+     * Copyright (c) 2013-2024, Esoteric Software LLC
      * 
      * Integration of the Spine Runtimes into software or otherwise creating derivative works of the Spine Runtimes is
      * permitted under the terms and conditions of Section 2 of the Spine Editor License Agreement:
