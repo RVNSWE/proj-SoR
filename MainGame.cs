@@ -6,11 +6,25 @@ using MonoGame.Extended.Input;
 namespace SoR
 {
     /*
-     * The main game class, through which all other code runs. This project utilises Spine and Monogame.
+     * The main game class, through which all other code runs. This project utilises Spine, MonoGame, and MonoGame.Extended.
+     * 
+     * -- FAO RECRUITERS (README) --
+     * 
+     * This project was created to teach myself C# and how to create a desktop application at a time when I could only write
+     * simple console applications in Java and Python. I knew nothing about design patterns, architecture, Clean Code or SOLID
+     * principles, and and just about everything in this project was developed organically through trial and error. There was no
+     * planning involved, since the goal of this project was to learn to code, not to engineer.
+     * 
+     * It's a fully working 2D, top-down game engine with traversible maps, collision detection and interactions, character and
+     * interactable object animations (no environmental animations yet), working menus, dynamically interchangeable X-Box
+     * controller and keyboard support, and a save and load feature. There are no current known bugs, but it's only been tested
+     * on Windows 10 and 11 on one desktop PC and one laptop.
+     * 
+     * -- -- -- -- -- -- -- -- -- --
      */
 
     /**************************************************************************************************************************
-     * Copyright (c) 2024, Katherine Town
+     * Copyright (c) 2024-2025, Katherine Town
      * 
      * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
      * following conditions are met:
