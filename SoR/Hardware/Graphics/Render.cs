@@ -22,7 +22,7 @@ namespace SoR.Hardware.Graphics
     internal partial class Render
     {
         private SpriteBatch spriteBatch;
-        private ParticleEffect particleEffect;
+        public ParticleEffect ParticleEffect { get; set; }
         private SkeletonRenderer skeletonRenderer;
         private SpriteFont font;
         private Texture2D particleTexture;
@@ -57,7 +57,7 @@ namespace SoR.Hardware.Graphics
             Vector2 viewportCenter = GraphicsDevice.Viewport.Bounds.Center.ToVector2();
 
             // Create the main effect container
-            particleEffect = new ParticleEffect("Fire")
+            ParticleEffect = new ParticleEffect("Fire")
             {
                 Position = viewportCenter,
 
@@ -125,7 +125,7 @@ namespace SoR.Hardware.Graphics
             });
 
             // Add the emitter to our effect
-            particleEffect.Emitters.Add(emitter);
+            ParticleEffect.Emitters.Add(emitter);
         }
 
         /*
@@ -182,6 +182,18 @@ namespace SoR.Hardware.Graphics
                 1,
                 SpriteEffects.None,
                 0f);
+
+            FinishDrawingSpriteBatch();
+        }
+
+        /*
+         * Draw a particle effect.
+         */
+        public void DrawParticleEffect(OrthographicCamera camera)
+        {
+            StartDrawingSpriteBatch(camera);
+
+            spriteBatch.Draw(ParticleEffect);
 
             FinishDrawingSpriteBatch();
         }
