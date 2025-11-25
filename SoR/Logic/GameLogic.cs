@@ -256,7 +256,6 @@ namespace SoR.Logic
         {
             camera.FollowPlayer(player.GetPosition());
             backdrop.Update(player.GetPosition());
-            render.ParticleEffect.Update(gameTime);
 
             if (!freezeGame)
             {
