@@ -16,12 +16,11 @@ using System.IO;
 namespace SoR.Logic
 {
     /*
-     * Please pay no mind to the noodly nightmare contained herein. I wrote this monstrous
-     * amalgam before I knew... anything. It wasn't planned or designed, it just organically
-     * grew here like this.
-     * 
-     * Manages how game elements are created, destroyed, rendered and positioned,
+     * Game logic. Manages how game elements are created, destroyed, rendered and positioned,
      * as well as handling how, when and why various elements will interact.
+     * 
+     * I wrote this monstrous amalgam before I knew what I was doing. It wasn't planned or
+     * designed, it just organically grew here like this.
      */
     public partial class GameLogic
     {
@@ -61,6 +60,7 @@ namespace SoR.Logic
         private int screenWidth;
         private int screenHeight;
         private string playerName;
+        public int ShipId; // Increment by 1 each time a new ship is generated. Should uniquely identify each ship.
         public Dictionary<string, Entity> Entities { get; set; }
         public Dictionary<string, Scenery> Scenery { get; set; }
         public string InGameScreen { get; set; }
@@ -119,6 +119,7 @@ namespace SoR.Logic
             backgroundColour = new Color(0, 11, 8);
             screenWidth = 0;
             screenHeight = 0;
+            ShipId = 0;
         }
 
         /*
