@@ -55,8 +55,8 @@ namespace SoR.Logic.Character
         protected string lastAnimation;
         protected string movementAnimation;
         protected string isFacing;
-        protected float newSpeed;
         protected string waitType;
+        protected float newSpeed;
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
         public Dictionary<string, Projectile> Projectiles { get; set; }
         public bool Player { get; set; }

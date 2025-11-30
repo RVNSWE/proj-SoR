@@ -38,6 +38,9 @@ namespace SoR.Logic.Character.Player
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
 
+        private float maxEnergy;
+        private float energy;
+
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
@@ -131,6 +134,9 @@ namespace SoR.Logic.Character.Player
             ImpassableArea = impassableArea;
 
             Projectiles = [];
+
+            maxEnergy = 100;
+            energy = 10;
         }
 
         /*
@@ -243,9 +249,18 @@ namespace SoR.Logic.Character.Player
                 {
                     if (!fireball.Cast)
                     {
-                        Bone handBone = skeleton.FindBone(CheckHand());
-
-                        fireball.SetPosition(handBone.WorldX, handBone.WorldY);
+                        if (energy >= 0)
+                        {
+                            float deltaTime = GameLogic.GetTime(gameTime);
+                            energy -= deltaTime;
+                            Bone handBone = skeleton.FindBone(CheckHand());
+                            fireball.SetPosition(handBone.WorldX, handBone.WorldY);
+                        }
+                        else
+                        {
+                            Projectiles = []; // Later will need to only remove Fireball.
+                            energy = 10;
+                        }
                     }
                 }
             }
