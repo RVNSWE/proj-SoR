@@ -99,5 +99,23 @@ namespace SoR.Logic.Character.Projectiles
 
             ImpassableArea = impassableArea;
         }
+
+        /*
+         * Animate redirection.
+         */
+        public override void RedirectAnimation(int newDirection)
+        {
+            switch (newDirection)
+            {
+                case 1:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = 1;
+                    break;
+                case 2:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = -1;
+                    break;
+            }
+        }
     }
 }
