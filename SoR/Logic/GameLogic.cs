@@ -5,12 +5,12 @@ using SoR.Hardware.Graphics;
 using SoR.Hardware.Input;
 using SoR.Logic.Character;
 using SoR.Logic.Character.Mobs;
-using SoR.Logic.Character.Projectile;
 using SoR.Logic.Character.Player;
 using SoR.Logic.GameMap;
 using SoR.Logic.GameMap.Interactables;
 using SoR.Logic.GameMap.TiledScenery;
 using SoR.Logic.UI;
+using Spine;
 using System.Collections.Generic;
 using System.IO;
 
@@ -448,6 +448,13 @@ namespace SoR.Logic
                                 render.FinishDrawingSkeleton();
 
                                 render.DrawEntitySpriteBatch(entity);
+
+                                foreach (var projectile in entity.Projectiles.Values)
+                                {
+                                    render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                    render.DrawProjectileSkeleton(projectile);
+                                    render.FinishDrawingSkeleton();
+                                }
                             }
                         }
                         render.FinishDrawingSpriteBatch();
@@ -601,6 +608,14 @@ namespace SoR.Logic
                         }
                         break;
                 }
+            }
+
+            if (input == "LeftTrigger" || input == "1")
+            {
+                Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
+
+                player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
+                //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
             }
         }
     }

@@ -90,17 +90,17 @@ namespace SoR.Hardware.Input
             {
                 Key = "Enter";
             }
-            if (keyState.IsKeyDown(Keys.Space) & !lastKeyState.IsKeyDown(Keys.Space))
+            if (keyState.IsKeyDown(Keys.Space) && !lastKeyState.IsKeyDown(Keys.Space))
             {
                 Key = "Space";
             }
-            if (keyState.IsKeyDown(Keys.Escape) & !lastKeyState.IsKeyDown(Keys.Escape))
+            if (keyState.IsKeyDown(Keys.Escape) && !lastKeyState.IsKeyDown(Keys.Escape))
             {
                 Key = "Escape";
             }
-            if (keyState.IsKeyDown(Keys.Enter) & !lastKeyState.IsKeyDown(Keys.Enter))
+            if (keyState.IsKeyDown(Keys.NumPad1) && !lastKeyState.IsKeyDown(Keys.NumPad1))
             {
-                Key = "Enter";
+                Key = "1";
             }
 
             lastKeyState = keyState; // Get the previous keyboard state

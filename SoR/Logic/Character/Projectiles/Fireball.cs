@@ -40,12 +40,12 @@ namespace SoR.Logic.Character.Projectiles
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\projectiles\\Fireball\\fireball.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\fireball.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
 
             // Initialise skeleton json
-            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\projectiles\\Fireball\\skeleton.json"));
+            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\skeleton.json"));
             skeleton = new Skeleton(skeletonData);
 
             // Set the skin
@@ -71,8 +71,7 @@ namespace SoR.Logic.Character.Projectiles
 
             Pausing = false;
             Colliding = false;
-            Player = false;
-            Name = "Fireball";
+            Name = "fireball";
             defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";
@@ -96,11 +95,8 @@ namespace SoR.Logic.Character.Projectiles
             newSpeed = 0;
 
             Speed = 50; // Set the entity's travel speed
-            HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;
-
-            projectiles = [];
         }
 
         /*

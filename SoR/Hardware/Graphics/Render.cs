@@ -121,6 +121,15 @@ namespace SoR.Hardware.Graphics
         }
 
         /*
+         * Draw projectile skeletons.
+         */
+        public void DrawProjectileSkeleton(Projectile projectile)
+        {
+            // Draw skeletons
+            skeletonRenderer.Draw(projectile.GetSkeleton());
+        }
+
+        /*
          * Draw scenery skeletons.
          */
         public void DrawScenerySkeleton(Scenery scenery)

@@ -37,12 +37,6 @@ namespace SoR.Logic.Character.Player
     {
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
-        private ProjectileType projectileType;
-
-        enum ProjectileType
-        {
-            Fireball
-        }
 
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
@@ -136,23 +130,25 @@ namespace SoR.Logic.Character.Player
 
             ImpassableArea = impassableArea;
 
-            projectiles = [];
+            Projectiles = [];
         }
 
         /*
          * Choose projectile to create.
          */
-        public void CreateProjectile(GraphicsDevice GraphicsDevice, float positionX, float positionY)
+        public override void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {
-
             switch (projectileType)
             {
-                case ProjectileType.Fireball:
-                    projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Type = "fireball" });
-                    if (projectiles.TryGetValue("fireball", out Projectile fireball))
+                case "fireball":
+                    if (!Projectiles.ContainsKey("fireball"))
                     {
-                        fireball.SetPosition(positionX, positionY);
-                        fireball.Frozen = true;
+                        Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Type = "fireball" });
+                        if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                        {
+                            fireball.SetPosition(positionX, positionY);
+                            fireball.Frozen = true;
+                        }
                     }
                     break;
             }

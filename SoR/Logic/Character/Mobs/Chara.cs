@@ -117,7 +117,7 @@ namespace SoR.Logic.Character.Mobs
 
             ImpassableArea = impassableArea;
 
-            projectiles = [];
+            Projectiles = [];
         }
     }
 }

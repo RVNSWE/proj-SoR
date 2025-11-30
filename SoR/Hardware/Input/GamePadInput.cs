@@ -80,6 +80,11 @@ namespace SoR.Hardware.Input
             {
                 Button = "A";
             }
+            if (gamePadState.Triggers.Left > 0.25 &&
+                lastGamePadState.Triggers.Left < 0.25)
+            {
+                Button = "LeftTrigger";
+            }
 
             lastGamePadState = gamePadState; // Get the previous gamepad state
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
@@ -34,7 +35,6 @@ namespace SoR.Logic.Character
     public partial class Entity
     {
         protected Dictionary<string, int> animations;
-        protected Dictionary<string, Projectile> projectiles;
         protected Atlas atlas;
         protected AtlasAttachmentLoader atlasAttachmentLoader;
         protected SkeletonJson json;
@@ -58,6 +58,7 @@ namespace SoR.Logic.Character
         protected float newSpeed;
         protected string waitType;
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
+        public Dictionary<string, Projectile> Projectiles { get; set; }
         public bool Player { get; set; }
         public string Type { get; set; }
         public int HitPoints { get; set; }
@@ -66,6 +67,27 @@ namespace SoR.Logic.Character
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
         public string Name { get; set; }
+
+        /*
+         * Choose projectile to create.
+         */
+        public virtual void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY) {}
+
+        /*
+         * Return left hand bone if facing up or down, otherwise back hand bone if facing right, otherwise front hand bone.
+         */
+        public string CheckHand()
+        {
+            if (isFacing == "U_idle" || isFacing == "D_idle")
+            {
+                return "HL";
+            }
+            if (isFacing == "R_idle")
+            {
+                return "HB";
+            }
+            return "HF";
+        }
 
         /*
          * Placeholder function for dealing damage.
@@ -280,13 +302,14 @@ namespace SoR.Logic.Character
 
             if (!Frozen)
             {
-                foreach (var projectile in projectiles.Values)
+                foreach (var projectile in Projectiles.Values)
                 {
                     projectile.UpdatePosition(gameTime, graphics);
-                    projectile.UpdateAnimations(gameTime);
 
                     /*
-                     * 
+                     * Check collisions.
+                     * Pause movement.
+                     * Dissipate.
                      */
                 }
 
@@ -296,8 +319,6 @@ namespace SoR.Logic.Character
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
-
-
             }
         }
 
@@ -311,6 +332,11 @@ namespace SoR.Logic.Character
 
             skeleton.X = position.X;
             skeleton.Y = position.Y;
+
+            foreach (var projectile in Projectiles.Values)
+            {
+                projectile.UpdateAnimations(gameTime);
+            }
 
             hitbox.Update(skeleton, true);
             animState.Update(GameLogic.GetTime(gameTime));

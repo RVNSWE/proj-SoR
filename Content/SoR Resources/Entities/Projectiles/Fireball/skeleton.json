@@ -1,16 +1,16 @@
 {
 "skeleton": {
-	"hash": "FvvCofU5fXA",
+	"hash": "sBSawyeMxEQ",
 	"spine": "4.2.43",
-	"x": -31.6,
-	"y": -32.11,
-	"width": 62.34,
-	"height": 64.74,
+	"x": -15.8,
+	"y": -16.06,
+	"width": 31.17,
+	"height": 32.37,
 	"images": "../",
 	"audio": "./audio"
 },
 "bones": [
-	{ "name": "root" },
+	{ "name": "root", "scaleX": 0.5, "scaleY": 0.5 },
 	{ "name": "0", "parent": "root", "x": -0.06, "y": 0.06, "color": "abe323ff" },
 	{ "name": "1", "parent": "0", "x": 0.12, "y": 49.89, "color": "abe323ff" },
 	{ "name": "2", "parent": "0", "x": 49.96, "y": 0.05, "color": "abe323ff" },

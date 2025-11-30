@@ -266,17 +266,12 @@ namespace SoR.Logic.Character
             WaitForCollisionSeconds(gameTime);
             WaitForPauseSeconds(gameTime);
 
-            if (!Frozen)
-            {
-                BeMoved(gameTime);
-                //Movement(gameTime);
+            BeMoved(gameTime);
+            //Movement(gameTime);
 
-                CalculateSpeed(gameTime);
-                AdjustXPosition(ImpassableArea);
-                AdjustYPosition(ImpassableArea);
-
-
-            }
+            CalculateSpeed(gameTime);
+            AdjustXPosition(ImpassableArea);
+            AdjustYPosition(ImpassableArea);
         }
 
         /*
@@ -297,6 +292,8 @@ namespace SoR.Logic.Character
 
             // Update skeletal transformations
             skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
+
+
         }
 
         /*
