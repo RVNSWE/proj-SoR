@@ -21,6 +21,7 @@ namespace SoR.Logic.Character
         protected float frozenSeconds;
         protected float pauseSeconds;
         public bool Frozen { get; set; }
+        public bool Cast { get; set; }
         public bool Traversable { get; set; }
         public int CountDistance { get; set; }
         public bool BeenPushed { get; set; }
@@ -193,7 +194,7 @@ namespace SoR.Logic.Character
         /*
          * Move in the direction it's facing, and periodically pick a random new direction.
          */
-        /*public void Movement(GameTime gameTime)
+        /*public void CheckMovement(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
             int newDirection;
@@ -236,41 +237,45 @@ namespace SoR.Logic.Character
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
             newPosition.X = position.X;
-            newPosition.X += direction.X * newSpeed;
 
-            foreach (Rectangle area in impassableArea)
+            if (Cast)
             {
-                if (area.Contains(newPosition) && !area.Contains(position))
-                {
-                    direction.X = 0;
-
-                    prevDirection = direction;
-                    Redirect(); // Move in the opposite direction
-
-                    Traversable = false;
-                    newPosition.X = position.X;
-
-                    break;
-                }
-                if (area.Contains(newPosition) && area.Contains(position)) // If stuck inside the wall
-                {
-                    bool left = position.X < area.Center.X;
-                    bool right = position.X > area.Center.X;
-
-                    if (left) // If in the left half of the wall
-                    {
-                        newPosition.X -= newSpeed; // Move left
-                    }
-                    else if (right)
-                    {
-                        newPosition.X += newSpeed;
-                    }
-                }
-                else
-                {
-                    Traversable = true;
-                }
+                newPosition.X += direction.X * newSpeed;
             }
+
+                foreach (Rectangle area in impassableArea)
+                {
+                    if (area.Contains(newPosition) && !area.Contains(position))
+                    {
+                        direction.X = 0;
+
+                        prevDirection = direction;
+                        Redirect(); // Move in the opposite direction
+
+                        Traversable = false;
+                        newPosition.X = position.X;
+
+                        break;
+                    }
+                    if (area.Contains(newPosition) && area.Contains(position)) // If stuck inside the wall
+                    {
+                        bool left = position.X < area.Center.X;
+                        bool right = position.X > area.Center.X;
+
+                        if (left) // If in the left half of the wall
+                        {
+                            newPosition.X -= newSpeed; // Move left
+                        }
+                        else if (right)
+                        {
+                            newPosition.X += newSpeed;
+                        }
+                    }
+                    else
+                    {
+                        Traversable = true;
+                    }
+                }
 
             position.X = newPosition.X;
         }
@@ -281,7 +286,11 @@ namespace SoR.Logic.Character
         public void AdjustYPosition(List<Rectangle> impassableArea)
         {
             newPosition.Y = position.Y;
-            newPosition.Y += direction.Y * newSpeed;
+
+            if (Cast)
+            {
+                newPosition.Y += direction.Y * newSpeed;
+            }
 
             foreach (Rectangle area in impassableArea)
             {

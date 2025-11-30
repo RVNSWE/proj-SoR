@@ -238,6 +238,14 @@ namespace SoR.Logic.Character.Player
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
+
+                if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                {
+                    if (!fireball.Cast)
+                    {
+                        fireball.SetPosition(position.X, position.Y); // TO DO: Change to hand position.
+                    }
+                }
             }
         }
     }

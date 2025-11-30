@@ -80,7 +80,7 @@ namespace SoR.Logic.Character
         {
             if (isFacing == "U_idle" || isFacing == "D_idle")
             {
-                return "HL";
+                return "HR";
             }
             if (isFacing == "R_idle")
             {
