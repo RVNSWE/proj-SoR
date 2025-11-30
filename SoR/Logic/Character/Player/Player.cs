@@ -245,7 +245,7 @@ namespace SoR.Logic.Character.Player
                     {
                         Bone handBone = skeleton.FindBone(CheckHand());
 
-                        fireball.SetPosition(handBone.WorldX, handBone.WorldY); // TO DO: Change to hand position.
+                        fireball.SetPosition(handBone.WorldX, handBone.WorldY);
                     }
                 }
             }
