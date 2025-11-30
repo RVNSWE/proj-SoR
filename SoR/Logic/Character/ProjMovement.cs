@@ -8,7 +8,7 @@ namespace SoR.Logic.Character
     /*
      * Handles player input and animation application.
      */
-    public partial class Entity
+    public partial class Projectile
     {
         protected Random random;
         protected Vector2 newPosition;
@@ -109,7 +109,7 @@ namespace SoR.Logic.Character
         /*
          * Change direction to move away from something.
          */
-        public void RedirectNPC()
+        public void Redirect()
         {
             if (newPosition.X > position.X)
             {
@@ -161,7 +161,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Animate NPC redirection.
+         * Animate redirection.
          */
         public virtual void RedirectAnimation(int newDirection)
         {
@@ -191,9 +191,9 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Move the NPC in the direction they're facing, and periodically pick a random new direction.
+         * Move in the direction it's facing, and periodically pick a random new direction.
          */
-        public void NonPlayerMovement(GameTime gameTime)
+        /*public void Movement(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
             int newDirection;
@@ -215,7 +215,7 @@ namespace SoR.Logic.Character
             }
 
             position = newPosition;
-        }
+        }*/
 
         /*
          * Calculate movement speed. 75% speed if moving diagonally.
@@ -244,25 +244,22 @@ namespace SoR.Logic.Character
                 {
                     direction.X = 0;
 
-                    if (!Player) // If entity is not the player
-                    {
-                        prevDirection = direction;
-                        RedirectNPC(); // Move in the opposite direction
-                    }
+                    prevDirection = direction;
+                    Redirect(); // Move in the opposite direction
 
                     Traversable = false;
                     newPosition.X = position.X;
 
                     break;
                 }
-                if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
+                if (area.Contains(newPosition) && area.Contains(position)) // If stuck inside the wall
                 {
                     bool left = position.X < area.Center.X;
                     bool right = position.X > area.Center.X;
 
-                    if (left) // If it is in the left half of the wall
+                    if (left) // If in the left half of the wall
                     {
-                        newPosition.X -= newSpeed; // Move the entity left
+                        newPosition.X -= newSpeed; // Move left
                     }
                     else if (right)
                     {
@@ -292,11 +289,8 @@ namespace SoR.Logic.Character
                 {
                     direction.Y = 0;
 
-                    if (!Player) // If entity is not the player
-                    {
-                        prevDirection = direction;
-                        RedirectNPC(); // Move in the opposite direction
-                    }
+                    prevDirection = direction;
+                    Redirect(); // Move in the opposite direction
 
                     Traversable = false;
                     newPosition.Y = position.Y;

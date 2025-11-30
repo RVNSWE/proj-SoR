@@ -7,10 +7,39 @@ using System.Collections.Generic;
 namespace SoR.Logic.Character.Mobs
 {
     /*
+     * Spine Runtimes License
+     */
+    /**************************************************************************************************************************
+     * Copyright (c) 2013-2024, Esoteric Software LLC
+     * 
+     * Integration of the Spine Runtimes into software or otherwise creating derivative works of the Spine Runtimes is
+     * permitted under the terms and conditions of Section 2 of the Spine Editor License Agreement:
+     * http://esotericsoftware.com/spine-editor-license
+     * 
+     * Otherwise, it is permitted to integrate the Spine Runtimes into software or otherwise create derivative works of the
+     * Spine Runtimes (collectively, "Products"), provided that each user of the Products must obtain their own Spine Editor
+     * license and redistribution of the Products in any form must include this license and copyright notice.
+     * 
+     * THE SPINE RUNTIMES ARE PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+     * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+     * EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
+     * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
+     * POSSIBILITY OF SUCH DAMAGE.
+     **************************************************************************************************************************/
+    /*
      * Stores information unique to Slime.
      */
     internal class Slime : Entity
     {
+        private ProjectileType projectileType;
+
+        enum ProjectileType
+        {
+            Fireball
+        }
+
         public Slime(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
             // The possible animations to play as a string and the method to use for playing them as an int
@@ -39,7 +68,7 @@ namespace SoR.Logic.Character.Mobs
             animState.Apply(skeleton);
             animStateData.DefaultMix = 0.1f;
 
-            // Set the "fidle" animation on track 1 and leave it looping forever
+            // Set idle animation on track 1 and leave it looping forever
             trackEntry = animState.SetAnimation(0, "idle", true);
 
             // Create hitbox
@@ -81,6 +110,8 @@ namespace SoR.Logic.Character.Mobs
             HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;
+
+            projectiles = [];
         }
 
         /*

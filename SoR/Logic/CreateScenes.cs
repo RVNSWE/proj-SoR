@@ -179,8 +179,10 @@ namespace SoR.Logic
             camera.UpdateViewportAdapter(game.Window);
             camera.NewWidth = screenWidth;
             camera.NewHeight = screenHeight;
-            mainMenu = new MainMenu(game);
-            mainMenu.ItemCount = 4; // Reset the number of MainMenu items to 4
+            mainMenu = new MainMenu(game)
+            {
+                ItemCount = 4 // Reset the number of MainMenu items to 4
+            };
             currentMapEnum = CurrentMap.MainMenu;
             LoadGameContent(GraphicsDevice, game);
         }
@@ -192,8 +194,10 @@ namespace SoR.Logic
         {
             menu = true;
             InGameScreen = "game";
-            startMenu = new StartMenu(game);
-            startMenu.ItemCount = 3; // Reset the number of StartMenu items to 3
+            startMenu = new StartMenu(game)
+            {
+                ItemCount = 3 // Reset the number of StartMenu items to 3
+            };
             LoadGameContent(GraphicsDevice, game);
         }
 

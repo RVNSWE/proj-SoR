@@ -1,19 +1,48 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Spine;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoR.Hardware.Input;
+using SoR.Logic.Character.Projectiles;
+using Spine;
+using System.Collections.Generic;
 
 namespace SoR.Logic.Character.Player
 {
+    /*
+     * Spine Runtimes License
+     */
+    /**************************************************************************************************************************
+     * Copyright (c) 2013-2024, Esoteric Software LLC
+     * 
+     * Integration of the Spine Runtimes into software or otherwise creating derivative works of the Spine Runtimes is
+     * permitted under the terms and conditions of Section 2 of the Spine Editor License Agreement:
+     * http://esotericsoftware.com/spine-editor-license
+     * 
+     * Otherwise, it is permitted to integrate the Spine Runtimes into software or otherwise create derivative works of the
+     * Spine Runtimes (collectively, "Products"), provided that each user of the Products must obtain their own Spine Editor
+     * license and redistribution of the Products in any form must include this license and copyright notice.
+     * 
+     * THE SPINE RUNTIMES ARE PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+     * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+     * EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
+     * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
+     * POSSIBILITY OF SUCH DAMAGE.
+     **************************************************************************************************************************/
     /*
      * Stores information unique to Player.
      */
     internal partial class Player : Entity
     {
-        protected GamePadInput gamePadInput;
-        protected KeyboardInput keyboardInput;
+        private GamePadInput gamePadInput;
+        private KeyboardInput keyboardInput;
+        private ProjectileType projectileType;
+
+        enum ProjectileType
+        {
+            Fireball
+        }
 
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
@@ -29,18 +58,18 @@ namespace SoR.Logic.Character.Player
                 { "U_run", 3 },
                 { "L_run", 3 },
                 { "R_run", 3 },
-                { "sitdown", 2 },
-                { "sittingdown", 1 },
-                { "standdown", 2 },
-                { "situp", 2 },
-                { "sittingup", 1 },
-                { "standup", 2 },
-                { "sitleft", 2 },
-                { "sittingleft", 1 },
-                { "standleft", 2 },
-                { "sitright", 2 },
-                { "sittingright", 1 },
-                { "standright", 2 }
+                { "D_sit", 2 },
+                { "D_sitting", 1 },
+                { "D_stand", 2 },
+                { "U_up", 2 },
+                { "U_sitting", 1 },
+                { "U_stand", 2 },
+                { "L_sit", 2 },
+                { "L_sitting", 1 },
+                { "L_stand", 2 },
+                { "R_sit", 2 },
+                { "R_sitting", 1 },
+                { "R_stand", 2 }
             };
 
             // Load texture atlas and attachment loader
@@ -106,6 +135,27 @@ namespace SoR.Logic.Character.Player
             HitPoints = 100;
 
             ImpassableArea = impassableArea;
+
+            projectiles = [];
+        }
+
+        /*
+         * Choose projectile to create.
+         */
+        public void CreateProjectile(GraphicsDevice GraphicsDevice, float positionX, float positionY)
+        {
+
+            switch (projectileType)
+            {
+                case ProjectileType.Fireball:
+                    projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Type = "fireball" });
+                    if (projectiles.TryGetValue("fireball", out Projectile fireball))
+                    {
+                        fireball.SetPosition(positionX, positionY);
+                        fireball.Frozen = true;
+                    }
+                    break;
+            }
         }
 
         /*

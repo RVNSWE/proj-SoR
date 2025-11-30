@@ -42,37 +42,37 @@ namespace SoR.Logic.Character.Player
             {
                 switch (isFacing)
                 {
-                    case "idledown":
-                        movementAnimation = "sitdown";
-                        isFacing = "sittingdown";
+                    case "D_idle":
+                        movementAnimation = "D_sit";
+                        isFacing = "D_sitting";
                         break;
-                    case "sittingdown":
-                        movementAnimation = "standdown";
-                        isFacing = "idledown";
+                    case "D_sitting":
+                        movementAnimation = "D_stand";
+                        isFacing = "D_idle";
                         break;
-                    case "idleup":
-                        movementAnimation = "situp";
-                        isFacing = "sittingup";
+                    case "U_idle":
+                        movementAnimation = "U_sit";
+                        isFacing = "U_sitting";
                         break;
-                    case "sittingup":
-                        movementAnimation = "standup";
-                        isFacing = "idleup";
+                    case "U_sitting":
+                        movementAnimation = "U_stand";
+                        isFacing = "U_idle";
                         break;
-                    case "idleleft":
-                        movementAnimation = "sitleft";
-                        isFacing = "sittingleft";
+                    case "L_idle":
+                        movementAnimation = "L_sit";
+                        isFacing = "L_sitting";
                         break;
-                    case "sittingleft":
-                        movementAnimation = "standleft";
-                        isFacing = "idleleft";
+                    case "L_sitting":
+                        movementAnimation = "L_stand";
+                        isFacing = "L_idle";
                         break;
-                    case "idleright":
-                        movementAnimation = "sitright";
-                        isFacing = "sittingright";
+                    case "R_idle":
+                        movementAnimation = "R_sit";
+                        isFacing = "R_sitting";
                         break;
-                    case "sittingright":
-                        movementAnimation = "standright";
-                        isFacing = "idleright";
+                    case "R_sitting":
+                        movementAnimation = "R_stand";
+                        isFacing = "R_idle";
                         break;
                 }
                 CheckSkin();

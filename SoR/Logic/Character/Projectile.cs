@@ -31,10 +31,9 @@ namespace SoR.Logic.Character
     /*
      * Parent class for player and non-player characters.
      */
-    public partial class Entity
+    public partial class Projectile
     {
         protected Dictionary<string, int> animations;
-        protected Dictionary<string, Projectile> projectiles;
         protected Atlas atlas;
         protected AtlasAttachmentLoader atlasAttachmentLoader;
         protected SkeletonJson json;
@@ -57,23 +56,13 @@ namespace SoR.Logic.Character
         protected string isFacing;
         protected float newSpeed;
         protected string waitType;
-        public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
-        public bool Player { get; set; }
+        public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this may vary
         public string Type { get; set; }
-        public int HitPoints { get; set; }
         public int Speed { get; set; }
         public string Skin { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
         public string Name { get; set; }
-
-        /*
-         * Placeholder function for dealing damage.
-         */
-        public void TakeDamage(int damage)
-        {
-            HitPoints -= damage;
-        }
 
         /*
          * Update skin after loading game or changing screens.
@@ -221,12 +210,12 @@ namespace SoR.Logic.Character
             if (!Colliding)
             {
                 animTwo = defaultAnim;
-                movementAnimation = "attack";
+                movementAnimation = "hit";
                 collisionSeconds = 1;
                 Colliding = true;
             }
 
-            RepelledFromEntity(10, entity);
+            //RepelledFromEntity(10, entity);
         }
 
         /*
@@ -236,14 +225,13 @@ namespace SoR.Logic.Character
         {
             if (!Colliding)
             {
-                TakeDamage(1);
                 animTwo = defaultAnim;
                 movementAnimation = "hit";
                 collisionSeconds = 1;
                 Colliding = true;
             }
 
-            RepelledFromScenery(8, scenery);
+            //RepelledFromScenery(8, scenery);
         }
 
         /*
@@ -280,18 +268,8 @@ namespace SoR.Logic.Character
 
             if (!Frozen)
             {
-                foreach (var projectile in projectiles.Values)
-                {
-                    projectile.UpdatePosition(gameTime, graphics);
-                    projectile.UpdateAnimations(gameTime);
-
-                    /*
-                     * 
-                     */
-                }
-
                 BeMoved(gameTime);
-                NonPlayerMovement(gameTime);
+                //Movement(gameTime);
 
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
@@ -351,14 +329,6 @@ namespace SoR.Logic.Character
         public SkeletonBounds GetHitbox()
         {
             return hitbox;
-        }
-
-        /*
-         * Get the current hitpoints.
-         */
-        public int GetHitPoints()
-        {
-            return HitPoints;
         }
 
         public Vector2 GetPosition()

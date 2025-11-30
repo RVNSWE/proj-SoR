@@ -5,6 +5,7 @@ using SoR.Hardware.Graphics;
 using SoR.Hardware.Input;
 using SoR.Logic.Character;
 using SoR.Logic.Character.Mobs;
+using SoR.Logic.Character.Projectile;
 using SoR.Logic.Character.Player;
 using SoR.Logic.GameMap;
 using SoR.Logic.GameMap.Interactables;
@@ -60,7 +61,6 @@ namespace SoR.Logic
         private int screenWidth;
         private int screenHeight;
         private string playerName;
-        public int ShipId; // Increment by 1 each time a new ship is generated. Should uniquely identify each ship.
         public Dictionary<string, Entity> Entities { get; set; }
         public Dictionary<string, Scenery> Scenery { get; set; }
         public string InGameScreen { get; set; }
@@ -70,9 +70,6 @@ namespace SoR.Logic
         public bool CurtainUp { get; set; }
         public bool ExitGame { get; set; }
 
-        /*
-         * Differentiate between entities.
-         */
         enum EntityType
         {
             Player,
@@ -82,9 +79,6 @@ namespace SoR.Logic
             Fishy
         }
 
-        /*
-         * Differentiate between environmental ojects.
-         */
         enum SceneryType
         {
             Campfire
@@ -119,7 +113,6 @@ namespace SoR.Logic
             backgroundColour = new Color(0, 11, 8);
             screenWidth = 0;
             screenHeight = 0;
-            ShipId = 0;
         }
 
         /*
@@ -182,7 +175,7 @@ namespace SoR.Logic
         }
 
         /*
-         * Choose entity to create.
+         * Choose character to create.
          */
         public void CreateEntity(GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {
@@ -233,7 +226,7 @@ namespace SoR.Logic
         }
 
         /*
-         * Choose interactable object to create.
+         * Choose interactable to create.
          */
         public void CreateScenery(GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {

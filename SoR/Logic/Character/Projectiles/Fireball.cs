@@ -4,7 +4,7 @@ using Spine;
 using System;
 using System.Collections.Generic;
 
-namespace SoR.Logic.Character.Mobs
+namespace SoR.Logic.Character.Projectiles
 {
     /*
      * Spine Runtimes License
@@ -28,36 +28,24 @@ namespace SoR.Logic.Character.Mobs
      * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
      * POSSIBILITY OF SUCH DAMAGE.
      **************************************************************************************************************************/
-    /*
-     * Stores information unique to Pheasant.
-     */
-    internal class Pheasant : Entity
+    internal class Fireball : Projectile
     {
-        private ProjectileType projectileType;
-
-        enum ProjectileType
-        {
-            Fireball
-        }
-
-        public Pheasant(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
+        public Fireball(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
                 { "idle", 1 },
-                { "hit", 2 },
-                { "attack", 2 },
-                { "run", 1 }
+                { "hit", 2 }
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Pheasant\\savedthepheasant.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\projectiles\\Fireball\\fireball.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
 
             // Initialise skeleton json
-            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Pheasant\\skeleton.json"));
+            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\projectiles\\Fireball\\skeleton.json"));
             skeleton = new Skeleton(skeletonData);
 
             // Set the skin
@@ -69,8 +57,8 @@ namespace SoR.Logic.Character.Mobs
             animState.Apply(skeleton);
             animStateData.DefaultMix = 0.1f;
 
-            // Set the "fidle" animation on track 1 and leave it looping forever
-            trackEntry = animState.SetAnimation(0, "run", true);
+            // Set idle animation on track 1 and leave it looping forever
+            trackEntry = animState.SetAnimation(0, "idle", true);
 
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
@@ -84,13 +72,13 @@ namespace SoR.Logic.Character.Mobs
             Pausing = false;
             Colliding = false;
             Player = false;
-            Name = "Pheasant";
-            defaultAnim = "run";
+            Name = "Fireball";
+            defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";
             animOne = "";
             animTwo = "";
-            movementAnimation = "run";
+            movementAnimation = "idle";
 
             random = new Random();
 
@@ -99,7 +87,7 @@ namespace SoR.Logic.Character.Mobs
             CountDistance = 0; // Count how far to automatically move the entity
             direction = new Vector2(0, 0); // The direction of movement
             prevDirection = direction;
-            sinceLastChange = 0; // Time since last NPC direction change
+            sinceLastChange = 0; // Time since last direction change
             newDirectionTime = (float)random.NextDouble() * 1f + 0.25f; // After 0.25-1 seconds, NPC chooses a new movement direction
             BeenPushed = false;
             collisionSeconds = 0;
@@ -113,6 +101,24 @@ namespace SoR.Logic.Character.Mobs
             ImpassableArea = impassableArea;
 
             projectiles = [];
+        }
+
+        /*
+         * Animate redirection.
+         */
+        public override void RedirectAnimation(int newDirection)
+        {
+            switch (newDirection)
+            {
+                case 1:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = 1;
+                    break;
+                case 2:
+                    movementAnimation = "idle";
+                    GetSkeleton().ScaleX = -1;
+                    break;
+            }
         }
     }
 }
