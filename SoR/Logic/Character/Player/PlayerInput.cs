@@ -98,9 +98,10 @@ namespace SoR.Logic.Character.Player
                     CheckSkin();
                 }
 
-                if (CountDistance == 0)
+                if (CountDistance <= 0)
                 {
                     direction = Vector2.Zero;
+                    CountDistance = 0;
                 }
             }
         }
@@ -113,9 +114,10 @@ namespace SoR.Logic.Character.Player
             switch (x)
             {
                 case 0:
-                    if (CountDistance == 0)
+                    if (CountDistance <= 0)
                     {
                         direction.X = 0;
+                        CountDistance = 0;
                     }
                     break;
                 case 1:
@@ -155,9 +157,10 @@ namespace SoR.Logic.Character.Player
             switch (y)
             {
                 case 0:
-                    if (CountDistance == 0)
+                    if (CountDistance <= 0)
                     {
                         direction.Y = 0;
+                        CountDistance = 0;
                     }
                     break;
                 case 1:

@@ -61,6 +61,8 @@ namespace SoR.Logic.Character
         public string Name { get; set; }
         public string Skin { get; set; }
         public int Speed { get; set; }
+        public float LifeTime { get; set; }
+        public bool Vanishing {  get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
         public bool Bouncey { get; set; }
@@ -163,17 +165,20 @@ namespace SoR.Logic.Character
         {
             if (CountDistance > 0)
             {
-                if (CountDistance == 1)
+                float deltaTime = GameLogic.GetTime(gameTime);
+
+                CountDistance -= deltaTime;
+
+                if (CountDistance <= deltaTime)
                 {
                     direction = Vector2.Zero;
                     BeenPushed = true;
+                    CountDistance = 0;
                 }
 
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
-
-                CountDistance--;
             }
         }
 

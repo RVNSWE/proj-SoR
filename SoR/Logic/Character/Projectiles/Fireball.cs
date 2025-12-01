@@ -72,6 +72,7 @@ namespace SoR.Logic.Character.Projectiles
             hitbox.Update(skeleton, true);
 
             Pausing = false;
+            Vanishing = false;
             Colliding = false;
             Name = "fireball";
             defaultAnim = "idle";
@@ -86,6 +87,7 @@ namespace SoR.Logic.Character.Projectiles
             Traversable = true; // Whether the entity is on walkable terrain
 
             CountDistance = 0; // Count how far to automatically move
+            LifeTime = 10;
             direction = new Vector2(0, 0); // The direction of movement
             prevDirection = direction;
             sinceLastChange = 0; // Time since last direction change
@@ -111,6 +113,13 @@ namespace SoR.Logic.Character.Projectiles
         public override void Vanish()
         {
             movementAnimation = "vanish";
+
+            if (!Vanishing)
+            {
+                LifeTime = 0.3f;
+            }
+
+            Vanishing = true;
         }
 
         /*

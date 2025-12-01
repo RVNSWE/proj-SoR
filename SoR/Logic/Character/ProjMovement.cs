@@ -53,7 +53,7 @@ namespace SoR.Logic.Character
         /*
          * Be launched away from a position.
          */
-        public void LaunchDistanceFromXY(int distance, float x, float y)
+        public void LaunchDistanceFromXY(float distance, float x, float y)
         {
             CountDistance = distance;
 
@@ -212,7 +212,6 @@ namespace SoR.Logic.Character
             if (Cast)
             {
                 newPosition.X += direction.X * newSpeed;
-            }
 
                 foreach (Rectangle area in impassableArea)
                 {
@@ -220,15 +219,15 @@ namespace SoR.Logic.Character
                     {
                         direction.X = 0;
 
-                    if (Bouncey)
-                    {
-                        prevDirection = direction;
-                        Redirect(); // Move in the opposite direction
-                    }
-                    else
-                    {
-                        Colliding = true;
-                    }
+                        if (Bouncey)
+                        {
+                            prevDirection = direction;
+                            Redirect(); // Move in the opposite direction
+                        }
+                        else
+                        {
+                            Colliding = true;
+                        }
 
                         Traversable = false;
                         newPosition.X = position.X;
@@ -254,6 +253,7 @@ namespace SoR.Logic.Character
                         Traversable = true;
                     }
                 }
+            }
 
             position.X = newPosition.X;
         }
@@ -268,46 +268,46 @@ namespace SoR.Logic.Character
             if (Cast)
             {
                 newPosition.Y += direction.Y * newSpeed;
-            }
 
-            foreach (Rectangle area in impassableArea)
-            {
-                if (area.Contains(newPosition) && !area.Contains(position))
+                foreach (Rectangle area in impassableArea)
                 {
-                    direction.Y = 0;
-
-                    if (Bouncey)
+                    if (area.Contains(newPosition) && !area.Contains(position))
                     {
-                        prevDirection = direction;
-                        Redirect(); // Move in the opposite direction
+                        direction.Y = 0;
+
+                        if (Bouncey)
+                        {
+                            prevDirection = direction;
+                            Redirect(); // Move in the opposite direction
+                        }
+                        else
+                        {
+                            Colliding = true;
+                        }
+
+                        Traversable = false;
+                        newPosition.Y = position.Y;
+
+                        break;
+                    }
+                    if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
+                    {
+                        bool top = position.Y < area.Center.Y;
+                        bool bottom = position.Y > area.Center.Y;
+
+                        if (top)
+                        {
+                            newPosition.Y -= newSpeed;
+                        }
+                        else if (bottom)
+                        {
+                            newPosition.Y += newSpeed;
+                        }
                     }
                     else
                     {
-                        Colliding = true;
+                        Traversable = true;
                     }
-
-                    Traversable = false;
-                    newPosition.Y = position.Y;
-
-                    break;
-                }
-                if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
-                {
-                    bool top = position.Y < area.Center.Y;
-                    bool bottom = position.Y > area.Center.Y;
-
-                    if (top)
-                    {
-                        newPosition.Y -= newSpeed;
-                    }
-                    else if (bottom)
-                    {
-                        newPosition.Y += newSpeed;
-                    }
-                }
-                else
-                {
-                    Traversable = true;
                 }
             }
 

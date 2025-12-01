@@ -22,7 +22,7 @@ namespace SoR.Logic.Character
         protected float pauseSeconds;
         public bool Frozen { get; set; }
         public bool Traversable { get; set; }
-        public int CountDistance { get; set; }
+        public float CountDistance { get; set; }
         public bool BeenPushed { get; set; }
 
         /*
@@ -53,7 +53,7 @@ namespace SoR.Logic.Character
         /*
          * Be repelled away from an entity.
          */
-        public void RepelledFromEntity(int distance, Entity entity)
+        public void RepelledFromEntity(float distance, Entity entity)
         {
             CountDistance = distance;
 
@@ -81,7 +81,7 @@ namespace SoR.Logic.Character
         /*
          * Be repelled away from scenery.
          */
-        public void RepelledFromScenery(int distance, Scenery scenery)
+        public void RepelledFromScenery(float distance, Scenery scenery)
         {
             CountDistance = distance;
 

@@ -136,8 +136,8 @@ namespace SoR.Logic.Character.Player
 
             Projectiles = [];
 
-            maxEnergy = 10;
-            energy = 10;
+            maxEnergy = 2.5f;
+            energy = 2.5f;
         }
 
         /*
@@ -189,7 +189,7 @@ namespace SoR.Logic.Character.Player
                 Colliding = true;
             }
 
-            RepelledFromEntity(5, entity);
+            RepelledFromEntity(0.1f, entity);
         }
 
         /*
@@ -251,14 +251,30 @@ namespace SoR.Logic.Character.Player
                 {
                     if (Casting)
                     {
-                        Bone handBone = skeleton.FindBone(CheckHand());
-                        fireball.SetPosition(handBone.WorldX, handBone.WorldY);
+                        UpdateProjectile(gameTime, fireball);
                     }
                     else
                     {
                         LaunchProjectile(fireball);
                     }
-                    UpdateProjectile(gameTime, fireball);
+
+                    if (fireball.Colliding)
+                    {
+                        fireball.CountDistance = 0;
+                        fireball.Vanish();
+                    }
+                    if (fireball.LifeTime <= 0.3f)
+                    {
+                        float deltaTime = GameLogic.GetTime(gameTime);
+                        fireball.LifeTime -= deltaTime;
+                    }
+                    if (fireball.LifeTime <= 0)
+                    {
+                        Projectiles.Remove(fireball.Name);
+                        energy = maxEnergy; // TO DO: Energy replenished by another mechanism.
+                        Casting = false;
+                    }
+
                     fireball.UpdatePosition(gameTime, graphics);
                 }
             }
@@ -270,25 +286,17 @@ namespace SoR.Logic.Character.Player
          */
         public void UpdateProjectile(GameTime gameTime, Projectile projectile)
         {
-            if (projectile.Colliding)
-            {
-                energy = 0.5f;
-                projectile.CountDistance = 0.5f;
-            }
+            Bone handBone = skeleton.FindBone(CheckHand());
+            projectile.SetPosition(handBone.WorldX, handBone.WorldY);
+
             if (energy >= 0)
             {
                 float deltaTime = GameLogic.GetTime(gameTime);
                 energy -= deltaTime;
             }
-            if (energy <= 0.5f)
+            if (energy <= 0.3f)
             {
                 projectile.Vanish();
-            }
-            if (energy <= 0)
-            {
-                Projectiles = []; // TO DO: Only remove Fireball.
-                energy = maxEnergy; // TO DO: Energy replenished by another mechanism.
-                Casting = false;
             }
         }
 
@@ -299,8 +307,12 @@ namespace SoR.Logic.Character.Player
         {
             if (!projectile.Cast)
             {
-                projectile.LaunchDistanceFromXY((int)energy * 10, position.X, position.Y);
+                projectile.LaunchDistanceFromXY(energy, position.X, position.Y);
                 projectile.Cast = true;
+            }
+            if (projectile.CountDistance <= 0.3f)
+            {
+                projectile.Vanish();
             }
         }
 
