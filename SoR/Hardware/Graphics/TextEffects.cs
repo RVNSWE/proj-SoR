@@ -14,7 +14,6 @@ namespace SoR.Hardware.Graphics
          */
         public void DrawEntitySpriteBatch(Entity entity)
         {
-            // Entity text
             spriteBatch.DrawString(
                 font,
                 "HP: " + entity.GetHitPoints() + "\nEnergy: " + entity.GetEnergy(),
@@ -27,7 +26,6 @@ namespace SoR.Hardware.Graphics
          */
         public void DrawScenerySpriteBatch(Scenery scenery)
         {
-            // Scenery text
             spriteBatch.DrawString(
                 font,
                 "X: " + scenery.GetPosition().X + " Y: " + scenery.GetPosition().Y,
