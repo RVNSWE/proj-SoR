@@ -136,7 +136,7 @@ namespace SoR.Logic.Character.Player
 
             Projectiles = [];
 
-            maxEnergy = 100;
+            maxEnergy = 10;
             energy = 10;
         }
 
@@ -154,7 +154,6 @@ namespace SoR.Logic.Character.Player
                         if (Projectiles.TryGetValue("fireball", out Projectile fireball))
                         {
                             fireball.SetPosition(positionX, positionY);
-                            fireball.Frozen = true;
                             fireball.Appear();
                             Casting = true;
                         }
@@ -250,10 +249,17 @@ namespace SoR.Logic.Character.Player
 
                 if (Projectiles.TryGetValue("fireball", out Projectile fireball))
                 {
-                    if (!fireball.Cast)
+                    if (Casting)
                     {
-                        UpdateProjectile(gameTime, fireball);
+                        Bone handBone = skeleton.FindBone(CheckHand());
+                        fireball.SetPosition(handBone.WorldX, handBone.WorldY);
                     }
+                    else
+                    {
+                        LaunchProjectile(fireball);
+                    }
+                    UpdateProjectile(gameTime, fireball);
+                    fireball.UpdatePosition(gameTime, graphics);
                 }
             }
         }
@@ -268,8 +274,6 @@ namespace SoR.Logic.Character.Player
             {
                 float deltaTime = GameLogic.GetTime(gameTime);
                 energy -= deltaTime;
-                Bone handBone = skeleton.FindBone(CheckHand());
-                projectile.SetPosition(handBone.WorldX, handBone.WorldY);
             }
             if (energy <= 0.5)
             {
@@ -277,10 +281,27 @@ namespace SoR.Logic.Character.Player
             }
             if (energy <= 0)
             {
-                Projectiles = []; // TO DO: only remove Fireball.
-                energy = 10; // TO DO: Energy replenished by another mechanism.
+                Projectiles = []; // TO DO: Only remove Fireball.
+                energy = maxEnergy; // TO DO: Energy replenished by another mechanism.
                 Casting = false;
             }
+        }
+
+        /*
+         * Launch the projectile away from the Player.
+         */
+        public void LaunchProjectile(Projectile projectile)
+        {
+            if (!projectile.Cast)
+            {
+                projectile.RepelledFromEntity((int)energy * 10, position.X, position.Y);
+                projectile.Cast = true;
+            }
+        }
+
+        public override float GetEnergy()
+        {
+            return energy;
         }
     }
 }

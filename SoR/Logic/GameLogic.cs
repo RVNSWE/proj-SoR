@@ -619,6 +619,10 @@ namespace SoR.Logic
                     player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
                     //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
                 }
+                else
+                {
+                    player.Casting = false;
+                }
             }
         }
     }

@@ -69,6 +69,11 @@ namespace SoR.Logic.Character
         public int HitPoints { get; set; }
         public int Speed { get; set; }
 
+        public virtual float GetEnergy()
+        {
+            return 0f;
+        }
+
         /*
          * Choose projectile to create.
          */
@@ -306,12 +311,6 @@ namespace SoR.Logic.Character
                 foreach (var projectile in Projectiles.Values)
                 {
                     projectile.UpdatePosition(gameTime, graphics);
-
-                    /*
-                     * Check collisions.
-                     * Pause movement.
-                     * Dissipate.
-                     */
                 }
 
                 BeMoved(gameTime);

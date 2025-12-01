@@ -17,7 +17,7 @@ namespace SoR.Hardware.Graphics
             // Entity text
             spriteBatch.DrawString(
                 font,
-                "HP: " + entity.GetHitPoints(),
+                "HP: " + entity.GetHitPoints() + "\nEnergy: " + entity.GetEnergy(),
                 new Vector2(entity.GetPosition().X - 30, entity.GetPosition().Y + 30),
                 Color.BlueViolet);
         }
