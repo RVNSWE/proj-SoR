@@ -57,6 +57,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (The 3-Clause BSD License: https://opensource.org/license/BSD-3-Clause)
 ************************************************************************************************************************/
+
 /************************************************************************************************************************
 Copyright (c) 2013-2025, Esoteric Software LLC
 
