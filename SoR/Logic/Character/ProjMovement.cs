@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SoR.Logic.GameMap;
 using System;
 using System.Collections.Generic;
 
@@ -52,9 +51,9 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Be repelled away from a position.
+         * Be launched away from a position.
          */
-        public void RepelledFromEntity(int distance, float x, float y)
+        public void LaunchDistanceFromXY(int distance, float x, float y)
         {
             CountDistance = distance;
 
@@ -221,8 +220,15 @@ namespace SoR.Logic.Character
                     {
                         direction.X = 0;
 
+                    if (Bouncey)
+                    {
                         prevDirection = direction;
                         Redirect(); // Move in the opposite direction
+                    }
+                    else
+                    {
+                        Colliding = true;
+                    }
 
                         Traversable = false;
                         newPosition.X = position.X;
@@ -270,8 +276,15 @@ namespace SoR.Logic.Character
                 {
                     direction.Y = 0;
 
-                    prevDirection = direction;
-                    Redirect(); // Move in the opposite direction
+                    if (Bouncey)
+                    {
+                        prevDirection = direction;
+                        Redirect(); // Move in the opposite direction
+                    }
+                    else
+                    {
+                        Colliding = true;
+                    }
 
                     Traversable = false;
                     newPosition.Y = position.Y;

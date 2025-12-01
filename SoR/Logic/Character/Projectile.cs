@@ -58,11 +58,12 @@ namespace SoR.Logic.Character
         protected string waitType;
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this may vary
         public string Type { get; set; }
-        public int Speed { get; set; }
+        public string Name { get; set; }
         public string Skin { get; set; }
+        public int Speed { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
-        public string Name { get; set; }
+        public bool Bouncey { get; set; }
 
         public virtual void Appear() { }
 
@@ -219,7 +220,7 @@ namespace SoR.Logic.Character
                 Colliding = true;
             }
 
-            //RepelledFromEntity(10, entity);
+            //LaunchDistanceFromXY(10, entity);
         }
 
         /*

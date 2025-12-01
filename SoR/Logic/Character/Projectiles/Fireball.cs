@@ -85,7 +85,7 @@ namespace SoR.Logic.Character.Projectiles
 
             Traversable = true; // Whether the entity is on walkable terrain
 
-            CountDistance = 0; // Count how far to automatically move the entity
+            CountDistance = 0; // Count how far to automatically move
             direction = new Vector2(0, 0); // The direction of movement
             prevDirection = direction;
             sinceLastChange = 0; // Time since last direction change
@@ -96,6 +96,7 @@ namespace SoR.Logic.Character.Projectiles
             pauseSeconds = 0;
             newSpeed = 0;
             Cast = false;
+            Bouncey = false;
 
             Speed = 50; // Set the entity's travel speed
 

@@ -270,12 +270,16 @@ namespace SoR.Logic.Character.Player
          */
         public void UpdateProjectile(GameTime gameTime, Projectile projectile)
         {
+            if (projectile.Colliding || projectile.Speed <= 0)
+            {
+                energy = 0.5f;
+            }
             if (energy >= 0)
             {
                 float deltaTime = GameLogic.GetTime(gameTime);
                 energy -= deltaTime;
             }
-            if (energy <= 0.5)
+            if (energy <= 0.5f)
             {
                 projectile.Vanish();
             }
@@ -294,7 +298,7 @@ namespace SoR.Logic.Character.Player
         {
             if (!projectile.Cast)
             {
-                projectile.RepelledFromEntity((int)energy * 10, position.X, position.Y);
+                projectile.LaunchDistanceFromXY((int)energy * 10, position.X, position.Y);
                 projectile.Cast = true;
             }
         }
