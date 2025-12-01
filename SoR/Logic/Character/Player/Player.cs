@@ -307,7 +307,37 @@ namespace SoR.Logic.Character.Player
         {
             if (!projectile.Cast)
             {
-                projectile.LaunchDistanceFromXY(energy, position.X, position.Y);
+                Bone handBone = skeleton.FindBone(CheckHand());
+                float x = handBone.WorldX;
+                float y = handBone.WorldY;
+
+                if (idle)
+                {
+                    switch (isFacing)
+                    {
+                        case "L_idle":
+                            x += 5;
+                            break;
+                        case "R_idle":
+                            x -= 5;
+                            break;
+                        case "U_idle":
+                            y += 5;
+                            break;
+                        case "D_idle":
+                            y -= 5;
+                            break;
+                    }
+                }
+                else
+                {
+                    float modifiedX = direction.X * 5;
+                    float modifiedY = direction.Y * 5;
+                    x = projectile.GetPosition().X - modifiedX;
+                    y = projectile.GetPosition().Y - modifiedY;
+                }
+
+                projectile.LaunchDistanceFromXY(energy, x, y);
                 projectile.Cast = true;
             }
             if (projectile.CountDistance <= 0.3f)
