@@ -22,8 +22,8 @@ Spine Editor to provide animations and skins. All art was created and animated b
 below.
 
 MonoGame -
-MonoGame is a free and open-source (FOSS) .NET framework for creating video games with C#. It's a re-implementation of
-Microsoft's discontinued XNA Framework.
+MonoGame is a free and open-source (FOSS) .NET framework for creating video games with C#. It's a re-implementation
+of Microsoft's discontinued XNA Framework.
 
 MonoGame.Extended -
 A FOSS library for use with MonoGame.
