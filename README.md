@@ -33,7 +33,7 @@ A FOSS library for use with MonoGame.
 LICENSES:
 
 ---------------------------------------------------------------------------------------------------------------------------
-Copyright (c) 2024-2025, Katherine Town
+Copyright (c) 2024-2025, K. Town
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
 following conditions are met:
