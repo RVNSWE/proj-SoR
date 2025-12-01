@@ -8,8 +8,9 @@ trial and error. The goal of this project was to learn to code, not to engineer.
 
 It's nevertheless somehow become a fully working 2D, top-down game engine with traversible maps, collision
 detection and interactions, character and interactable object animations, projectiles / spell casting (in progress),
-working menus, dynamically interchangeable X-Box controller and keyboard support, and a save and load feature. I
-polish as I go, so everything I've implemented works as intended with no known bugs... although good luck trying
+working menus, dynamically interchangeable X-Box controller and keyboard support, and a save and load feature.
+
+I polish as I go, so everything I've implemented works as intended with no known bugs... although good luck trying
 to figure out how.
 
 ---------------------------------------------------------------------------------------------------------------------------
