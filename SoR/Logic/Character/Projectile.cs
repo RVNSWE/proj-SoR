@@ -177,6 +177,7 @@ namespace SoR.Logic.Character
                 }
 
                 CalculateSpeed(gameTime);
+                newSpeed = newSpeed * 3;
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
             }
