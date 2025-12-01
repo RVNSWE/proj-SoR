@@ -66,6 +66,7 @@ namespace SoR.Logic.Character
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
         public bool Bouncey { get; set; }
+        public bool Behind { get; set; }
 
         public virtual void Appear() { }
 

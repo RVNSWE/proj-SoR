@@ -443,6 +443,15 @@ namespace SoR.Logic
                         {
                             if (entity.GetPosition().Y == depth)
                             {
+                                foreach (var projectile in entity.Projectiles.Values)
+                                {
+                                    if (projectile.Behind)
+                                    {
+                                        render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                        render.DrawProjectileSkeleton(projectile);
+                                        render.FinishDrawingSkeleton();
+                                    }
+                                }
                                 render.StartDrawingSkeleton(GraphicsDevice, camera);
                                 render.DrawEntitySkeleton(entity);
                                 render.FinishDrawingSkeleton();
@@ -451,9 +460,12 @@ namespace SoR.Logic
 
                                 foreach (var projectile in entity.Projectiles.Values)
                                 {
-                                    render.StartDrawingSkeleton(GraphicsDevice, camera);
-                                    render.DrawProjectileSkeleton(projectile);
-                                    render.FinishDrawingSkeleton();
+                                    if (!projectile.Behind)
+                                    {
+                                        render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                        render.DrawProjectileSkeleton(projectile);
+                                        render.FinishDrawingSkeleton();
+                                    }
                                 }
                             }
                         }
@@ -617,7 +629,6 @@ namespace SoR.Logic
                     Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
 
                     player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
-                    //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
                 }
                 else
                 {

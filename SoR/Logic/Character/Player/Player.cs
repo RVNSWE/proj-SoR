@@ -289,6 +289,15 @@ namespace SoR.Logic.Character.Player
             Bone handBone = skeleton.FindBone(CheckHand());
             projectile.SetPosition(handBone.WorldX, handBone.WorldY);
 
+            if (CheckHand() == "HB")
+            {
+                projectile.Behind = true;
+            }
+            else
+            {
+                projectile.Behind = false;
+            }
+
             if (energy >= 0)
             {
                 float deltaTime = GameLogic.GetTime(gameTime);

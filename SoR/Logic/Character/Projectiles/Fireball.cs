@@ -99,6 +99,7 @@ namespace SoR.Logic.Character.Projectiles
             newSpeed = 0;
             Cast = false;
             Bouncey = false;
+            Behind = false;
 
             Speed = 50; // Set the entity's travel speed
 
