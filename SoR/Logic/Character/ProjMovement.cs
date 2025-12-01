@@ -22,7 +22,7 @@ namespace SoR.Logic.Character
         public bool Frozen { get; set; }
         public bool Cast { get; set; }
         public bool Traversable { get; set; }
-        public int CountDistance { get; set; }
+        public float CountDistance { get; set; }
         public bool BeenPushed { get; set; }
 
         /*

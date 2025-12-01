@@ -270,9 +270,10 @@ namespace SoR.Logic.Character.Player
          */
         public void UpdateProjectile(GameTime gameTime, Projectile projectile)
         {
-            if (projectile.Colliding || projectile.Speed <= 0)
+            if (projectile.Colliding)
             {
                 energy = 0.5f;
+                projectile.CountDistance = 0.5f;
             }
             if (energy >= 0)
             {
