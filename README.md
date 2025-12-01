@@ -32,7 +32,7 @@ A FOSS library for use with MonoGame.
 
 LICENSES:
 
-/**************************************************************************************************************************
+---------------------------------------------------------------------------------------------------------------------------
 Copyright (c) 2024-2025, Katherine Town
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -56,9 +56,9 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (The 3-Clause BSD License: https://opensource.org/license/BSD-3-Clause)
-************************************************************************************************************************/
 
-/************************************************************************************************************************
+---------------------------------------------------------------------------------------------------------------------------
+
 Copyright (c) 2013-2025, Esoteric Software LLC
 
 Integration of the Spine Runtimes into software or otherwise creating derivative works of the Spine Runtimes is
@@ -76,6 +76,5 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVI
 USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
-************************************************************************************************************************/
 
 ---------------------------------------------------------------------------------------------------------------------------
