@@ -2,15 +2,15 @@
 
 PROJECT SOR:
 
-This project was created to teach myself C# and how to create a desktop application at a time when I could only write
-simple console applications in Java and Python. I knew nothing about design patterns, architecture, Clean Code or SOLID
-principles, and just about everything in this project was developed organically through trial and error. There was no
-planning involved, since the goal of this project was to learn to code, not to engineer.
+This project was created to teach myself C# back when I could only write simple console applications. I didn't know
+about design patterns, architecture, Clean Code or SOLID principles, and developed this codebase organically through
+trial and error. The goal of this project was to learn to code, not to engineer.
 
-It's a fully working 2D, top-down game engine with traversible maps, collision detection and interactions, character and
-interactable object animations (no environmental animations yet), working menus, dynamically interchangeable X-Box
-controller and keyboard support, and a save and load feature. There are no current known bugs, but it's only been tested
-on Windows 10 and 11 on one desktop PC and one laptop.
+It's nevertheless somehow become a fully working 2D, top-down game engine with traversible maps, collision
+detection and interactions, character and interactable object animations, projectiles / spell casting (in progress),
+working menus, dynamically interchangeable X-Box controller and keyboard support, and a save and load feature. I
+polish as I go, so everything I've implemented works as intended with no known bugs... although good luck trying
+to figure out how.
 
 ---------------------------------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ below.
 
 MonoGame -
 MonoGame is a free and open-source (FOSS) .NET framework for creating video games with C#. It's a re-implementation
-of Microsoft's discontinued XNA Framework.
+of Microsoft's discontinued XNA Framework. It's not an engine itself, but provides all the bones to make one with.
 
 MonoGame.Extended -
 A FOSS library for use with MonoGame.
