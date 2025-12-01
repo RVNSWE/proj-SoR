@@ -1,7 +1,7 @@
-﻿using SoR.Logic.GameMap.TiledScenery;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended.Graphics;
 using MonoGame.Extended.Particles;
+using SoR.Logic.GameMap.TiledScenery;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +14,7 @@ namespace SoR.Hardware.Graphics
     internal partial class Render
     {
         /*
-         * Pair the atlas position of each tile with its world position.
+         * Pair the atlas Position of each tile with its world Position.
          */
         public Dictionary<string, Vector2> CreateMap(Map map, int[,] tileLocations, bool impassable = false)
         {
@@ -38,15 +38,15 @@ namespace SoR.Hardware.Graphics
 
                         if (impassable) // If it's an impassable tile
                         {
-                            Rectangle tileArea = new Rectangle((int)position.X, (int)position.Y, map.Width, map.Height); // Get the area of the map it occupies
+                            Rectangle tileArea = new Rectangle((int)position.X, (int)position.Y, map.TileWidth, map.TileHeight); // Get the area of the map it occupies
                             ImpassableTiles.Add(tileArea); // And add it to the collection of impassable tile spaces
                         }
                     }
 
-                    position.X += map.Width; // Step right by one tile space
+                    position.X += map.TileWidth; // Step right by one tile space
                 }
                 position.X = 0;
-                position.Y += map.Height; // Reset the x-axis and step down by one tile space
+                position.Y += map.TileHeight; // Reset the x-axis and step down by one tile space
             }
 
             return sortByYAxis;
@@ -101,11 +101,11 @@ namespace SoR.Hardware.Graphics
         {
             Vector2 blockPosition = position;
 
-            string tile = tileName.Remove(0, 4); // Remove the unique ID to get the atlas position
+            string tile = tileName.Remove(0, 4); // Remove the unique ID to get the atlas Position
             int tileNumber = Convert.ToInt32(tile);
 
-            // Offset drawing position by tile height to draw in front of any components using a different positioning reference
-            blockPosition.Y -= map.Height * 1.25f;
+            // Offset drawing Position by tile height to draw in front of any components using a different positioning reference
+            blockPosition.Y -= map.TileHeight * 1.25f;
 
             blockPosition.X = (int)blockPosition.X;
             blockPosition.Y = (int)blockPosition.Y;

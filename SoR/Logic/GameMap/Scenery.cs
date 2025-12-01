@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using SoR.Logic.Character;
 using Spine;
 
@@ -30,7 +28,7 @@ namespace SoR.Logic.GameMap
      **************************************************************************************************************************/
 
     /*
-     * Common functions and fields for environmental entities.
+     * Parent class for environmental entities.
      */
     public abstract class Scenery
     {
@@ -50,6 +48,7 @@ namespace SoR.Logic.GameMap
         protected string prevTrigger;
         protected string animOne;
         protected string animTwo;
+        protected int id;
 
         public string Name { get; set; }
 
@@ -89,7 +88,7 @@ namespace SoR.Logic.GameMap
         }
 
         /*
-         * Update the entity position, animation state and skeleton.
+         * Update the entity Position, animation state and skeleton.
          */
         public virtual void UpdateAnimations(GameTime gameTime)
         {
@@ -106,7 +105,7 @@ namespace SoR.Logic.GameMap
         }
 
         /*
-         * Set entity position to the centre of the screen +/- any x,y axis adjustment.
+         * Set entity Position to the centre of the screen +/- any x,y axis adjustment.
          */
         public virtual void SetPosition(float xAdjustment, float yAdjustment)
         {

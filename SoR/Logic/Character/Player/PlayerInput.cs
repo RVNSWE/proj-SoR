@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Spine;
 
 namespace SoR.Logic.Character.Player
 {
@@ -11,16 +13,16 @@ namespace SoR.Logic.Character.Player
         {
             switch (isFacing)
             {
-                case "idleup":
+                case "U_idle":
                     skeleton.SetSkin(skeletonData.FindSkin("up"));
                     break;
-                case "idledown":
+                case "D_idle":
                     skeleton.SetSkin(skeletonData.FindSkin("down"));
                     break;
-                case "idleleft":
+                case "L_idle":
                     skeleton.SetSkin(skeletonData.FindSkin("left"));
                     break;
-                case "idleright":
+                case "R_idle":
                     skeleton.SetSkin(skeletonData.FindSkin("right"));
                     break;
             }
@@ -36,47 +38,47 @@ namespace SoR.Logic.Character.Player
          */
         public void CheckSitting()
         {
-            if ((keyboardInput.Key == "Space" ||
+            /*if ((keyboardInput.Key == "Space" ||
                 gamePadInput.Button == "B") &&
                 idle == true)
             {
                 switch (isFacing)
                 {
-                    case "idledown":
-                        movementAnimation = "sitdown";
-                        isFacing = "sittingdown";
+                    case "D_idle":
+                        movementAnimation = "D_sit";
+                        isFacing = "D_sitting";
                         break;
-                    case "sittingdown":
-                        movementAnimation = "standdown";
-                        isFacing = "idledown";
+                    case "D_sitting":
+                        movementAnimation = "D_stand";
+                        isFacing = "D_idle";
                         break;
-                    case "idleup":
-                        movementAnimation = "situp";
-                        isFacing = "sittingup";
+                    case "U_idle":
+                        movementAnimation = "U_sit";
+                        isFacing = "U_sitting";
                         break;
-                    case "sittingup":
-                        movementAnimation = "standup";
-                        isFacing = "idleup";
+                    case "U_sitting":
+                        movementAnimation = "U_stand";
+                        isFacing = "U_idle";
                         break;
-                    case "idleleft":
-                        movementAnimation = "sitleft";
-                        isFacing = "sittingleft";
+                    case "L_idle":
+                        movementAnimation = "L_sit";
+                        isFacing = "L_sitting";
                         break;
-                    case "sittingleft":
-                        movementAnimation = "standleft";
-                        isFacing = "idleleft";
+                    case "L_sitting":
+                        movementAnimation = "L_stand";
+                        isFacing = "L_idle";
                         break;
-                    case "idleright":
-                        movementAnimation = "sitright";
-                        isFacing = "sittingright";
+                    case "R_idle":
+                        movementAnimation = "R_sit";
+                        isFacing = "R_sitting";
                         break;
-                    case "sittingright":
-                        movementAnimation = "standright";
-                        isFacing = "idleright";
+                    case "R_sitting":
+                        movementAnimation = "R_stand";
+                        isFacing = "R_idle";
                         break;
                 }
                 CheckSkin();
-            }
+            }*/
         }
 
         /*
@@ -118,15 +120,15 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 1:
                     MovementDirectionX(-1);
-                    movementAnimation = "runleft";
-                    isFacing = "idleleft";
+                    movementAnimation = "L_run";
+                    isFacing = "L_idle";
                     CheckSkin();
                     idle = false;
                     break;
                 case 2:
                     MovementDirectionX(1);
-                    movementAnimation = "runright";
-                    isFacing = "idleright";
+                    movementAnimation = "R_run";
+                    isFacing = "R_idle";
                     CheckSkin();
                     idle = false;
                     break;
@@ -160,15 +162,15 @@ namespace SoR.Logic.Character.Player
                     break;
                 case 1:
                     MovementDirectionY(-1);
-                    movementAnimation = "runup";
-                    isFacing = "idleup";
+                    movementAnimation = "U_run";
+                    isFacing = "U_idle";
                     CheckSkin();
                     idle = false;
                     break;
                 case 2:
                     MovementDirectionY(1);
-                    movementAnimation = "rundown";
-                    isFacing = "idledown";
+                    movementAnimation = "D_run";
+                    isFacing = "D_idle";
                     CheckSkin();
                     idle = false;
                     break;

@@ -4,7 +4,7 @@ using Spine;
 using System;
 using System.Collections.Generic;
 
-namespace SoR.Logic.Character.Mobs
+namespace SoR.Logic.Character.Projectiles
 {
     /*
      * Spine Runtimes License
@@ -28,33 +28,26 @@ namespace SoR.Logic.Character.Mobs
      * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
      * POSSIBILITY OF SUCH DAMAGE.
      **************************************************************************************************************************/
-    /*
-     * Stores information unique to Chara.
-     */
-    internal class Fishy : Entity
+    internal class Fireball : Projectile
     {
-        private ProjectileType projectileType;
-
-        enum ProjectileType
-        {
-            Fireball
-        }
-
-        public Fishy(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
+        public Fireball(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
-                { "idle", 1 }
+                { "idle", 1 },
+                { "hit", 2 },
+                { "appear", 2 },
+                { "vanish", 2 }
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Fishy\\Fishy.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\fireball.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
 
             // Initialise skeleton json
-            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Fishy\\skeleton.json"));
+            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\skeleton.json"));
             skeleton = new Skeleton(skeletonData);
 
             // Set the skin
@@ -66,7 +59,7 @@ namespace SoR.Logic.Character.Mobs
             animState.Apply(skeleton);
             animStateData.DefaultMix = 0.1f;
 
-            // Set the "fidle" animation on track 1 and leave it looping forever
+            // Set idle animation on track 1 and leave it looping forever
             trackEntry = animState.SetAnimation(0, "idle", true);
 
             // Create hitbox
@@ -80,11 +73,11 @@ namespace SoR.Logic.Character.Mobs
 
             Pausing = false;
             Colliding = false;
-            Player = false;
-            Name = "Fishy";
+            Name = "fireball";
             defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";
+            animOne = "";
             animTwo = "";
             movementAnimation = "idle";
 
@@ -95,24 +88,32 @@ namespace SoR.Logic.Character.Mobs
             CountDistance = 0; // Count how far to automatically move the entity
             direction = new Vector2(0, 0); // The direction of movement
             prevDirection = direction;
-            sinceLastChange = 0; // Time since last NPC direction change
+            sinceLastChange = 0; // Time since last direction change
             newDirectionTime = (float)random.NextDouble() * 1f + 0.25f; // After 0.25-1 seconds, NPC chooses a new movement direction
             BeenPushed = false;
             collisionSeconds = 0;
             frozenSeconds = 1;
             pauseSeconds = 0;
             newSpeed = 0;
+            Cast = false;
 
             Speed = 50; // Set the entity's travel speed
-            HitPoints = 100; // Set the starting number of hitpoints
 
             ImpassableArea = impassableArea;
+        }
 
-            Projectiles = [];
+        public override void Appear()
+        {
+            movementAnimation = "appear";
+        }
+
+        public override void Vanish()
+        {
+            movementAnimation = "vanish";
         }
 
         /*
-         * Animate NPC redirection.
+         * Animate redirection.
          */
         public override void RedirectAnimation(int newDirection)
         {

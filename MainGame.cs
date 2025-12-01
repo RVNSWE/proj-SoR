@@ -62,7 +62,7 @@ namespace SoR
 
             graphicsSettings = new GraphicsSettings(game, graphics, Window);
 
-            screens = new Screens(game, GraphicsDevice, graphics);
+            screens = new Screens(game, GraphicsDevice);
 
             base.Initialize();
         }

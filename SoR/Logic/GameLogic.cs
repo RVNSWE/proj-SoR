@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using SoR.Hardware.Data;
 using SoR.Hardware.Graphics;
 using SoR.Hardware.Input;
-using SoR.Logic.GameMap.TiledScenery;
-using SoR.Logic.GameMap.Interactables;
 using SoR.Logic.Character;
-using SoR.Logic.Character.Player;
 using SoR.Logic.Character.Mobs;
-using SoR.Logic.UI;
+using SoR.Logic.Character.Player;
 using SoR.Logic.GameMap;
+using SoR.Logic.GameMap.Interactables;
+using SoR.Logic.GameMap.TiledScenery;
+using SoR.Logic.UI;
+using Spine;
+using System.Collections.Generic;
 using System.IO;
-using SoR.Gameplay.Intro;
 
 namespace SoR.Logic
 {
@@ -20,8 +20,8 @@ namespace SoR.Logic
      * Game logic. Manages how game elements are created, destroyed, rendered and positioned,
      * as well as handling how, when and why various elements will interact.
      * 
-     * This has become a monster. If it doesn't get split out into smaller classes, it'll at
-     * least get some more partial classes for the sake of organisation and personal sanity.
+     * I wrote this monstrous amalgam before I knew what I was doing. It wasn't planned or
+     * designed, it just organically grew here like this.
      */
     public partial class GameLogic
     {
@@ -33,6 +33,7 @@ namespace SoR.Logic
         private StartMenu startMenu;
         private ChooseName chooseName;
         private Map map;
+        private Backdrop backdrop;
         private Render render;
         private Camera camera;
         private GamePadInput gamePadInput;
@@ -53,6 +54,7 @@ namespace SoR.Logic
         private bool newGame;
         private bool hasUpperWalls;
         private bool hasFloorDecor;
+        private bool hasBackdrop;
         private bool fadingOut;
         private float curtainOpacity;
         private float curtainTimer;
@@ -68,9 +70,6 @@ namespace SoR.Logic
         public bool CurtainUp { get; set; }
         public bool ExitGame { get; set; }
 
-        /*
-         * Differentiate between entities.
-         */
         enum EntityType
         {
             Player,
@@ -80,9 +79,6 @@ namespace SoR.Logic
             Fishy
         }
 
-        /*
-         * Differentiate between environmental ojects.
-         */
         enum SceneryType
         {
             Campfire
@@ -96,11 +92,15 @@ namespace SoR.Logic
             gamePadInput = new GamePadInput();
             keyboardInput = new KeyboardInput();
 
+            backdrop = new Backdrop();
+
             SaveFile = Globals.GetSavePath("SoR\\saveFile.json");
 
+            playerName = "Mercura";
             InGameScreen = "mainMenu";
             hasFloorDecor = false;
             hasUpperWalls = false;
+            hasBackdrop = false;
             freezeGame = false;
             loadingGame = false;
             FadingIn = false;
@@ -113,7 +113,6 @@ namespace SoR.Logic
             backgroundColour = new Color(0, 11, 8);
             screenWidth = 0;
             screenHeight = 0;
-            playerName = "Mercura";
         }
 
         /*
@@ -170,11 +169,13 @@ namespace SoR.Logic
          */
         public void LoadGameContent(GraphicsDevice GraphicsDevice, MainGame game)
         {
+            backdrop.Load(game, GraphicsDevice);
+
             render = new Render(game, GraphicsDevice);
         }
 
         /*
-         * Choose entity to create.
+         * Choose character to create.
          */
         public void CreateEntity(GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {
@@ -225,7 +226,7 @@ namespace SoR.Logic
         }
 
         /*
-         * Choose interactable object to create.
+         * Choose interactable to create.
          */
         public void CreateScenery(GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {
@@ -247,6 +248,7 @@ namespace SoR.Logic
         public void UpdateWorld(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
         {
             camera.FollowPlayer(player.GetPosition());
+            backdrop.Update(player.GetPosition());
 
             if (!freezeGame)
             {
@@ -331,7 +333,7 @@ namespace SoR.Logic
         }
 
         /*
-         * Render game elements in order of y-axis position.
+         * Render game elements in order of y-axis Position.
          */
         public void Render(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
         {
@@ -389,6 +391,11 @@ namespace SoR.Logic
                     break;
 
                 default: // Otherwise default to drawing game
+                    if (hasBackdrop)
+                    {
+                        render.DrawBackdrop(backdrop, camera.GetCamera());
+                    }
+
                     foreach (var tileName in mapFloor)
                     {
                         render.StartDrawingMapSpriteBatch(camera.GetCamera());
@@ -441,6 +448,13 @@ namespace SoR.Logic
                                 render.FinishDrawingSkeleton();
 
                                 render.DrawEntitySpriteBatch(entity);
+
+                                foreach (var projectile in entity.Projectiles.Values)
+                                {
+                                    render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                    render.DrawProjectileSkeleton(projectile);
+                                    render.FinishDrawingSkeleton();
+                                }
                             }
                         }
                         render.FinishDrawingSpriteBatch();
@@ -593,6 +607,21 @@ namespace SoR.Logic
                             freezeGame = true; // Freeze the game
                         }
                         break;
+                }
+            }
+
+            if (input == "LeftTrigger" || input == "1")
+            {
+                if (!player.Casting)
+                {
+                    Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
+
+                    player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
+                    //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
+                }
+                else
+                {
+                    player.Casting = false;
                 }
             }
         }

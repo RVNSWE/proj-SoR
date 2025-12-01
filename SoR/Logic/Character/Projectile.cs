@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace SoR.Logic.Character
     /*
      * Parent class for player and non-player characters.
      */
-    public partial class Entity
+    public partial class Projectile
     {
         protected Dictionary<string, int> animations;
         protected Atlas atlas;
@@ -55,53 +54,19 @@ namespace SoR.Logic.Character
         protected string lastAnimation;
         protected string movementAnimation;
         protected string isFacing;
-        protected string waitType;
         protected float newSpeed;
-        public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
-        public Dictionary<string, Projectile> Projectiles { get; set; }
-        public bool Player { get; set; }
+        protected string waitType;
+        public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this may vary
+        public string Type { get; set; }
+        public int Speed { get; set; }
+        public string Skin { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
-        public bool Casting { get; set; }
-        public string Type { get; set; }
-        public string Skin { get; set; }
         public string Name { get; set; }
-        public int HitPoints { get; set; }
-        public int Speed { get; set; }
 
-        public virtual float GetEnergy()
-        {
-            return 0f;
-        }
+        public virtual void Appear() { }
 
-        /*
-         * Choose projectile to create.
-         */
-        public virtual void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY) {}
-
-        /*
-         * Return left hand bone if facing up or down, otherwise back hand bone if facing right, otherwise front hand bone.
-         */
-        public string CheckHand()
-        {
-            if (isFacing == "U_idle" || isFacing == "D_idle")
-            {
-                return "HR";
-            }
-            if (isFacing == "R_idle")
-            {
-                return "HB";
-            }
-            return "HF";
-        }
-
-        /*
-         * Placeholder function for dealing damage.
-         */
-        public void TakeDamage(int damage)
-        {
-            HitPoints -= damage;
-        }
+        public virtual void Vanish() { }
 
         /*
          * Update skin after loading game or changing screens.
@@ -249,12 +214,12 @@ namespace SoR.Logic.Character
             if (!Colliding)
             {
                 animTwo = defaultAnim;
-                movementAnimation = "attack";
+                movementAnimation = "hit";
                 collisionSeconds = 1;
                 Colliding = true;
             }
 
-            RepelledFromEntity(10, entity);
+            //RepelledFromEntity(10, entity);
         }
 
         /*
@@ -264,14 +229,13 @@ namespace SoR.Logic.Character
         {
             if (!Colliding)
             {
-                TakeDamage(1);
                 animTwo = defaultAnim;
                 movementAnimation = "hit";
                 collisionSeconds = 1;
                 Colliding = true;
             }
 
-            RepelledFromScenery(8, scenery);
+            //RepelledFromScenery(8, scenery);
         }
 
         /*
@@ -306,20 +270,12 @@ namespace SoR.Logic.Character
             WaitForCollisionSeconds(gameTime);
             WaitForPauseSeconds(gameTime);
 
-            if (!Frozen)
-            {
-                foreach (var projectile in Projectiles.Values)
-                {
-                    projectile.UpdatePosition(gameTime, graphics);
-                }
+            BeMoved(gameTime);
+            //Movement(gameTime);
 
-                BeMoved(gameTime);
-                NonPlayerMovement(gameTime);
-
-                CalculateSpeed(gameTime);
-                AdjustXPosition(ImpassableArea);
-                AdjustYPosition(ImpassableArea);
-            }
+            CalculateSpeed(gameTime);
+            AdjustXPosition(ImpassableArea);
+            AdjustYPosition(ImpassableArea);
         }
 
         /*
@@ -333,11 +289,6 @@ namespace SoR.Logic.Character
             skeleton.X = position.X;
             skeleton.Y = position.Y;
 
-            foreach (var projectile in Projectiles.Values)
-            {
-                projectile.UpdateAnimations(gameTime);
-            }
-
             hitbox.Update(skeleton, true);
             animState.Update(GameLogic.GetTime(gameTime));
             skeleton.Update(GameLogic.GetTime(gameTime));
@@ -345,6 +296,8 @@ namespace SoR.Logic.Character
 
             // Update skeletal transformations
             skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
+
+
         }
 
         /*
@@ -377,14 +330,6 @@ namespace SoR.Logic.Character
         public SkeletonBounds GetHitbox()
         {
             return hitbox;
-        }
-
-        /*
-         * Get the current hitpoints.
-         */
-        public int GetHitPoints()
-        {
-            return HitPoints;
         }
 
         public Vector2 GetPosition()

@@ -1,19 +1,45 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Spine;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using SoR.Hardware.Input;
+using SoR.Logic.Character.Projectiles;
+using Spine;
+using System.Collections.Generic;
 
 namespace SoR.Logic.Character.Player
 {
+    /*
+     * Spine Runtimes License
+     */
+    /**************************************************************************************************************************
+     * Copyright (c) 2013-2024, Esoteric Software LLC
+     * 
+     * Integration of the Spine Runtimes into software or otherwise creating derivative works of the Spine Runtimes is
+     * permitted under the terms and conditions of Section 2 of the Spine Editor License Agreement:
+     * http://esotericsoftware.com/spine-editor-license
+     * 
+     * Otherwise, it is permitted to integrate the Spine Runtimes into software or otherwise create derivative works of the
+     * Spine Runtimes (collectively, "Products"), provided that each user of the Products must obtain their own Spine Editor
+     * license and redistribution of the Products in any form must include this license and copyright notice.
+     * 
+     * THE SPINE RUNTIMES ARE PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+     * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+     * EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
+     * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
+     * POSSIBILITY OF SUCH DAMAGE.
+     **************************************************************************************************************************/
     /*
      * Stores information unique to Player.
      */
     internal partial class Player : Entity
     {
-        protected GamePadInput gamePadInput;
-        protected KeyboardInput keyboardInput;
+        private GamePadInput gamePadInput;
+        private KeyboardInput keyboardInput;
+
+        private float maxEnergy;
+        private float energy;
 
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
@@ -21,30 +47,30 @@ namespace SoR.Logic.Character.Player
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
-                { "idleup", 1 },
-                { "idledown", 1 },
-                { "idleleft", 1 },
-                { "idleright", 1 },
-                { "runup", 3 },
-                { "rundown", 3 },
-                { "runleft", 3 },
-                { "runright", 3 },
-                { "sitdown", 2 },
-                { "sittingdown", 1 },
-                { "standdown", 2 },
-                { "situp", 2 },
-                { "sittingup", 1 },
-                { "standup", 2 },
-                { "sitleft", 2 },
-                { "sittingleft", 1 },
-                { "standleft", 2 },
-                { "sitright", 2 },
-                { "sittingright", 1 },
-                { "standright", 2 }
+                { "D_idle", 1 },
+                { "U_idle", 1 },
+                { "L_idle", 1 },
+                { "R_idle", 1 },
+                { "D_run", 3 },
+                { "U_run", 3 },
+                { "L_run", 3 },
+                { "R_run", 3 },
+                { "D_sit", 2 },
+                { "D_sitting", 1 },
+                { "D_stand", 2 },
+                { "U_up", 2 },
+                { "U_sitting", 1 },
+                { "U_stand", 2 },
+                { "L_sit", 2 },
+                { "L_sitting", 1 },
+                { "L_stand", 2 },
+                { "R_sit", 2 },
+                { "R_sitting", 1 },
+                { "R_stand", 2 }
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC3.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC4.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
             json.Scale = 0.5f;
@@ -64,7 +90,7 @@ namespace SoR.Logic.Character.Player
             animState.Apply(skeleton);
 
             // Set the "fidle" animation on track 1 and leave it looping forever
-            trackEntry = animState.SetAnimation(0, "idledown", true);
+            trackEntry = animState.SetAnimation(0, "D_idle", true);
 
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
@@ -80,13 +106,14 @@ namespace SoR.Logic.Character.Player
 
             Pausing = false;
             Colliding = false;
+            Casting = false;
             idle = true;
             lastAnimation = "";
             prevTrigger = "";
             animOne = "";
             animTwo = "";
-            isFacing = "idledown";
-            movementAnimation = "idledown";
+            isFacing = "D_idle";
+            movementAnimation = "D_idle";
 
             Traversable = true;
 
@@ -106,19 +133,33 @@ namespace SoR.Logic.Character.Player
             HitPoints = 100;
 
             ImpassableArea = impassableArea;
+
+            Projectiles = [];
+
+            maxEnergy = 10;
+            energy = 10;
         }
 
         /*
-         * Placeholder function for handling battles.
+         * Choose projectile to create.
          */
-        public void Battle(Entity entity)
+        public override void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY)
         {
-            /*
-                    If (entity.CollidesWith(player))
+            switch (projectileType)
+            {
+                case "fireball":
+                    if (!Projectiles.ContainsKey("fireball"))
                     {
-                        player.Battle(entity);
+                        Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Type = "fireball" });
+                        if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                        {
+                            fireball.SetPosition(positionX, positionY);
+                            fireball.Appear();
+                            Casting = true;
+                        }
                     }
-             */
+                    break;
+            }
         }
 
         /*
@@ -144,7 +185,6 @@ namespace SoR.Logic.Character.Player
         {
             if (!Colliding)
             {
-                TakeDamage(1);
                 collisionSeconds = 1;
                 Colliding = true;
             }
@@ -175,7 +215,7 @@ namespace SoR.Logic.Character.Player
         }
 
         /*
-         * Update entity position.
+         * Update entity Position.
          */
         public override void UpdatePosition(GameTime gameTime, GraphicsDeviceManager graphics)
         {
@@ -206,7 +246,62 @@ namespace SoR.Logic.Character.Player
                 CalculateSpeed(gameTime);
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
+
+                if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                {
+                    if (Casting)
+                    {
+                        Bone handBone = skeleton.FindBone(CheckHand());
+                        fireball.SetPosition(handBone.WorldX, handBone.WorldY);
+                    }
+                    else
+                    {
+                        LaunchProjectile(fireball);
+                    }
+                    UpdateProjectile(gameTime, fireball);
+                    fireball.UpdatePosition(gameTime, graphics);
+                }
             }
+        }
+
+        /*
+         * Projectile follows the Player hand bone, plays vanish animation shortly before
+         * disappearing, and is removed from Projectiles when energy runs out.
+         */
+        public void UpdateProjectile(GameTime gameTime, Projectile projectile)
+        {
+            if (energy >= 0)
+            {
+                float deltaTime = GameLogic.GetTime(gameTime);
+                energy -= deltaTime;
+            }
+            if (energy <= 0.5)
+            {
+                projectile.Vanish();
+            }
+            if (energy <= 0)
+            {
+                Projectiles = []; // TO DO: Only remove Fireball.
+                energy = maxEnergy; // TO DO: Energy replenished by another mechanism.
+                Casting = false;
+            }
+        }
+
+        /*
+         * Launch the projectile away from the Player.
+         */
+        public void LaunchProjectile(Projectile projectile)
+        {
+            if (!projectile.Cast)
+            {
+                projectile.RepelledFromEntity((int)energy * 10, position.X, position.Y);
+                projectile.Cast = true;
+            }
+        }
+
+        public override float GetEnergy()
+        {
+            return energy;
         }
     }
 }

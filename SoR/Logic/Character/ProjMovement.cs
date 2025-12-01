@@ -8,7 +8,7 @@ namespace SoR.Logic.Character
     /*
      * Handles player input and animation application.
      */
-    public partial class Entity
+    public partial class Projectile
     {
         protected Random random;
         protected Vector2 newPosition;
@@ -21,6 +21,7 @@ namespace SoR.Logic.Character
         protected float frozenSeconds;
         protected float pauseSeconds;
         public bool Frozen { get; set; }
+        public bool Cast { get; set; }
         public bool Traversable { get; set; }
         public int CountDistance { get; set; }
         public bool BeenPushed { get; set; }
@@ -51,56 +52,28 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Be repelled away from an entity.
+         * Be repelled away from a position.
          */
-        public void RepelledFromEntity(int distance, Entity entity)
+        public void RepelledFromEntity(int distance, float x, float y)
         {
             CountDistance = distance;
 
             prevDirection = direction;
             direction = Vector2.Zero;
 
-            if (entity.GetPosition().X > position.X) // Push right
+            if (x > position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (entity.GetPosition().X < position.X) // Push left
+            else if (x < position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (entity.GetPosition().Y > position.Y) // Push down
+            if (y > position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (entity.GetPosition().Y < position.Y) // Push up
-            {
-                direction.Y = RepelDirection(direction.Y, true);
-            }
-        }
-
-        /*
-         * Be repelled away from scenery.
-         */
-        public void RepelledFromScenery(int distance, Scenery scenery)
-        {
-            CountDistance = distance;
-
-            prevDirection = direction;
-            direction = Vector2.Zero;
-
-            if (scenery.GetPosition().X > position.X) // Push right
-            {
-                direction.X = RepelDirection(direction.X, false);
-            }
-            else if (scenery.GetPosition().X < position.X) // Push left
-            {
-                direction.X = RepelDirection(direction.X, true);
-            }
-            if (scenery.GetPosition().Y > position.Y) // Push down
-            {
-                direction.Y = RepelDirection(direction.Y, false);
-            }
-            else if (scenery.GetPosition().Y < position.Y) // Push up
+            else if (y < position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }
@@ -109,7 +82,7 @@ namespace SoR.Logic.Character
         /*
          * Change direction to move away from something.
          */
-        public void RedirectNPC()
+        public void Redirect()
         {
             if (newPosition.X > position.X)
             {
@@ -161,7 +134,7 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Animate NPC redirection.
+         * Animate redirection.
          */
         public virtual void RedirectAnimation(int newDirection)
         {
@@ -191,9 +164,9 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Move the NPC in the direction they're facing, and periodically pick a random new direction.
+         * Move in the direction it's facing, and periodically pick a random new direction.
          */
-        public void NonPlayerMovement(GameTime gameTime)
+        /*public void CheckMovement(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
             int newDirection;
@@ -215,7 +188,7 @@ namespace SoR.Logic.Character
             }
 
             position = newPosition;
-        }
+        }*/
 
         /*
          * Calculate movement speed. 75% speed if moving diagonally.
@@ -236,44 +209,45 @@ namespace SoR.Logic.Character
         public void AdjustXPosition(List<Rectangle> impassableArea)
         {
             newPosition.X = position.X;
-            newPosition.X += direction.X * newSpeed;
 
-            foreach (Rectangle area in impassableArea)
+            if (Cast)
             {
-                if (area.Contains(newPosition) && !area.Contains(position))
-                {
-                    direction.X = 0;
-
-                    if (!Player) // If entity is not the player
-                    {
-                        prevDirection = direction;
-                        RedirectNPC(); // Move in the opposite direction
-                    }
-
-                    Traversable = false;
-                    newPosition.X = position.X;
-
-                    break;
-                }
-                if (area.Contains(newPosition) && area.Contains(position)) // If entity is stuck inside the wall
-                {
-                    bool left = position.X < area.Center.X;
-                    bool right = position.X > area.Center.X;
-
-                    if (left) // If it is in the left half of the wall
-                    {
-                        newPosition.X -= newSpeed; // Move the entity left
-                    }
-                    else if (right)
-                    {
-                        newPosition.X += newSpeed;
-                    }
-                }
-                else
-                {
-                    Traversable = true;
-                }
+                newPosition.X += direction.X * newSpeed;
             }
+
+                foreach (Rectangle area in impassableArea)
+                {
+                    if (area.Contains(newPosition) && !area.Contains(position))
+                    {
+                        direction.X = 0;
+
+                        prevDirection = direction;
+                        Redirect(); // Move in the opposite direction
+
+                        Traversable = false;
+                        newPosition.X = position.X;
+
+                        break;
+                    }
+                    if (area.Contains(newPosition) && area.Contains(position)) // If stuck inside the wall
+                    {
+                        bool left = position.X < area.Center.X;
+                        bool right = position.X > area.Center.X;
+
+                        if (left) // If in the left half of the wall
+                        {
+                            newPosition.X -= newSpeed; // Move left
+                        }
+                        else if (right)
+                        {
+                            newPosition.X += newSpeed;
+                        }
+                    }
+                    else
+                    {
+                        Traversable = true;
+                    }
+                }
 
             position.X = newPosition.X;
         }
@@ -284,7 +258,11 @@ namespace SoR.Logic.Character
         public void AdjustYPosition(List<Rectangle> impassableArea)
         {
             newPosition.Y = position.Y;
-            newPosition.Y += direction.Y * newSpeed;
+
+            if (Cast)
+            {
+                newPosition.Y += direction.Y * newSpeed;
+            }
 
             foreach (Rectangle area in impassableArea)
             {
@@ -292,11 +270,8 @@ namespace SoR.Logic.Character
                 {
                     direction.Y = 0;
 
-                    if (!Player) // If entity is not the player
-                    {
-                        prevDirection = direction;
-                        RedirectNPC(); // Move in the opposite direction
-                    }
+                    prevDirection = direction;
+                    Redirect(); // Move in the opposite direction
 
                     Traversable = false;
                     newPosition.Y = position.Y;

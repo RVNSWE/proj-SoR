@@ -10,15 +10,38 @@ namespace SoR.Logic.Screens
      * since... it only calls things from GameLogic. But. Everyone else seemed to have a separate
      * class for this stuff. So I just copied. I will un-copy later, probably.
      */
-    public partial class Screens
+    public class Screens
     {
         private GameLogic gameLogic;
         public bool ExitGame { get; set; }
 
-        public Screens(MainGame game, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
+        public Screens(MainGame game, GraphicsDevice GraphicsDevice)
         {
             gameLogic = new GameLogic(game, GraphicsDevice);
             ExitGame = false;
+        }
+        /*
+         * Starts the game on the main game menu.
+         */
+        public void LoadGame(MainGame game, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
+        {
+            gameLogic.GameMainMenu(game, GraphicsDevice);
+        }
+
+        /*
+         * Update the resolution after a screen size change.
+         */
+        public void UpdateResolution(GameWindow Window, int screenWidth, int screenHeight)
+        {
+            gameLogic.UpdateViewportGraphics(Window, screenWidth, screenHeight);
+        }
+
+        /*
+         * Draw the current state of the game to the screen.
+         */
+        public void DrawGame(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
+        {
+            gameLogic.Render(game, gameTime, GraphicsDevice, graphics);
         }
 
         /*

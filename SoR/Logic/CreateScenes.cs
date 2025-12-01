@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework;
 using SoR.Logic.UI;
 using SoR.Logic.GameMap.TiledScenery;
 using SoR.Hardware.Graphics;
-using SoR.Gameplay.Intro;
 
 namespace SoR.Logic
 {
     /*
-     * Create and position the elements of each map area, and remove them on scene transition.
+     * Create and Position the elements of each map area, and remove them on scene transition.
      */
     public partial class GameLogic
     {
@@ -63,8 +62,8 @@ namespace SoR.Logic
                     if (newGame) // If starting a new game
                     {
                         //StartNewGame(game, GraphicsDevice); // Load the starting area
-                        Temple(game, GraphicsDevice);
-                        //Village(game, GraphicsDevice);
+                        //Temple(game, GraphicsDevice);
+                        Village(game, GraphicsDevice);
                         //Wall(game, GraphicsDevice);
                     }
                     if (loadingGame) // If loading from save file
@@ -144,19 +143,35 @@ namespace SoR.Logic
         }
 
         /*
+         * Initialise all lists.
+         */
+        public void InitialiseAllLists()
+        {
+            InitialiseEntSceneLists();
+            mapLowerWalls = [];
+            mapUpperWalls = [];
+            mapFloor = [];
+            mapFloorDecor = [];
+            impassableArea = [];
+        }
+
+        /*
+         * Initialise the entity and scenery lists.
+         */
+        public void InitialiseEntSceneLists()
+        {
+            Entities = [];
+            Scenery = [];
+            depths = [];
+        }
+
+        /*
          * Set up the main game menu.
          */
         public void GameMainMenu(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = true;
-            Entities = [];
-            Scenery = [];
-            mapLowerWalls = [];
-            mapUpperWalls = [];
-            mapFloor = [];
-            mapFloorDecor = [];
-            depths = [];
-            impassableArea = [];
+            InitialiseAllLists();
             InGameScreen = "none";
             PlayerLocation = "none";
             currentMenuItem = "none";
@@ -164,21 +179,25 @@ namespace SoR.Logic
             camera.UpdateViewportAdapter(game.Window);
             camera.NewWidth = screenWidth;
             camera.NewHeight = screenHeight;
-            mainMenu = new MainMenu(game);
-            mainMenu.ItemCount = 4; // Reset the number of StartMenu items to 4
+            mainMenu = new MainMenu(game)
+            {
+                ItemCount = 4 // Reset the number of MainMenu items to 4
+            };
             currentMapEnum = CurrentMap.MainMenu;
             LoadGameContent(GraphicsDevice, game);
         }
 
         /*
-         * Set up the main game menu.
+         * Set up the in game start menu.
          */
         public void GameStartMenu(MainGame game, GraphicsDevice GraphicsDevice)
         {
             menu = true;
             InGameScreen = "game";
-            startMenu = new StartMenu(game);
-            startMenu.ItemCount = 3; // Reset the number of StartMenu items to 3
+            startMenu = new StartMenu(game)
+            {
+                ItemCount = 3 // Reset the number of StartMenu items to 3
+            };
             LoadGameContent(GraphicsDevice, game);
         }
 
@@ -191,20 +210,14 @@ namespace SoR.Logic
             newGame = false;
             InGameScreen = "game";
 
-            Entities = [];
-            Scenery = [];
-            mapLowerWalls = [];
-            mapUpperWalls = [];
-            mapFloor = [];
-            mapFloorDecor = [];
-            depths = [];
-            impassableArea = [];
+            InitialiseAllLists();
 
             text = new Text();
             currentMapEnum = CurrentMap.Intro;
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = false;
+            hasBackdrop = false;
 
             entityType = EntityType.Player;
             CreateEntity(GraphicsDevice, 400, 300);
@@ -226,6 +239,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = true;
             hasUpperWalls = false;
+            hasBackdrop = true;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet, map.FloorDecorSpriteSheet);
@@ -236,10 +250,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;
@@ -268,6 +279,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = true;
+            hasBackdrop = false;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);
@@ -278,10 +290,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;
@@ -320,6 +329,7 @@ namespace SoR.Logic
             LoadGameContent(GraphicsDevice, game);
             hasFloorDecor = false;
             hasUpperWalls = false;
+            hasBackdrop = true;
 
             // Create the map
             map.LoadMap(game.Content, map.FloorSpriteSheet, map.WallSpriteSheet);
@@ -330,10 +340,7 @@ namespace SoR.Logic
             render.ImpassableMapArea();
             impassableArea = render.ImpassableTiles;
 
-            // Re-initialise the entity and scenery arrays
-            Entities = [];
-            Scenery = [];
-            depths = [];
+            InitialiseEntSceneLists();
 
             // Create entities
             entityType = EntityType.Player;
