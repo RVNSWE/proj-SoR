@@ -60,13 +60,14 @@ namespace SoR.Logic.Character
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
         public Dictionary<string, Projectile> Projectiles { get; set; }
         public bool Player { get; set; }
-        public string Type { get; set; }
-        public int HitPoints { get; set; }
-        public int Speed { get; set; }
-        public string Skin { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
+        public bool Casting { get; set; }
+        public string Type { get; set; }
+        public string Skin { get; set; }
         public string Name { get; set; }
+        public int HitPoints { get; set; }
+        public int Speed { get; set; }
 
         /*
          * Choose projectile to create.

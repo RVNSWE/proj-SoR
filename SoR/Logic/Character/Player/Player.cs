@@ -106,6 +106,7 @@ namespace SoR.Logic.Character.Player
 
             Pausing = false;
             Colliding = false;
+            Casting = false;
             idle = true;
             lastAnimation = "";
             prevTrigger = "";
@@ -154,6 +155,8 @@ namespace SoR.Logic.Character.Player
                         {
                             fireball.SetPosition(positionX, positionY);
                             fireball.Frozen = true;
+                            fireball.Appear();
+                            Casting = true;
                         }
                     }
                     break;
@@ -249,20 +252,34 @@ namespace SoR.Logic.Character.Player
                 {
                     if (!fireball.Cast)
                     {
-                        if (energy >= 0)
-                        {
-                            float deltaTime = GameLogic.GetTime(gameTime);
-                            energy -= deltaTime;
-                            Bone handBone = skeleton.FindBone(CheckHand());
-                            fireball.SetPosition(handBone.WorldX, handBone.WorldY);
-                        }
-                        else
-                        {
-                            Projectiles = []; // Later will need to only remove Fireball.
-                            energy = 10;
-                        }
+                        UpdateProjectile(gameTime, fireball);
                     }
                 }
+            }
+        }
+
+        /*
+         * Projectile follows the Player hand bone, plays vanish animation shortly before
+         * disappearing, and is removed from Projectiles when energy runs out.
+         */
+        public void UpdateProjectile(GameTime gameTime, Projectile projectile)
+        {
+            if (energy >= 0)
+            {
+                float deltaTime = GameLogic.GetTime(gameTime);
+                energy -= deltaTime;
+                Bone handBone = skeleton.FindBone(CheckHand());
+                projectile.SetPosition(handBone.WorldX, handBone.WorldY);
+            }
+            if (energy <= 0.5)
+            {
+                projectile.Vanish();
+            }
+            if (energy <= 0)
+            {
+                Projectiles = []; // TO DO: only remove Fireball.
+                energy = 10; // TO DO: Energy replenished by another mechanism.
+                Casting = false;
             }
         }
     }

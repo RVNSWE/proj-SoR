@@ -612,10 +612,13 @@ namespace SoR.Logic
 
             if (input == "LeftTrigger" || input == "1")
             {
-                Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
+                if (!player.Casting)
+                {
+                    Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
 
-                player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
-                //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
+                    player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
+                    //player.CreateProjectile("fireball", GraphicsDevice, player.GetPosition().X, player.GetPosition().Y);
+                }
             }
         }
     }

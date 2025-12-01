@@ -64,6 +64,10 @@ namespace SoR.Logic.Character
         public bool Pausing { get; set; }
         public string Name { get; set; }
 
+        public virtual void Appear() { }
+
+        public virtual void Vanish() { }
+
         /*
          * Update skin after loading game or changing screens.
          */

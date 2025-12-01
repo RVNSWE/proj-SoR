@@ -36,7 +36,9 @@ namespace SoR.Logic.Character.Projectiles
             animations = new Dictionary<string, int>()
             {
                 { "idle", 1 },
-                { "hit", 2 }
+                { "hit", 2 },
+                { "appear", 2 },
+                { "vanish", 2 }
             };
 
             // Load texture atlas and attachment loader
@@ -98,6 +100,16 @@ namespace SoR.Logic.Character.Projectiles
             Speed = 50; // Set the entity's travel speed
 
             ImpassableArea = impassableArea;
+        }
+
+        public override void Appear()
+        {
+            movementAnimation = "appear";
+        }
+
+        public override void Vanish()
+        {
+            movementAnimation = "vanish";
         }
 
         /*
