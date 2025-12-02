@@ -57,10 +57,10 @@ namespace SoR.Logic.Character
         protected float newSpeed;
         protected string waitType;
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this may vary
-        public string Type { get; set; }
         public string Name { get; set; }
         public string Skin { get; set; }
         public int Speed { get; set; }
+        public int Damage { get; set; }
         public float LifeTime { get; set; }
         public bool Vanishing {  get; set; }
         public bool Colliding { get; set; }
@@ -143,7 +143,7 @@ namespace SoR.Logic.Character
         /*
          * Check for collision with other entities.
          */
-        public bool CollidesWith(Entity entity)
+        public bool CollidesWithEntity(Entity entity)
         {
             entity.UpdateHitbox(new SkeletonBounds());
             entity.GetHitbox().Update(entity.GetSkeleton(), true);
@@ -152,6 +152,25 @@ namespace SoR.Logic.Character
             hitbox.Update(skeleton, true);
 
             if (hitbox.AabbIntersectsSkeleton(entity.GetHitbox()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /*
+         * Check for collision with other entities.
+         */
+        public bool CollidesWithScenery(Scenery scenery)
+        {
+            scenery.UpdateHitbox(new SkeletonBounds());
+            scenery.GetHitbox().Update(scenery.GetSkeleton(), true);
+
+            hitbox = new SkeletonBounds();
+            hitbox.Update(skeleton, true);
+
+            if (hitbox.AabbIntersectsSkeleton(scenery.GetHitbox()))
             {
                 return true;
             }
@@ -243,7 +262,7 @@ namespace SoR.Logic.Character
                 Colliding = true;
             }
 
-            //RepelledFromScenery(8, scenery);
+            //RepelledDistanceFrom(8, scenery);
         }
 
         /*
@@ -304,8 +323,6 @@ namespace SoR.Logic.Character
 
             // Update skeletal transformations
             skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
-
-
         }
 
         /*

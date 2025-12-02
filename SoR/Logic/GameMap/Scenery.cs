@@ -113,6 +113,22 @@ namespace SoR.Logic.GameMap
         }
 
         /*
+         * Update the hitbox after a collision.
+         */
+        public void UpdateHitbox(SkeletonBounds updatedHitbox)
+        {
+            hitbox = updatedHitbox;
+        }
+
+        /*
+         * Get the hitbox.
+         */
+        public SkeletonBounds GetHitbox()
+        {
+            return hitbox;
+        }
+
+        /*
          * Get the skeleton.
          */
         public Skeleton GetSkeleton()

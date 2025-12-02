@@ -51,56 +51,28 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Be repelled away from an entity.
+         * Be repelled away from something.
          */
-        public void RepelledFromEntity(float distance, Entity entity)
+        public void RepelledDistanceFrom(float distance, float x, float y)
         {
             CountDistance = distance;
 
             prevDirection = direction;
             direction = Vector2.Zero;
 
-            if (entity.GetPosition().X > position.X) // Push right
+            if (x > position.X) // Push right
             {
                 direction.X = RepelDirection(direction.X, false);
             }
-            else if (entity.GetPosition().X < position.X) // Push left
+            else if (x < position.X) // Push left
             {
                 direction.X = RepelDirection(direction.X, true);
             }
-            if (entity.GetPosition().Y > position.Y) // Push down
+            if (y > position.Y) // Push down
             {
                 direction.Y = RepelDirection(direction.Y, false);
             }
-            else if (entity.GetPosition().Y < position.Y) // Push up
-            {
-                direction.Y = RepelDirection(direction.Y, true);
-            }
-        }
-
-        /*
-         * Be repelled away from scenery.
-         */
-        public void RepelledFromScenery(float distance, Scenery scenery)
-        {
-            CountDistance = distance;
-
-            prevDirection = direction;
-            direction = Vector2.Zero;
-
-            if (scenery.GetPosition().X > position.X) // Push right
-            {
-                direction.X = RepelDirection(direction.X, false);
-            }
-            else if (scenery.GetPosition().X < position.X) // Push left
-            {
-                direction.X = RepelDirection(direction.X, true);
-            }
-            if (scenery.GetPosition().Y > position.Y) // Push down
-            {
-                direction.Y = RepelDirection(direction.Y, false);
-            }
-            else if (scenery.GetPosition().Y < position.Y) // Push up
+            else if (y < position.Y) // Push up
             {
                 direction.Y = RepelDirection(direction.Y, true);
             }

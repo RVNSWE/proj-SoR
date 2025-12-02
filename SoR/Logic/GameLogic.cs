@@ -249,6 +249,7 @@ namespace SoR.Logic
         {
             camera.FollowPlayer(player.GetPosition());
             backdrop.Update(player.GetPosition());
+            player.UpdateStats(gameTime);
 
             if (!freezeGame)
             {
@@ -259,19 +260,28 @@ namespace SoR.Logic
 
                 foreach (var entity in Entities.Values)
                 {
+                    entity.CheckProjectileEntityCollisions(gameTime, entity);
                     entity.UpdatePosition(gameTime, graphics);
                     entity.UpdateAnimations(gameTime);
 
-                    if (entity != player & player.CollidesWith(entity))
+                    if (entity != player)
                     {
-                        entity.PauseMoving(gameTime);
+                        if (player.CollidesWith(entity))
+                        {
+                            entity.PauseMoving(gameTime);
 
-                        player.EntityCollision(entity, gameTime);
-                        entity.EntityCollision(player, gameTime);
+                            player.EntityCollision(entity, gameTime);
+                            entity.EntityCollision(player, gameTime);
+                        }
+
+                        entity.CheckProjectileEntityCollisions(gameTime, player);
+                        player.CheckProjectileEntityCollisions(gameTime, entity);
                     }
 
                     foreach (var scenery in Scenery.Values)
                     {
+                        entity.CheckProjectileSceneryCollisions(gameTime, scenery);
+
                         if (scenery.CollidesWith(entity))
                         {
                             if (entity != player)

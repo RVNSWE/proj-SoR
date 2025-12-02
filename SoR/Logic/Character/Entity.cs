@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.ECS;
+using SoR.Logic.Character.Player;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
@@ -72,6 +74,33 @@ namespace SoR.Logic.Character
         public virtual float GetEnergy()
         {
             return 0f;
+        }
+
+        public virtual void UpdateStats(GameTime gameTime) { }
+
+        public void CheckProjectileEntityCollisions(GameTime gameTime, Entity entity)
+        {
+            foreach (var projectile in Projectiles.Values)
+            {
+                if (entity != this && projectile.CollidesWithEntity(entity))
+                {
+                    entity.PauseMoving(gameTime);
+
+                    projectile.EntityCollision(entity, gameTime);
+                    entity.ProjectileCollision(projectile, gameTime);
+                }
+            }
+        }
+
+        public void CheckProjectileSceneryCollisions(GameTime gameTime, Scenery scenery)
+        {
+            foreach (var projectile in Projectiles.Values)
+            {
+                if (projectile.CollidesWithScenery(scenery))
+                {
+                    projectile.SceneryCollision(scenery, gameTime);
+                }
+            }
         }
 
         /*
@@ -257,7 +286,24 @@ namespace SoR.Logic.Character
                 Colliding = true;
             }
 
-            RepelledFromEntity(0.2f, entity);
+            RepelledDistanceFrom(0.2f, entity.GetPosition().X, entity.GetPosition().Y);
+        }
+
+        /*
+         * Define what happens on collision with an entity.
+         */
+        public virtual void ProjectileCollision(Projectile projectile, GameTime gameTime)
+        {
+            if (!Colliding)
+            {
+                TakeDamage(projectile.Damage);
+                animTwo = defaultAnim;
+                movementAnimation = "hit";
+                collisionSeconds = 1;
+                Colliding = true;
+            }
+
+            RepelledDistanceFrom(0.3f, projectile.GetPosition().X, projectile.GetPosition().Y);
         }
 
         /*
@@ -274,7 +320,7 @@ namespace SoR.Logic.Character
                 Colliding = true;
             }
 
-            RepelledFromScenery(0.1f, scenery);
+            RepelledDistanceFrom(0.1f, scenery.GetPosition().X, scenery.GetPosition().Y);
         }
 
         /*

@@ -102,6 +102,7 @@ namespace SoR.Logic.Character.Projectiles
             Behind = false;
 
             Speed = 50; // Set the entity's travel speed
+            Damage = 10;
 
             ImpassableArea = impassableArea;
         }

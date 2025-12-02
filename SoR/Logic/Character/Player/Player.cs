@@ -150,7 +150,7 @@ namespace SoR.Logic.Character.Player
                 case "fireball":
                     if (!Projectiles.ContainsKey("fireball"))
                     {
-                        Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Type = "fireball" });
+                        Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Name = "fireball" });
                         if (Projectiles.TryGetValue("fireball", out Projectile fireball))
                         {
                             fireball.SetPosition(positionX, positionY);
@@ -189,7 +189,7 @@ namespace SoR.Logic.Character.Player
                 Colliding = true;
             }
 
-            RepelledFromEntity(0.1f, entity);
+            RepelledDistanceFrom(0.1f, entity.GetPosition().X, entity.GetPosition().Y);
         }
 
         /*
@@ -352,6 +352,20 @@ namespace SoR.Logic.Character.Player
             if (projectile.CountDistance <= 0.3f)
             {
                 projectile.Vanish();
+            }
+        }
+
+        public override void UpdateStats(GameTime gameTime)
+        {
+            float deltaTime = GameLogic.GetTime(gameTime);
+
+            if (energy < maxEnergy)
+            {
+                energy += deltaTime;
+            }
+            else if (energy > maxEnergy)
+            {
+                energy = maxEnergy;
             }
         }
 
