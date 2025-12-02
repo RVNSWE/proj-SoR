@@ -271,7 +271,6 @@ namespace SoR.Logic.Character.Player
                     if (fireball.LifeTime <= 0)
                     {
                         Projectiles.Remove(fireball.Name);
-                        energy = maxEnergy; // TO DO: Energy replenished by another mechanism.
                         Casting = false;
                     }
 
@@ -359,13 +358,16 @@ namespace SoR.Logic.Character.Player
         {
             float deltaTime = GameLogic.GetTime(gameTime);
 
-            if (energy < maxEnergy)
+            if (!Casting)
             {
-                energy += deltaTime;
-            }
-            else if (energy > maxEnergy)
-            {
-                energy = maxEnergy;
+                if (energy < maxEnergy)
+                {
+                    energy += deltaTime;
+                }
+                else if (energy > maxEnergy)
+                {
+                    energy = maxEnergy;
+                }
             }
         }
 
