@@ -252,34 +252,28 @@ namespace SoR.Logic.Character.Player
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
-                if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                if (Projectiles.TryGetValue("fireball", out Projectile projectile))
                 {
                     if (Casting)
                     {
-                        UpdateProjectile(gameTime, fireball);
+                        UpdateProjectile(gameTime, projectile);
                     }
                     else
                     {
-                        LaunchProjectile(fireball);
+                        LaunchProjectile(gameTime, projectile);
                     }
 
-                    if (fireball.Colliding)
+                    if (projectile.Colliding || projectile.LifeTime <= 0.5f)
                     {
-                        fireball.CountDistance = 0;
-                        fireball.Vanish();
+                        projectile.Vanish(gameTime);
                     }
-                    if (fireball.LifeTime <= 0.3f)
+                    if (projectile.LifeTime <= 0)
                     {
-                        float deltaTime = GameLogic.GetTime(gameTime);
-                        fireball.LifeTime -= deltaTime;
-                    }
-                    if (fireball.LifeTime <= 0)
-                    {
-                        Projectiles.Remove(fireball.Name);
+                        Projectiles.Remove(projectile.Name);
                         Casting = false;
                     }
 
-                    fireball.UpdatePosition(gameTime, graphics);
+                    projectile.UpdatePosition(gameTime, graphics);
                 }
             }
         }
@@ -304,56 +298,59 @@ namespace SoR.Logic.Character.Player
 
             if (GetStatValue("INT") <= 0.3f)
             {
-                projectile.Vanish();
+                projectile.Vanish(gameTime);
             }
         }
 
         /*
          * Launch the projectile away from the Player.
          */
-        public void LaunchProjectile(Projectile projectile)
+        public void LaunchProjectile(GameTime gameTime, Projectile projectile)
         {
             if (!projectile.Cast)
             {
                 Bone handBone = skeleton.FindBone(CheckHand());
                 float x = handBone.WorldX;
                 float y = handBone.WorldY;
+                int magnifier = 5;
 
                 if (idle)
                 {
                     switch (isFacing)
                     {
                         case "L_idle":
-                            x += 5;
+                            x += magnifier;
                             break;
                         case "R_idle":
-                            x -= 5;
+                            x -= magnifier;
                             break;
                         case "U_idle":
-                            y += 5;
+                            y += magnifier;
                             break;
                         case "D_idle":
-                            y -= 5;
+                            y -= magnifier;
                             break;
                     }
                 }
                 else
                 {
-                    float modifiedX = direction.X * 5;
-                    float modifiedY = direction.Y * 5;
-                    x = projectile.GetPosition().X - modifiedX;
-                    y = projectile.GetPosition().Y - modifiedY;
+                    float directionX = direction.X * magnifier;
+                    float directionY = direction.Y * magnifier;
+
+                    x = projectile.GetPosition().X - directionX;
+                    y = projectile.GetPosition().Y - directionY;
                 }
 
                 projectile.LaunchDistanceFromXY(projectile.LifeTime, x, y);
                 projectile.Cast = true;
             }
-            if (projectile.CountDistance <= 0.3f)
-            {
-                projectile.Vanish();
-            }
         }
 
+        /*
+         * Update all stats.
+         * 
+         * TO DO: Add rest of stats.
+         */
         public override void UpdateStats(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);

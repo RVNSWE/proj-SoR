@@ -51,6 +51,14 @@ namespace SoR.Logic.Character.Mobs
                 { "run", 1 }
             };
 
+            Stats = new Dictionary<string, float>()
+            {
+                { "STR", 120f },
+                { "CON", 0f },
+                { "AGI", 20f },
+                { "INT", 0f }
+            };
+
             // Load texture atlas and attachment loader
             atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Pheasant\\savedthepheasant.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);

@@ -70,7 +70,7 @@ namespace SoR.Logic.Character
 
         public virtual void Appear() { }
 
-        public virtual void Vanish() { }
+        public virtual void Vanish(GameTime gameTime) { }
 
         /*
          * Update skin after loading game or changing screens.
@@ -183,23 +183,19 @@ namespace SoR.Logic.Character
          */
         public void BeMoved(GameTime gameTime)
         {
-            if (CountDistance > 0)
+            float deltaTime = GameLogic.GetTime(gameTime);
+
+            CalculateSpeed(gameTime);
+            AdjustXPosition(ImpassableArea);
+            AdjustYPosition(ImpassableArea);
+
+            CountDistance -= deltaTime * 5; // x5 meaningless - debugging why projectiles are launching way further than they should.
+
+            if (CountDistance <= 1)
             {
-                float deltaTime = GameLogic.GetTime(gameTime);
-
-                CountDistance -= deltaTime;
-
-                if (CountDistance <= deltaTime)
-                {
-                    direction = Vector2.Zero;
-                    BeenPushed = true;
-                    CountDistance = 0;
-                }
-
-                CalculateSpeed(gameTime);
-                newSpeed = newSpeed * 3;
-                AdjustXPosition(ImpassableArea);
-                AdjustYPosition(ImpassableArea);
+                Colliding = true;
+                BeenPushed = true;
+                Vanish(gameTime);
             }
         }
 

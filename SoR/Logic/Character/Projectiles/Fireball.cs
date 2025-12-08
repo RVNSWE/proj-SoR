@@ -86,8 +86,8 @@ namespace SoR.Logic.Character.Projectiles
 
             Traversable = true; // Whether the entity is on walkable terrain
 
-            CountDistance = 0; // Count how far to automatically move
-            LifeTime = 10;
+            CountDistance = 5; // Count how far to be launched
+            LifeTime = 5;
             direction = new Vector2(0, 0); // The direction of movement
             prevDirection = direction;
             sinceLastChange = 0; // Time since last direction change
@@ -101,7 +101,7 @@ namespace SoR.Logic.Character.Projectiles
             Bouncey = false;
             Behind = false;
 
-            Speed = 50; // Set the entity's travel speed
+            Speed = 120; // Set the entity's travel speed
             Damage = 10;
 
             ImpassableArea = impassableArea;
@@ -112,16 +112,18 @@ namespace SoR.Logic.Character.Projectiles
             movementAnimation = "appear";
         }
 
-        public override void Vanish()
+        public override void Vanish(GameTime gameTime)
         {
-            movementAnimation = "vanish";
-
             if (!Vanishing)
             {
-                LifeTime = 0.3f;
+                LifeTime = 0.5f;
+                CountDistance = 0;
+                Vanishing = true;
             }
 
-            Vanishing = true;
+            float deltaTime = GameLogic.GetTime(gameTime);
+            movementAnimation = "vanish";
+            LifeTime -= deltaTime;
         }
 
         /*
