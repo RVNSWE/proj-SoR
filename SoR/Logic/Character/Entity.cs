@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.ECS;
-using SoR.Logic.Character.Player;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
@@ -59,6 +57,8 @@ namespace SoR.Logic.Character
         protected string isFacing;
         protected string waitType;
         protected float newSpeed;
+
+        public bool GamePaused { get; set; }
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
         public Dictionary<string, Projectile> Projectiles { get; set; }
         public bool Player { get; set; }

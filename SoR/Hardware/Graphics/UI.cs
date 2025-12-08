@@ -31,7 +31,7 @@ namespace SoR.Hardware.Graphics
         /*
          * Draw a UI stat bar with the given position and width.
          */
-        public void DrawStatBar(Vector2 position, OrthographicCamera camera, int width)
+        public void DrawStatBar(Vector2 position, OrthographicCamera camera, float width)
         {
             int height = 5;
             Vector2 scale = new Vector2(width, height);

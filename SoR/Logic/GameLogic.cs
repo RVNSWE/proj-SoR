@@ -343,6 +343,16 @@ namespace SoR.Logic
         }
 
         /*
+         * Render the in game UI.
+         */
+        public void RenderUI()
+        {
+            Vector2 strBarPosition = new Vector2(player.GetPosition().X - 200, player.GetPosition().Y - 200);
+
+            render.DrawStatBar(strBarPosition, camera.GetCamera(), player.GetEnergy());
+        }
+
+        /*
          * Render game elements in order of y-axis Position.
          */
         public void Render(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
@@ -492,6 +502,8 @@ namespace SoR.Logic
                         }
                     }
 
+                    RenderUI();
+
                     if (freezeGame)
                     {
                         currentMenuItem = render.DrawStartMenu(
@@ -539,6 +551,13 @@ namespace SoR.Logic
 
             if (menu) // Only applicable within menus
             {
+                foreach (var entity in Entities.Values)
+                {
+                    if (!entity.GamePaused)
+                    {
+                        entity.GamePaused = true;
+                    }
+                }
                 if (input == "A" || input == "Enter")
                 {
                     switch (currentMenuItem)
@@ -581,6 +600,13 @@ namespace SoR.Logic
             }
             if (!menu) // Only applicable outside of menus
             {
+                foreach (var entity in Entities.Values)
+                {
+                    if (entity.GamePaused)
+                    {
+                        entity.GamePaused = false;
+                    }
+                }
                 if (input == "Up" || input == "F8")
                 {
                     SaveGame(); // Save the current game state
@@ -609,8 +635,8 @@ namespace SoR.Logic
             {
                 switch (freezeGame) // Freeze the game whilst the menu is open
                 {
-                    case true: // If the menu is open
-                        switch (exitMenu)
+                    case true: // If the menu is open (TO DO: move / copy this to when B / back pressed)
+                            switch (exitMenu)
                         {
                             case true: // If in the exitMenu
                                 exitMenu = false; // Leave the exitMenu

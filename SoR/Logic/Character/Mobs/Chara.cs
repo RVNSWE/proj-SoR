@@ -86,6 +86,7 @@ namespace SoR.Logic.Character.Mobs
             hitbox = new SkeletonBounds();
             hitbox.Update(skeleton, true);
 
+            GamePaused = false;
             Pausing = false;
             Colliding = false;
             Player = false;
