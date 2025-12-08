@@ -257,7 +257,6 @@ namespace SoR.Logic
 
                 foreach (var entity in Entities.Values)
                 {
-                    entity.CheckProjectileEntityCollisions(gameTime, entity);
                     entity.UpdatePosition(gameTime, graphics);
                     entity.UpdateAnimations(gameTime);
 

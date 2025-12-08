@@ -263,7 +263,7 @@ namespace SoR.Logic.Character.Player
                         LaunchProjectile(gameTime, projectile);
                     }
 
-                    if (projectile.Colliding || projectile.LifeTime <= 0.5f)
+                    if (projectile.Colliding && projectile.Cast || projectile.LifeTime <= 0.5f)
                     {
                         projectile.Vanish(gameTime);
                     }
@@ -341,7 +341,7 @@ namespace SoR.Logic.Character.Player
                     y = projectile.GetPosition().Y - directionY;
                 }
 
-                projectile.LaunchDistanceFromXY(projectile.LifeTime, x, y);
+                projectile.LaunchDistanceFromXY(projectile.CountDistance, x, y);
                 projectile.Cast = true;
             }
         }
@@ -351,25 +351,13 @@ namespace SoR.Logic.Character.Player
          */
         public override void UpdateStats(GameTime gameTime)
         {
-            float deltaTime = GameLogic.GetTime(gameTime);
-            float newValue;
-
             if (GamePaused)
             {
                 return;
             }
 
-            IncrementStat(gameTime, "STR");
-            IncrementStat(gameTime, "CON");
-            IncrementStat(gameTime, "INT");
-
-            SpendStat(gameTime, "INT");
-
-            if (Casting && GetStatValue("INT") > 0)
-            {
-                newValue = GetStatValue("INT") - deltaTime;
-                UpdateStatValue("INT", newValue);
-            }
+            float deltaTime = GameLogic.GetTime(gameTime);
+            float newValue;
 
             Dictionary<string, float> updatedStats = [];
 
@@ -378,16 +366,26 @@ namespace SoR.Logic.Character.Player
                 updatedStats.Add(stat.Key, stat.Value);
             }
 
+            IncrementStat(deltaTime, "STR");
+            IncrementStat(deltaTime, "CON");
+            IncrementStat(deltaTime, "INT");
+
+            SpendStat(deltaTime, "INT");
+
+            if (Casting && GetStatValue("INT") > 0)
+            {
+                newValue = GetStatValue("INT") - deltaTime;
+                UpdateStatValue("INT", newValue);
+            }
+
             foreach (string stat in updatedStats.Keys)
             {
                 AdjustStatValues(stat);
             }
         }
 
-        public void IncrementStat(GameTime gameTime, string stat)
+        public void IncrementStat(float deltaTime, string stat)
         {
-            float deltaTime = GameLogic.GetTime(gameTime);
-
             if (GetStatValue(stat) < maxStatValue)
             {
                 float newValue = GetStatValue(stat) + deltaTime;
@@ -395,20 +393,11 @@ namespace SoR.Logic.Character.Player
             }
         }
 
-        public void SpendStat(GameTime gameTime, string stat)
+        public void SpendStat(float deltaTime, string stat)
         {
-            float deltaTime = GameLogic.GetTime(gameTime);
-            float newValue;
-
             if (Casting && GetStatValue(stat) > 0)
             {
-                newValue = GetStatValue(stat) - deltaTime;
-                UpdateStatValue(stat, newValue);
-            }
-            else if (GetStatValue(stat) < maxStatValue)
-            {
-                newValue = GetStatValue(stat) + deltaTime;
-                UpdateStatValue(stat, newValue);
+                UpdateStatValue(stat, GetStatValue(stat) - deltaTime);
             }
         }
 

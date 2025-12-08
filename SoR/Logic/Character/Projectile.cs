@@ -191,11 +191,10 @@ namespace SoR.Logic.Character
 
             CountDistance -= deltaTime * 5; // x5 meaningless - debugging why projectiles are launching way further than they should.
 
-            if (CountDistance <= 1)
+            if (Cast && CountDistance <= 1)
             {
                 Colliding = true;
                 BeenPushed = true;
-                Vanish(gameTime);
             }
         }
 
