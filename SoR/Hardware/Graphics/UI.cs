@@ -26,41 +26,49 @@ namespace SoR.Hardware.Graphics
         public void DrawUI(
             Vector2 position,
             OrthographicCamera camera,
+            float strWidth,
+            float conWidth,
+            float agiWidth,
             float intWidth
             )
         {
+            int statBarYOffset = 250;
+            int strXOffset = 350;
+            int conXOffset = 200;
+            int agiXOffset = 50;
+            int intXOffset = 100;
+
             string strLabel = "STR: ";
-            Vector2 strBarPosition = new(position.X - 350, position.Y - 250);
-            Vector2 strTextPosition = new(strBarPosition.X - TextSize(strLabel).X, strBarPosition.Y - 2.5f);
+            Vector2 strBarPosition = new(position.X - strXOffset, position.Y - statBarYOffset);
+            Vector2 strTextPosition = new(strBarPosition.X - TextSize(strLabel).X, strBarPosition.Y);
             string conLabel = "CON: ";
-            Vector2 conBarPosition = new(position.X - 100, position.Y - 250);
-            Vector2 conTextPosition = new(conBarPosition.X - TextSize(conLabel).X, conBarPosition.Y - 2.5f);
+            Vector2 conBarPosition = new(position.X - conXOffset, position.Y - statBarYOffset);
+            Vector2 conTextPosition = new(conBarPosition.X - TextSize(conLabel).X, conBarPosition.Y);
             string agiLabel = "AGI: ";
-            Vector2 agiBarPosition = new(position.X - 350, position.Y - 200);
-            Vector2 agiTextPosition = new(agiBarPosition.X - TextSize(agiLabel).X, agiBarPosition.Y - 2.5f);
+            Vector2 agiBarPosition = new(position.X - agiXOffset, position.Y - statBarYOffset);
+            Vector2 agiTextPosition = new(agiBarPosition.X - TextSize(agiLabel).X, agiBarPosition.Y);
             string intLabel = "INT: ";
-            Vector2 intBarPosition = new (position.X - 100, position.Y - 200);
-            Vector2 intTextPosition = new (intBarPosition.X - TextSize(intLabel).X, intBarPosition.Y - 2.5f);
+            Vector2 intBarPosition = new (position.X + intXOffset, position.Y - statBarYOffset);
+            Vector2 intTextPosition = new (intBarPosition.X - TextSize(intLabel).X, intBarPosition.Y);
 
             StartDrawingSpriteBatch(camera);
+            DrawText(strTextPosition, strLabel, 0.6f);
+            DrawStatBar(0, strBarPosition, strWidth);
+            DrawText(conTextPosition, conLabel, 0.6f);
+            DrawStatBar(1, conBarPosition, conWidth);
+            DrawText(agiTextPosition, agiLabel, 0.6f);
+            DrawStatBar(2, agiBarPosition, agiWidth);
             DrawText(intTextPosition, intLabel, 0.6f);
-            DrawStatBar(3, intBarPosition, camera, intWidth);
-            DrawText(intTextPosition, intLabel, 0.6f);
-            DrawStatBar(3, intBarPosition, camera, intWidth);
-            DrawText(intTextPosition, intLabel, 0.6f);
-            DrawStatBar(3, intBarPosition, camera, intWidth);
-            DrawText(intTextPosition, intLabel, 0.6f);
-            DrawStatBar(3, intBarPosition, camera, intWidth);
+            DrawStatBar(3, intBarPosition, intWidth);
             FinishDrawingSpriteBatch();
         }
 
         /*
          * Draw a given UI stat bar with the given position and width.
          */
-        public void DrawStatBar(int stat, Vector2 position, OrthographicCamera camera, float width)
+        public void DrawStatBar(int stat, Vector2 position, float width)
         {
-            int height = 5;
-            Vector2 scale = new(width, height);
+            Vector2 scale = new(width, statHeight);
             StatType statType = (StatType)stat;
             Texture2D drawStat = Curtain;
 

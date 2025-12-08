@@ -18,6 +18,8 @@ namespace SoR.Hardware.Graphics
         private SpriteBatch spriteBatch;
         private SkeletonRenderer skeletonRenderer;
         private SpriteFont font;
+        private int statHeight;
+
         public List<Rectangle> ImpassableTiles { get; private set; }
         public Texture2D Curtain { get; set; }
         public Texture2D Str { get; set; }
@@ -45,6 +47,7 @@ namespace SoR.Hardware.Graphics
             font = game.Content.Load<SpriteFont>("Fonts/File");
 
             ImpassableTiles = [];
+            statHeight = 10;
         }
 
         /*

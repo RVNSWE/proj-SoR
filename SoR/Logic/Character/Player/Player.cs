@@ -348,8 +348,6 @@ namespace SoR.Logic.Character.Player
 
         /*
          * Update all stats.
-         * 
-         * TO DO: Add rest of stats.
          */
         public override void UpdateStats(GameTime gameTime)
         {
@@ -361,24 +359,68 @@ namespace SoR.Logic.Character.Player
                 return;
             }
 
+            IncrementStat(gameTime, "STR");
+            IncrementStat(gameTime, "CON");
+            IncrementStat(gameTime, "INT");
+
+            SpendStat(gameTime, "INT");
+
             if (Casting && GetStatValue("INT") > 0)
             {
                 newValue = GetStatValue("INT") - deltaTime;
                 UpdateStatValue("INT", newValue);
             }
-            else if (GetStatValue("INT") < maxStatValue)
+
+            Dictionary<string, float> updatedStats = [];
+
+            foreach (var stat in Stats)
             {
-                newValue = GetStatValue("INT") + deltaTime;
-                UpdateStatValue("INT", newValue);
+                updatedStats.Add(stat.Key, stat.Value);
             }
 
-            if (GetStatValue("INT") < 0)
+            foreach (string stat in updatedStats.Keys)
             {
-                UpdateStatValue("INT", 0);
+                AdjustStatValues(stat);
             }
-            if (GetStatValue("INT") > maxStatValue)
+        }
+
+        public void IncrementStat(GameTime gameTime, string stat)
+        {
+            float deltaTime = GameLogic.GetTime(gameTime);
+
+            if (GetStatValue(stat) < maxStatValue)
             {
-                UpdateStatValue("INT", maxStatValue);
+                float newValue = GetStatValue(stat) + deltaTime;
+                UpdateStatValue(stat, newValue);
+            }
+        }
+
+        public void SpendStat(GameTime gameTime, string stat)
+        {
+            float deltaTime = GameLogic.GetTime(gameTime);
+            float newValue;
+
+            if (Casting && GetStatValue(stat) > 0)
+            {
+                newValue = GetStatValue(stat) - deltaTime;
+                UpdateStatValue(stat, newValue);
+            }
+            else if (GetStatValue(stat) < maxStatValue)
+            {
+                newValue = GetStatValue(stat) + deltaTime;
+                UpdateStatValue(stat, newValue);
+            }
+        }
+
+        public void AdjustStatValues(string stat)
+        {
+            if (GetStatValue(stat) < 0)
+            {
+                UpdateStatValue(stat, 0);
+            }
+            if (GetStatValue(stat) > maxStatValue)
+            {
+                UpdateStatValue(stat, maxStatValue);
             }
         }
     }

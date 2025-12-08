@@ -509,6 +509,9 @@ namespace SoR.Logic
                     render.DrawUI(
                         player.GetPosition(),
                         camera.GetCamera(),
+                        player.GetStatValue("STR"),
+                        player.GetStatValue("CON"),
+                        player.GetStatValue("AGI"),
                         player.GetStatValue("INT"));
 
                     if (freezeGame)
