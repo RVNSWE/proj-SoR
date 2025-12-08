@@ -20,6 +20,7 @@ namespace SoR.Hardware.Graphics
         private SpriteFont font;
         public List<Rectangle> ImpassableTiles { get; private set; }
         public Texture2D Curtain { get; set; }
+        public Texture2D Str { get; set; }
 
         /*
          * Initialise the SpriteBatch, SkeletonRenderer and ImpassableTiles collection.
@@ -33,32 +34,11 @@ namespace SoR.Hardware.Graphics
             };
 
             Curtain = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Screens\\Screen Transitions\\curtain"));
+            Str = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\str"));
+
             font = game.Content.Load<SpriteFont>("Fonts/File");
 
             ImpassableTiles = [];
-        }
-
-        /*
-         * Draw the curtain.
-         */
-        public void DrawCurtain(Vector2 position, OrthographicCamera camera, int width, int height, float fadeAlpha = 1f)
-        {
-            Vector2 backgroundPosition = new Vector2(position.X, position.Y);
-            Vector2 scale = new Vector2(width, height);
-            Vector2 adjustedPosition = new Vector2(backgroundPosition.X - (width / 2), backgroundPosition.Y - (height / 2));
-
-            StartDrawingSpriteBatch(camera);
-            spriteBatch.Draw(
-                Curtain,
-                adjustedPosition,
-                null,
-                Color.White * fadeAlpha,
-                0f,
-                Vector2.Zero,
-                scale,
-                SpriteEffects.None,
-                0f);
-            FinishDrawingSpriteBatch();
         }
 
         /*

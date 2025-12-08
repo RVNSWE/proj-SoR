@@ -103,5 +103,16 @@ namespace SoR.Logic
                 NextLine(gameTime);
             }
         }
+
+        /*
+         * Placeholder for storing text to be written.
+         */
+        public void IntroText()
+        {
+            WriteTime = new Dictionary<string, float>()
+            {
+                { "...", 0.3f },
+            };
+        }
     }
 }

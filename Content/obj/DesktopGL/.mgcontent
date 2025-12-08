@@ -10,6 +10,7 @@
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/savedthepheasant.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Player/MC2.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Slime/Slime.png</File>
+    <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Interface/UI/str.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/Interactables/Campfire/templecampfire.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/Interactables/House/House.png</File>
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Locations/TiledScenery/Backdrops/nightsky.png</File>
@@ -74,6 +75,7 @@
     <File>D:/ProjSoR/proj-SoR/Content/SoR Resources/Screens/Screen Transitions/curtain.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -38,8 +38,9 @@ namespace SoR.Logic.Character.Player
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
 
-        private float maxEnergy;
-        private float energy;
+        private const float maxEnergy = 100;
+
+        public float Energy {  get; private set; }
 
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
@@ -124,20 +125,18 @@ namespace SoR.Logic.Character.Player
             collisionSeconds = 0;
             frozenSeconds = 1;
             pauseSeconds = 0;
-            newSpeed = 0;
 
             Player = true;
-            Name = "Mercura";
+            Name = "Capricia";
 
             Speed = 120;
+            newSpeed = 0;
             HitPoints = 100;
+            Energy = 0f; // Set starting Energy
 
             ImpassableArea = impassableArea;
 
             Projectiles = [];
-
-            maxEnergy = 2.5f;
-            energy = 2.5f;
         }
 
         /*
@@ -281,7 +280,7 @@ namespace SoR.Logic.Character.Player
 
         /*
          * Projectile follows the Player hand bone, plays vanish animation shortly before
-         * disappearing, and is removed from Projectiles when energy runs out.
+         * disappearing, and is removed from Projectiles when Energy runs out.
          */
         public void UpdateProjectile(GameTime gameTime, Projectile projectile)
         {
@@ -297,12 +296,12 @@ namespace SoR.Logic.Character.Player
                 projectile.Behind = false;
             }
 
-            if (energy >= 0)
+            if (Energy >= 0)
             {
                 float deltaTime = GameLogic.GetTime(gameTime);
-                energy -= deltaTime;
+                Energy -= deltaTime;
             }
-            if (energy <= 0.3f)
+            if (Energy <= 0.3f)
             {
                 projectile.Vanish();
             }
@@ -345,7 +344,7 @@ namespace SoR.Logic.Character.Player
                     y = projectile.GetPosition().Y - modifiedY;
                 }
 
-                projectile.LaunchDistanceFromXY(energy, x, y);
+                projectile.LaunchDistanceFromXY(Energy, x, y);
                 projectile.Cast = true;
             }
             if (projectile.CountDistance <= 0.3f)
@@ -360,20 +359,20 @@ namespace SoR.Logic.Character.Player
 
             if (!Casting)
             {
-                if (energy < maxEnergy)
+                if (Energy < maxEnergy)
                 {
-                    energy += deltaTime;
+                    Energy += deltaTime;
                 }
-                else if (energy > maxEnergy)
+                else if (Energy > maxEnergy)
                 {
-                    energy = maxEnergy;
+                    Energy = maxEnergy;
                 }
             }
         }
 
         public override float GetEnergy()
         {
-            return energy;
+            return Energy;
         }
     }
 }
