@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SoR.Hardware.Input;
 using SoR.Logic.Character.Projectiles;
 using Spine;
 using System.Collections.Generic;
+using static System.Windows.Forms.AxHost;
 
 namespace SoR.Logic.Character.Player
 {
@@ -38,9 +40,6 @@ namespace SoR.Logic.Character.Player
         private GamePadInput gamePadInput;
         private KeyboardInput keyboardInput;
 
-        private const float maxEnergy = 100;
-        private float energy;
-
         [JsonConstructor]
         public Player(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
@@ -67,6 +66,14 @@ namespace SoR.Logic.Character.Player
                 { "R_sit", 2 },
                 { "R_sitting", 1 },
                 { "R_stand", 2 }
+            };
+
+            Stats = new Dictionary<string, float>()
+            {
+                { "STR", 120f },
+                { "CON", 0f },
+                { "AGI", 20f },
+                { "INT", 0f }
             };
 
             // Load texture atlas and attachment loader
@@ -126,13 +133,12 @@ namespace SoR.Logic.Character.Player
             frozenSeconds = 1;
             pauseSeconds = 0;
 
-            Player = true;
-            Name = "Capricia";
-
             Speed = 120;
             newSpeed = 0;
             HitPoints = 100;
-            energy = 0f; // Set starting energy
+
+            Player = true;
+            Name = "Capricia";
 
             ImpassableArea = impassableArea;
 
@@ -280,7 +286,7 @@ namespace SoR.Logic.Character.Player
 
         /*
          * Projectile follows the Player hand bone, plays vanish animation shortly before
-         * disappearing, and is removed from Projectiles when energy runs out.
+         * disappearing, and is removed from Projectiles when intn runs out.
          */
         public void UpdateProjectile(GameTime gameTime, Projectile projectile)
         {
@@ -296,12 +302,13 @@ namespace SoR.Logic.Character.Player
                 projectile.Behind = false;
             }
 
-            if (energy >= 0)
+            if (GetStatValue("INT") >= 0)
             {
                 float deltaTime = GameLogic.GetTime(gameTime);
-                energy -= deltaTime;
+                float newValue = GetStatValue("INT") - deltaTime;
+                UpdateStats(gameTime);
             }
-            if (energy <= 0.3f)
+            if (GetStatValue("INT") <= 0.3f)
             {
                 projectile.Vanish();
             }
@@ -344,7 +351,7 @@ namespace SoR.Logic.Character.Player
                     y = projectile.GetPosition().Y - modifiedY;
                 }
 
-                projectile.LaunchDistanceFromXY(energy, x, y);
+                projectile.LaunchDistanceFromXY(projectile.LifeTime, x, y);
                 projectile.Cast = true;
             }
             if (projectile.CountDistance <= 0.3f)
@@ -356,23 +363,49 @@ namespace SoR.Logic.Character.Player
         public override void UpdateStats(GameTime gameTime)
         {
             float deltaTime = GameLogic.GetTime(gameTime);
+            float newValue;
 
-            if (!Casting && !GamePaused)
+            if (GamePaused)
             {
-                if (energy < maxEnergy)
+                return;
+            }
+
+            foreach (var stat in Stats)
+            {
+                switch (stat.Key)
                 {
-                    energy += deltaTime;
+                    case "STR":
+                        break;
+                    case "CON":
+                        break;
+                    case "AGI":
+                        break;
+                    case "INT":
+                        if (Casting && GetStatValue(stat.Key) > 0)
+                        {
+                            newValue = GetStatValue(stat.Key) - deltaTime;
+                            UpdateStats(gameTime);
+                        }
+                        else if (GetStatValue(stat.Key) < maxStatValue)
+                        {
+                            newValue = GetStatValue(stat.Key) + deltaTime;
+                            Stats.Remove(stat.Key);
+                            Stats.Add(stat.Key, newValue);
+                        }
+                        break;
                 }
-                else if (energy > maxEnergy)
+
+                if (stat.Value < 0)
                 {
-                    energy = maxEnergy;
+                    Stats.Remove(stat.Key);
+                    Stats.Add(stat.Key, 0);
+                }
+                if (stat.Value > maxStatValue)
+                {
+                    Stats.Remove(stat.Key);
+                    Stats.Add(stat.Key, maxStatValue);
                 }
             }
-        }
-
-        public override float GetEnergy()
-        {
-            return energy;
         }
     }
 }

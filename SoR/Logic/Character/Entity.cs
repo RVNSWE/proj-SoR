@@ -58,9 +58,12 @@ namespace SoR.Logic.Character
         protected string waitType;
         protected float newSpeed;
 
+        protected const float maxStatValue = 100;
+
         public bool GamePaused { get; set; }
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
         public Dictionary<string, Projectile> Projectiles { get; set; }
+        public Dictionary<string, float> Stats { get; set; }
         public bool Player { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
@@ -71,12 +74,17 @@ namespace SoR.Logic.Character
         public int HitPoints { get; set; }
         public int Speed { get; set; }
 
-        public virtual float GetEnergy()
+        public virtual void UpdateStats(GameTime gameTime) { }
+
+        public float GetStatValue(string stat)
         {
+            if (Stats.TryGetValue(stat, out float value))
+            {
+                return value;
+            }
+
             return 0f;
         }
-
-        public virtual void UpdateStats(GameTime gameTime) { }
 
         public void CheckProjectileEntityCollisions(GameTime gameTime, Entity entity)
         {

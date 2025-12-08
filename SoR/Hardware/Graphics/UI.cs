@@ -29,11 +29,26 @@ namespace SoR.Hardware.Graphics
             float intWidth
             )
         {
+            string strLabel = "STR: ";
+            Vector2 strBarPosition = new(position.X - 350, position.Y - 250);
+            Vector2 strTextPosition = new(strBarPosition.X - TextSize(strLabel).X, strBarPosition.Y - 2.5f);
+            string conLabel = "CON: ";
+            Vector2 conBarPosition = new(position.X - 100, position.Y - 250);
+            Vector2 conTextPosition = new(conBarPosition.X - TextSize(conLabel).X, conBarPosition.Y - 2.5f);
+            string agiLabel = "AGI: ";
+            Vector2 agiBarPosition = new(position.X - 350, position.Y - 200);
+            Vector2 agiTextPosition = new(agiBarPosition.X - TextSize(agiLabel).X, agiBarPosition.Y - 2.5f);
             string intLabel = "INT: ";
-            Vector2 intBarPosition = new (position.X - 350, position.Y - 250);
+            Vector2 intBarPosition = new (position.X - 100, position.Y - 200);
             Vector2 intTextPosition = new (intBarPosition.X - TextSize(intLabel).X, intBarPosition.Y - 2.5f);
 
             StartDrawingSpriteBatch(camera);
+            DrawText(intTextPosition, intLabel, 0.6f);
+            DrawStatBar(3, intBarPosition, camera, intWidth);
+            DrawText(intTextPosition, intLabel, 0.6f);
+            DrawStatBar(3, intBarPosition, camera, intWidth);
+            DrawText(intTextPosition, intLabel, 0.6f);
+            DrawStatBar(3, intBarPosition, camera, intWidth);
             DrawText(intTextPosition, intLabel, 0.6f);
             DrawStatBar(3, intBarPosition, camera, intWidth);
             FinishDrawingSpriteBatch();
@@ -52,13 +67,13 @@ namespace SoR.Hardware.Graphics
             switch (statType)
             {
                 case StatType.Str:
-                    drawStat = Int;
+                    drawStat = Str;
                     break;
                 case StatType.Con:
-                    drawStat = Int;
+                    drawStat = Con;
                     break;
                 case StatType.Agi:
-                    drawStat = Int;
+                    drawStat = Agi;
                     break;
                 case StatType.Int:
                     drawStat = Int;

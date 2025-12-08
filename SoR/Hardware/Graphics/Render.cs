@@ -20,6 +20,9 @@ namespace SoR.Hardware.Graphics
         private SpriteFont font;
         public List<Rectangle> ImpassableTiles { get; private set; }
         public Texture2D Curtain { get; set; }
+        public Texture2D Str { get; set; }
+        public Texture2D Con { get; set; }
+        public Texture2D Agi { get; set; }
         public Texture2D Int { get; set; }
 
         /*
@@ -34,7 +37,10 @@ namespace SoR.Hardware.Graphics
             };
 
             Curtain = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Screens\\Screen Transitions\\curtain"));
-            Int = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\str"));
+            Str = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\str"));
+            Con = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\conv"));
+            Agi = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\agi"));
+            Int = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\int"));
 
             font = game.Content.Load<SpriteFont>("Fonts/File");
 

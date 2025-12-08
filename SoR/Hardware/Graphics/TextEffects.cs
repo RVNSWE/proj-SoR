@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SoR.Logic.Character;
 using SoR.Logic.GameMap;
 using System;
 using System.Linq;
-using SoR.Logic.Character;
+using static System.Windows.Forms.AxHost;
 
 namespace SoR.Hardware.Graphics
 {
@@ -16,7 +17,7 @@ namespace SoR.Hardware.Graphics
         {
             spriteBatch.DrawString(
                 font,
-                "HP: " + entity.GetHitPoints() + "\nEnergy: " + entity.GetEnergy(),
+                "HP: " + entity.GetHitPoints() + "\nEnergy: " + entity.GetStatValue("INT"),
                 new Vector2(entity.GetPosition().X - 30, entity.GetPosition().Y + 30),
                 Color.BlueViolet);
         }

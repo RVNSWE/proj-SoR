@@ -13,6 +13,7 @@ using SoR.Logic.UI;
 using Spine;
 using System.Collections.Generic;
 using System.IO;
+using static System.Windows.Forms.AxHost;
 
 namespace SoR.Logic
 {
@@ -508,7 +509,7 @@ namespace SoR.Logic
                     render.DrawUI(
                         player.GetPosition(),
                         camera.GetCamera(),
-                        player.GetEnergy());
+                        player.GetStatValue("INT"));
 
                     if (freezeGame)
                     {
