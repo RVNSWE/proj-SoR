@@ -20,7 +20,7 @@ namespace SoR.Hardware.Graphics
         private SpriteFont font;
         public List<Rectangle> ImpassableTiles { get; private set; }
         public Texture2D Curtain { get; set; }
-        public Texture2D Str { get; set; }
+        public Texture2D Int { get; set; }
 
         /*
          * Initialise the SpriteBatch, SkeletonRenderer and ImpassableTiles collection.
@@ -34,7 +34,7 @@ namespace SoR.Hardware.Graphics
             };
 
             Curtain = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Screens\\Screen Transitions\\curtain"));
-            Str = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\str"));
+            Int = game.Content.Load<Texture2D>(Globals.GetResourcePath("Content\\SoR Resources\\Interface\\UI\\str"));
 
             font = game.Content.Load<SpriteFont>("Fonts/File");
 

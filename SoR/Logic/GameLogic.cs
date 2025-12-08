@@ -247,10 +247,6 @@ namespace SoR.Logic
          */
         public void UpdateWorld(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
         {
-            camera.FollowPlayer(player.GetPosition());
-            backdrop.Update(player.GetPosition());
-            player.UpdateStats(gameTime);
-
             if (!freezeGame)
             {
                 foreach (var scenery in Scenery.Values)
@@ -293,6 +289,10 @@ namespace SoR.Logic
                     }
                 }
             }
+            camera.FollowPlayer(player.GetPosition());
+            backdrop.Update(player.GetPosition());
+            player.UpdateStats(gameTime);
+
         }
 
         /*
@@ -345,12 +345,15 @@ namespace SoR.Logic
         /*
          * Render the in game UI.
          */
-        public void RenderUI()
+        /*public void RenderUI()
         {
-            Vector2 strBarPosition = new Vector2(player.GetPosition().X - 200, player.GetPosition().Y - 200);
-
-            render.DrawStatBar(strBarPosition, camera.GetCamera(), player.GetEnergy());
-        }
+            Vector2 intBarPosition = new (player.GetPosition().X - 350, player.GetPosition().Y - 250);
+            Vector2 intTextPosition = new(player.GetPosition().X - 360, player.GetPosition().Y - 250);
+            render.StartDrawingSpriteBatch(camera.GetCamera());
+            render.DrawStatBar(3, intBarPosition, camera.GetCamera(), player.GetEnergy());
+            render.DrawText(intTextPosition, "INT:");
+            render.FinishDrawingSpriteBatch();
+        }*/
 
         /*
          * Render game elements in order of y-axis Position.
@@ -364,8 +367,8 @@ namespace SoR.Logic
                 case CurrentMap.Intro:
 
                     render.StartDrawingSpriteBatch(camera.GetCamera());
-                    text.WriteText(GetTime(gameTime), render.TextSize(text.CurrentSentence), camera.PlayerPosition);
-                    render.DrawText(text.TextPosition, text.CurrentText, text.TextOpacity);
+                    text.WriteText(GetTime(gameTime), render.TextSize(text.CurrentSentence).X, camera.PlayerPosition);
+                    render.DrawText(text.TextPosition, text.CurrentText, 1, text.TextOpacity);
                     render.FinishDrawingSpriteBatch();
 
                     if (freezeGame)
@@ -502,7 +505,10 @@ namespace SoR.Logic
                         }
                     }
 
-                    RenderUI();
+                    render.DrawUI(
+                        player.GetPosition(),
+                        camera.GetCamera(),
+                        player.GetEnergy());
 
                     if (freezeGame)
                     {

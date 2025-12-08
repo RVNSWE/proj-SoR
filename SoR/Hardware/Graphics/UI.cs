@@ -7,12 +7,83 @@ namespace SoR.Hardware.Graphics
     internal partial class Render
     {
         /*
+         * 0 = Str (stress)
+         * 1 = Con (conviction)
+         * 2 = Agi (agitation)
+         * 3 = Int (initiation energy)
+         */
+        enum StatType
+        {
+            Str,
+            Con,
+            Agi,
+            Int
+        }
+
+        /*
+         * Draw the whole UI to the screen.
+         */
+        public void DrawUI(
+            Vector2 position,
+            OrthographicCamera camera,
+            float intWidth
+            )
+        {
+            string intLabel = "INT: ";
+            Vector2 intBarPosition = new (position.X - 350, position.Y - 250);
+            Vector2 intTextPosition = new (intBarPosition.X - TextSize(intLabel).X, intBarPosition.Y - 2.5f);
+
+            StartDrawingSpriteBatch(camera);
+            DrawText(intTextPosition, intLabel, 0.6f);
+            DrawStatBar(3, intBarPosition, camera, intWidth);
+            FinishDrawingSpriteBatch();
+        }
+
+        /*
+         * Draw a given UI stat bar with the given position and width.
+         */
+        public void DrawStatBar(int stat, Vector2 position, OrthographicCamera camera, float width)
+        {
+            int height = 5;
+            Vector2 scale = new(width, height);
+            StatType statType = (StatType)stat;
+            Texture2D drawStat = Curtain;
+
+            switch (statType)
+            {
+                case StatType.Str:
+                    drawStat = Int;
+                    break;
+                case StatType.Con:
+                    drawStat = Int;
+                    break;
+                case StatType.Agi:
+                    drawStat = Int;
+                    break;
+                case StatType.Int:
+                    drawStat = Int;
+                    break;
+            }
+
+            spriteBatch.Draw(
+                drawStat,
+                position,
+                null,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                scale,
+                SpriteEffects.None,
+                0f);
+        }
+
+        /*
          * Draw the curtain at the given position, width, height and opacity.
          */
         public void DrawCurtain(Vector2 position, OrthographicCamera camera, int width, int height, float fadeAlpha = 1f)
         {
-            Vector2 scale = new Vector2(width, height);
-            Vector2 adjustedPosition = new Vector2(position.X - (width / 2), position.Y - (height / 2));
+            Vector2 scale = new (width, height);
+            Vector2 adjustedPosition = new (position.X - (width / 2), position.Y - (height / 2));
 
             StartDrawingSpriteBatch(camera);
             spriteBatch.Draw(
@@ -20,28 +91,6 @@ namespace SoR.Hardware.Graphics
                 adjustedPosition,
                 null,
                 Color.White * fadeAlpha,
-                0f,
-                Vector2.Zero,
-                scale,
-                SpriteEffects.None,
-                0f);
-            FinishDrawingSpriteBatch();
-        }
-
-        /*
-         * Draw a UI stat bar with the given position and width.
-         */
-        public void DrawStatBar(Vector2 position, OrthographicCamera camera, float width)
-        {
-            int height = 5;
-            Vector2 scale = new Vector2(width, height);
-
-            StartDrawingSpriteBatch(camera);
-            spriteBatch.Draw(
-                Str,
-                position,
-                null,
-                Color.White,
                 0f,
                 Vector2.Zero,
                 scale,

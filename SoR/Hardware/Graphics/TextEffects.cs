@@ -40,7 +40,7 @@ namespace SoR.Hardware.Graphics
         {
             // Entity text
             spriteBatch.DrawString(
-            font,
+                font,
                 menuItem,
                 new Vector2(position.X, position.Y),
                 colour,
@@ -52,15 +52,20 @@ namespace SoR.Hardware.Graphics
         }
 
         /*
-         * Draw Text text.
+         * Draw general text.
          */
-        public void DrawText(Vector2 position, string text, float fadeAlpha = 1f)
+        public void DrawText(Vector2 position, string text, float scale, float fadeAlpha = 1f)
         {
             spriteBatch.DrawString(
             font,
             text,
             position,
-            Color.White * fadeAlpha);
+            Color.White * fadeAlpha,
+            0,
+            new Vector2(0, 0),
+            scale,
+            SpriteEffects.None,
+            0);
         }
 
         /*
@@ -87,10 +92,12 @@ namespace SoR.Hardware.Graphics
         /*
          * Used for measuring the current string for positioning on the screen.
          */
-        public float TextSize(string text)
+        public Vector2 TextSize(string text)
         {
-            float textSize = 0;
-            textSize = font.MeasureString(text).X / 2;
+            Vector2 textSize = new (0, 0);
+
+            textSize.X = font.MeasureString(text).X / 2;
+            textSize.Y = font.MeasureString(text).Y / 2;
 
             return textSize;
         }

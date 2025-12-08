@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SoR.Logic.GameMap;
 using System;
 using System.Collections.Generic;
 
