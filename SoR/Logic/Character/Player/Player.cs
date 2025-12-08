@@ -302,12 +302,6 @@ namespace SoR.Logic.Character.Player
                 projectile.Behind = false;
             }
 
-            if (GetStatValue("INT") >= 0)
-            {
-                float deltaTime = GameLogic.GetTime(gameTime);
-                float newValue = GetStatValue("INT") - deltaTime;
-                UpdateStats(gameTime);
-            }
             if (GetStatValue("INT") <= 0.3f)
             {
                 projectile.Vanish();
@@ -370,41 +364,24 @@ namespace SoR.Logic.Character.Player
                 return;
             }
 
-            foreach (var stat in Stats)
+            if (Casting && GetStatValue("INT") > 0)
             {
-                switch (stat.Key)
-                {
-                    case "STR":
-                        break;
-                    case "CON":
-                        break;
-                    case "AGI":
-                        break;
-                    case "INT":
-                        if (Casting && GetStatValue(stat.Key) > 0)
-                        {
-                            newValue = GetStatValue(stat.Key) - deltaTime;
-                            UpdateStats(gameTime);
-                        }
-                        else if (GetStatValue(stat.Key) < maxStatValue)
-                        {
-                            newValue = GetStatValue(stat.Key) + deltaTime;
-                            Stats.Remove(stat.Key);
-                            Stats.Add(stat.Key, newValue);
-                        }
-                        break;
-                }
+                newValue = GetStatValue("INT") - deltaTime;
+                UpdateStatValue("INT", newValue);
+            }
+            else if (GetStatValue("INT") < maxStatValue)
+            {
+                newValue = GetStatValue("INT") + deltaTime;
+                UpdateStatValue("INT", newValue);
+            }
 
-                if (stat.Value < 0)
-                {
-                    Stats.Remove(stat.Key);
-                    Stats.Add(stat.Key, 0);
-                }
-                if (stat.Value > maxStatValue)
-                {
-                    Stats.Remove(stat.Key);
-                    Stats.Add(stat.Key, maxStatValue);
-                }
+            if (GetStatValue("INT") < 0)
+            {
+                UpdateStatValue("INT", 0);
+            }
+            if (GetStatValue("INT") > maxStatValue)
+            {
+                UpdateStatValue("INT", maxStatValue);
             }
         }
     }

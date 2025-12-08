@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
+using static System.Windows.Forms.AxHost;
 
 namespace SoR.Logic.Character
 {
@@ -84,6 +85,12 @@ namespace SoR.Logic.Character
             }
 
             return 0f;
+        }
+
+        public void UpdateStatValue(string stat, float value)
+        {
+            Stats.Remove(stat);
+            Stats.Add(stat, value);
         }
 
         public void CheckProjectileEntityCollisions(GameTime gameTime, Entity entity)
