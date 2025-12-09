@@ -260,7 +260,7 @@ namespace SoR.Logic.Character.Player
                     }
                     else
                     {
-                        LaunchProjectile(gameTime, projectile);
+                        LaunchProjectile(projectile);
                     }
 
                     if (projectile.Colliding && projectile.Cast || projectile.LifeTime <= 0.5f)
@@ -296,7 +296,7 @@ namespace SoR.Logic.Character.Player
                 projectile.Behind = false;
             }
 
-            if (GetStatValue("INT") <= 0.3f)
+            if (GetStatValue("INT") <= 0.5f)
             {
                 projectile.Vanish(gameTime);
             }
@@ -305,7 +305,7 @@ namespace SoR.Logic.Character.Player
         /*
          * Launch the projectile away from the Player.
          */
-        public void LaunchProjectile(GameTime gameTime, Projectile projectile)
+        public void LaunchProjectile(Projectile projectile)
         {
             if (!projectile.Cast)
             {
@@ -341,7 +341,7 @@ namespace SoR.Logic.Character.Player
                     y = projectile.GetPosition().Y - directionY;
                 }
 
-                projectile.LaunchDistanceFromXY(projectile.CountDistance, x, y);
+                projectile.LaunchDistanceFromXY(projectile.LifeTime, x, y);
                 projectile.Cast = true;
             }
         }

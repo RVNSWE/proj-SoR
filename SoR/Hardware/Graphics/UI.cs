@@ -32,23 +32,21 @@ namespace SoR.Hardware.Graphics
             float intWidth
             )
         {
-            int statBarYOffset = 250;
-            int strXOffset = 350;
-            int conXOffset = 200;
-            int agiXOffset = 50;
-            int intXOffset = 100;
+            int statBarYOffset = 200;
+            int statBarXOffset = 350;
+            int statBarYModifier = 15;
 
             string strLabel = "STR: ";
-            Vector2 strBarPosition = new(position.X - strXOffset, position.Y - statBarYOffset);
+            Vector2 strBarPosition = new(position.X - statBarXOffset, position.Y + statBarYOffset);
             Vector2 strTextPosition = new(strBarPosition.X - TextSize(strLabel).X, strBarPosition.Y);
             string conLabel = "CON: ";
-            Vector2 conBarPosition = new(position.X - conXOffset, position.Y - statBarYOffset);
+            Vector2 conBarPosition = new(position.X - statBarXOffset, position.Y + statBarYOffset + statBarYModifier);
             Vector2 conTextPosition = new(conBarPosition.X - TextSize(conLabel).X, conBarPosition.Y);
             string agiLabel = "AGI: ";
-            Vector2 agiBarPosition = new(position.X - agiXOffset, position.Y - statBarYOffset);
+            Vector2 agiBarPosition = new(position.X - statBarXOffset, position.Y + statBarYOffset + (statBarYModifier * 2));
             Vector2 agiTextPosition = new(agiBarPosition.X - TextSize(agiLabel).X, agiBarPosition.Y);
             string intLabel = "INT: ";
-            Vector2 intBarPosition = new (position.X + intXOffset, position.Y - statBarYOffset);
+            Vector2 intBarPosition = new (position.X - statBarXOffset, position.Y + statBarYOffset + (statBarYModifier * 3));
             Vector2 intTextPosition = new (intBarPosition.X - TextSize(intLabel).X, intBarPosition.Y);
 
             StartDrawingSpriteBatch(camera);
