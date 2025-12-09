@@ -31,7 +31,7 @@ namespace SoR.Logic.Character
     /*
      * Parent class for player and non-player characters.
      */
-    public partial class Projectile
+    public partial class Item
     {
         protected Dictionary<string, int> animations;
         protected Atlas atlas;

@@ -7,6 +7,7 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Fishy/Fishy.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Fishy/Fishy.atlas","CopyItem","File",263,263,0.0012068
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Fishy/Fishy.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Fishy/Fishy.xnb","TextureProcessor","Texture2DContent",1308,29525,0.1210469
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Fishy/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Fishy/skeleton.json","CopyItem","File",1677,1677,0.0012403
+"D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Items/Branch/branch.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Items/Branch/branch.xnb","TextureProcessor","Texture2DContent",1472,8085,0.1272297
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/savedthepheasant.atlas","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Pheasant/savedthepheasant.atlas","CopyItem","File",563,563,0.0084381
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/savedthepheasant.png","D:/ProjSoR/proj-SoR/Content/bin/DesktopGL/SoR Resources/Entities/Pheasant/savedthepheasant.xnb","TextureProcessor","Texture2DContent",18534,682861,0.0167146
 "D:/ProjSoR/proj-SoR/Content/SoR Resources/Entities/Pheasant/skeleton.json","D:\ProjSoR\proj-SoR\Content\bin\DesktopGL\SoR Resources/Entities/Pheasant/skeleton.json","CopyItem","File",33425,33425,0.000958

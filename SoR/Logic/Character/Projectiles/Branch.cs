@@ -28,26 +28,24 @@ namespace SoR.Logic.Character.Projectiles
      * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SPINE RUNTIMES, EVEN IF ADVISED OF THE
      * POSSIBILITY OF SUCH DAMAGE.
      **************************************************************************************************************************/
-    internal class Fireball : Item
+    internal class Branch : Item
     {
-        public Fireball(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
+        public Branch(GraphicsDevice GraphicsDevice, List<Rectangle> impassableArea)
         {
             // The possible animations to play as a string and the method to use for playing them as an int
             animations = new Dictionary<string, int>()
             {
                 { "idle", 1 },
-                { "hit", 2 },
-                { "appear", 2 },
-                { "vanish", 2 }
+                { "hit", 2 }
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\fireball.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Items\\Branch\\branch.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
             json = new SkeletonJson(atlasAttachmentLoader);
 
             // Initialise skeleton json
-            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Projectiles\\Fireball\\skeleton.json"));
+            skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Items\\Branch\\skeleton.json"));
             skeleton = new Skeleton(skeletonData);
 
             // Set the skin
@@ -74,7 +72,7 @@ namespace SoR.Logic.Character.Projectiles
             Pausing = false;
             Vanishing = false;
             Colliding = false;
-            Name = "fireball";
+            Name = "branch";
             defaultAnim = "idle";
             lastAnimation = "";
             prevTrigger = "";

@@ -60,6 +60,42 @@
 #begin SoR Resources/Entities/Fishy/skeleton.json
 /copy:SoR Resources/Entities/Fishy/skeleton.json
 
+#begin SoR Resources/Entities/Items/branch/branch.atlas
+/copy:SoR Resources/Entities/Items/branch/branch.atlas
+
+#begin SoR Resources/Entities/Items/Branch/branch.atlas
+/copy:SoR Resources/Entities/Items/Branch/branch.atlas
+
+#begin SoR Resources/Entities/Items/branch/branch.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SoR Resources/Entities/Items/branch/branch.png
+
+#begin SoR Resources/Entities/Items/Branch/branch.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SoR Resources/Entities/Items/Branch/branch.png
+
+#begin SoR Resources/Entities/Items/branch/skeleton.json
+/copy:SoR Resources/Entities/Items/branch/skeleton.json
+
+#begin SoR Resources/Entities/Items/Branch/skeleton.json
+/copy:SoR Resources/Entities/Items/Branch/skeleton.json
+
 #begin SoR Resources/Entities/Pheasant/savedthepheasant.atlas
 /copy:SoR Resources/Entities/Pheasant/savedthepheasant.atlas
 

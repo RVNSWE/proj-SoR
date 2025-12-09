@@ -7,7 +7,7 @@ namespace SoR.Logic.Character
     /*
      * Handles player input and animation application.
      */
-    public partial class Projectile
+    public partial class Item
     {
         protected Random random;
         protected Vector2 newPosition;

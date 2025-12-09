@@ -63,8 +63,9 @@ namespace SoR.Logic.Character
 
         public bool GamePaused { get; set; }
         public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
-        public Dictionary<string, Projectile> Projectiles { get; set; }
+        public Dictionary<string, Item> Projectiles { get; set; }
         public Dictionary<string, float> Stats { get; set; }
+        public Dictionary<Item, int> Inventory { get; set; }
         public bool Player { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
@@ -74,6 +75,14 @@ namespace SoR.Logic.Character
         public string Name { get; set; }
         public int HitPoints { get; set; }
         public int Speed { get; set; }
+
+        /*
+         * Add a specified number of an item to inventory.
+         */
+        public void AddToInventory(Item item, int number)
+        {
+            Inventory.Add(item, number);
+        }
 
         public virtual void UpdateStats(GameTime gameTime) { }
 
@@ -91,6 +100,18 @@ namespace SoR.Logic.Character
         {
             Stats.Remove(stat);
             Stats.Add(stat, value);
+        }
+
+        public void AdjustStatValues(string stat)
+        {
+            if (GetStatValue(stat) < 0)
+            {
+                UpdateStatValue(stat, 0);
+            }
+            if (GetStatValue(stat) > maxStatValue)
+            {
+                UpdateStatValue(stat, maxStatValue);
+            }
         }
 
         public void CheckProjectileEntityCollisions(GameTime gameTime, Entity entity)
@@ -307,7 +328,7 @@ namespace SoR.Logic.Character
         /*
          * Define what happens on collision with an entity.
          */
-        public virtual void ProjectileCollision(Projectile projectile, GameTime gameTime)
+        public virtual void ProjectileCollision(Item projectile, GameTime gameTime)
         {
             if (!Colliding)
             {

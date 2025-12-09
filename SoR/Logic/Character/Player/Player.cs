@@ -143,6 +143,7 @@ namespace SoR.Logic.Character.Player
             ImpassableArea = impassableArea;
 
             Projectiles = [];
+            Inventory = [];
         }
 
         /*
@@ -156,7 +157,7 @@ namespace SoR.Logic.Character.Player
                     if (!Projectiles.ContainsKey("fireball"))
                     {
                         Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Name = "fireball" });
-                        if (Projectiles.TryGetValue("fireball", out Projectile fireball))
+                        if (Projectiles.TryGetValue("fireball", out Item fireball))
                         {
                             fireball.SetPosition(positionX, positionY);
                             fireball.Appear();
@@ -252,7 +253,7 @@ namespace SoR.Logic.Character.Player
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
-                if (Projectiles.TryGetValue("fireball", out Projectile projectile))
+                if (Projectiles.TryGetValue("fireball", out Item projectile))
                 {
                     if (Casting)
                     {
@@ -282,7 +283,7 @@ namespace SoR.Logic.Character.Player
          * Projectile follows the Player hand bone, plays vanish animation shortly before
          * disappearing, and is removed from Projectiles when intn runs out.
          */
-        public void UpdateProjectile(GameTime gameTime, Projectile projectile)
+        public void UpdateProjectile(GameTime gameTime, Item projectile)
         {
             Bone handBone = skeleton.FindBone(CheckHand());
             projectile.SetPosition(handBone.WorldX, handBone.WorldY);
@@ -305,7 +306,7 @@ namespace SoR.Logic.Character.Player
         /*
          * Launch the projectile away from the Player.
          */
-        public void LaunchProjectile(Projectile projectile)
+        public void LaunchProjectile(Item projectile)
         {
             if (!projectile.Cast)
             {
@@ -357,7 +358,6 @@ namespace SoR.Logic.Character.Player
             }
 
             float deltaTime = GameLogic.GetTime(gameTime);
-            float newValue;
 
             Dictionary<string, float> updatedStats = [];
 
@@ -368,48 +368,35 @@ namespace SoR.Logic.Character.Player
 
             IncrementStat(deltaTime, "STR");
             IncrementStat(deltaTime, "CON");
-            IncrementStat(deltaTime, "INT");
 
-            SpendStat(deltaTime, "INT");
-
-            if (Casting && GetStatValue("INT") > 0)
+            if (!Casting)
             {
-                newValue = GetStatValue("INT") - deltaTime;
-                UpdateStatValue("INT", newValue);
+                IncrementStat(deltaTime, "INT");
+            }
+            else
+            {
+                DecrementStat(deltaTime, "INT");
             }
 
-            foreach (string stat in updatedStats.Keys)
-            {
-                AdjustStatValues(stat);
-            }
+                foreach (string stat in updatedStats.Keys)
+                {
+                    AdjustStatValues(stat);
+                }
         }
 
         public void IncrementStat(float deltaTime, string stat)
         {
             if (GetStatValue(stat) < maxStatValue)
             {
-                float newValue = GetStatValue(stat) + deltaTime;
-                UpdateStatValue(stat, newValue);
+                UpdateStatValue(stat, GetStatValue(stat) + deltaTime);
             }
         }
 
-        public void SpendStat(float deltaTime, string stat)
+        public void DecrementStat(float deltaTime, string stat)
         {
-            if (Casting && GetStatValue(stat) > 0)
+            if (GetStatValue(stat) > 0)
             {
                 UpdateStatValue(stat, GetStatValue(stat) - deltaTime);
-            }
-        }
-
-        public void AdjustStatValues(string stat)
-        {
-            if (GetStatValue(stat) < 0)
-            {
-                UpdateStatValue(stat, 0);
-            }
-            if (GetStatValue(stat) > maxStatValue)
-            {
-                UpdateStatValue(stat, maxStatValue);
             }
         }
     }

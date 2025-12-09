@@ -1,0 +1,7 @@
+branch.png
+size:25,80
+filter:Linear,Linear
+pma:true
+branch
+bounds:2,2,21,76
+offsets:63,36,150,150
