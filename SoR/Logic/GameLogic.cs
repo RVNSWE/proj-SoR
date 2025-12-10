@@ -6,6 +6,7 @@ using SoR.Hardware.Input;
 using SoR.Logic.Character;
 using SoR.Logic.Character.Mobs;
 using SoR.Logic.Character.Player;
+using SoR.Logic.Character.Projectiles;
 using SoR.Logic.GameMap;
 using SoR.Logic.GameMap.Interactables;
 using SoR.Logic.GameMap.TiledScenery;
@@ -27,6 +28,7 @@ namespace SoR.Logic
     {
         private EntityType entityType;
         private SceneryType sceneryType;
+        private ItemType itemType;
         private CurrentMap currentMapEnum;
         private Color backgroundColour;
         private MainMenu mainMenu;
@@ -63,6 +65,7 @@ namespace SoR.Logic
         private string playerName;
         public Dictionary<string, Entity> Entities { get; set; }
         public Dictionary<string, Scenery> Scenery { get; set; }
+        public Dictionary<string, Item> Items { get; set; }
         public string InGameScreen { get; set; }
         public string PlayerLocation { get; set; }
         public string SaveFile { get; set; }
@@ -82,6 +85,11 @@ namespace SoR.Logic
         enum SceneryType
         {
             Campfire
+        }
+
+        enum ItemType
+        {
+            Branch
         }
 
         /*
@@ -243,6 +251,24 @@ namespace SoR.Logic
         }
 
         /*
+         * Choose item to create.
+         */
+        public void CreateItem(GraphicsDevice GraphicsDevice, float positionX, float positionY)
+        {
+            switch (itemType)
+            {
+                case ItemType.Branch:
+                    Items.Add("branch", new Branch(GraphicsDevice, impassableArea) { Name = "branch" });
+                    if (Items.TryGetValue("branch", out Item branch))
+                    {
+                        branch.SetPosition(positionX, positionY);
+                        branch.Frozen = true;
+                    }
+                    break;
+            }
+        }
+
+        /*
          * Update world progress.
          */
         public void UpdateWorld(MainGame game, GameTime gameTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager graphics)
@@ -252,6 +278,12 @@ namespace SoR.Logic
                 foreach (var scenery in Scenery.Values)
                 {
                     scenery.UpdateAnimations(gameTime);
+                }
+
+                foreach (var item in Items.Values)
+                {
+                    item.UpdatePosition(gameTime, graphics);
+                    item.UpdateAnimations(gameTime);
                 }
 
                 foreach (var entity in Entities.Values)
@@ -331,6 +363,13 @@ namespace SoR.Logic
                     depths.Add(entity.GetPosition().Y);
                 }
             }
+            foreach (var item in Items.Values)
+            {
+                if (!depths.Contains(item.GetPosition().Y))
+                {
+                    depths.Add(item.GetPosition().Y);
+                }
+            }
             foreach (var tile in mapLowerWalls.Values)
             {
                 if (!depths.Contains(tile.Y))
@@ -340,19 +379,6 @@ namespace SoR.Logic
             }
             depths.Sort();
         }
-
-        /*
-         * Render the in game UI.
-         */
-        /*public void RenderUI()
-        {
-            Vector2 intBarPosition = new (player.GetPosition().X - 350, player.GetPosition().Y - 250);
-            Vector2 intTextPosition = new(player.GetPosition().X - 360, player.GetPosition().Y - 250);
-            render.StartDrawingSpriteBatch(camera.GetCamera());
-            render.DrawStatBar(3, intBarPosition, camera.GetCamera(), player.GetEnergy());
-            render.DrawText(intTextPosition, "INT:");
-            render.FinishDrawingSpriteBatch();
-        }*/
 
         /*
          * Render game elements in order of y-axis Position.
@@ -448,6 +474,17 @@ namespace SoR.Logic
                         }
                         render.FinishDrawingSpriteBatch();
                         render.StartDrawingSpriteBatch(camera.GetCamera());
+                        foreach (var item in Items.Values)
+                        {
+                            if (item.GetPosition().Y == depth)
+                            {
+                                render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                render.DrawItemSkeleton(item);
+                                render.FinishDrawingSkeleton();
+                            }
+                        }
+                        render.FinishDrawingSpriteBatch();
+                        render.StartDrawingSpriteBatch(camera.GetCamera());
                         foreach (var scenery in Scenery.Values)
                         {
                             if (scenery.GetPosition().Y == depth)
@@ -456,7 +493,7 @@ namespace SoR.Logic
                                 render.DrawScenerySkeleton(scenery);
                                 render.FinishDrawingSkeleton();
 
-                                render.DrawScenerySpriteBatch(scenery);
+                                render.DrawScenerySpriteBatch(scenery); // For drawing debugging text
                             }
                         }
                         render.FinishDrawingSpriteBatch();
@@ -470,7 +507,7 @@ namespace SoR.Logic
                                     if (projectile.Behind)
                                     {
                                         render.StartDrawingSkeleton(GraphicsDevice, camera);
-                                        render.DrawProjectileSkeleton(projectile);
+                                        render.DrawItemSkeleton(projectile);
                                         render.FinishDrawingSkeleton();
                                     }
                                 }
@@ -478,14 +515,14 @@ namespace SoR.Logic
                                 render.DrawEntitySkeleton(entity);
                                 render.FinishDrawingSkeleton();
 
-                                render.DrawEntitySpriteBatch(entity);
+                                render.DrawEntitySpriteBatch(entity); // For drawing debugging text
 
                                 foreach (var projectile in entity.Projectiles.Values)
                                 {
                                     if (!projectile.Behind)
                                     {
                                         render.StartDrawingSkeleton(GraphicsDevice, camera);
-                                        render.DrawProjectileSkeleton(projectile);
+                                        render.DrawItemSkeleton(projectile);
                                         render.FinishDrawingSkeleton();
                                     }
                                 }
@@ -636,6 +673,33 @@ namespace SoR.Logic
                     {
                         text.StartNewLine();
                     }*/
+
+                    Dictionary<string, Item> tempItems = Items;
+
+                    if (Entities.TryGetValue("player", out Entity player))
+                    {
+                        foreach (var item in tempItems)
+                        {
+                            if (item.Value.CollidesWith(player))
+                            {
+                                player.PickUpItem(1, item.Value, gameTime);
+                                Items.Remove(item.Key);
+                            }
+                        }
+                    }
+                }
+                if (input == "LeftTrigger" || input == "1")
+                {
+                    if (!player.Casting)
+                    {
+                        Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
+
+                        player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
+                    }
+                    else
+                    {
+                        player.Casting = false;
+                    }
                 }
             }
 
@@ -663,20 +727,6 @@ namespace SoR.Logic
                             freezeGame = true; // Freeze the game
                         }
                         break;
-                }
-            }
-
-            if (input == "LeftTrigger" || input == "1")
-            {
-                if (!player.Casting)
-                {
-                    Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
-
-                    player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
-                }
-                else
-                {
-                    player.Casting = false;
                 }
             }
         }

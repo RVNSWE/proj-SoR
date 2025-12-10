@@ -162,6 +162,7 @@ namespace SoR.Logic
         {
             Entities = [];
             Scenery = [];
+            Items = [];
             depths = [];
         }
 
@@ -262,6 +263,10 @@ namespace SoR.Logic
 
             entityType = EntityType.Pheasant;
             CreateEntity(GraphicsDevice, 250, 250);
+
+            // Create items
+            itemType = ItemType.Branch;
+            CreateItem(GraphicsDevice, 250, 190);
         }
 
         /*

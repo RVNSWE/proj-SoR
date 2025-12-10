@@ -99,6 +99,25 @@ namespace SoR.Logic.Character
         }
 
         /*
+         * Check for collision with other entities.
+         */
+        public bool CollidesWith(Entity entity)
+        {
+            entity.UpdateHitbox(new SkeletonBounds());
+            entity.GetHitbox().Update(entity.GetSkeleton(), true);
+
+            hitbox = new SkeletonBounds();
+            hitbox.Update(skeleton, true);
+
+            if (hitbox.AabbIntersectsSkeleton(entity.GetHitbox()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /*
          * Choose a method for playing the animation according to ChangeAnimation(eventTrigger)
          * animType.
          * 

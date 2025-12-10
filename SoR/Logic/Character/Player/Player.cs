@@ -157,10 +157,22 @@ namespace SoR.Logic.Character.Player
                     if (!Projectiles.ContainsKey("fireball"))
                     {
                         Projectiles.Add("fireball", new Fireball(GraphicsDevice, ImpassableArea) { Name = "fireball" });
-                        if (Projectiles.TryGetValue("fireball", out Item fireball))
+                        if (Projectiles.TryGetValue("fireball", out Item projectile))
                         {
-                            fireball.SetPosition(positionX, positionY);
-                            fireball.Appear();
+                            projectile.SetPosition(positionX, positionY);
+                            projectile.Appear();
+                            Casting = true;
+                        }
+                    }
+                    break;
+                case "branch":
+                    if (!Projectiles.ContainsKey("branch"))
+                    {
+                        Projectiles.Add("branch", new Branch(GraphicsDevice, ImpassableArea) { Name = "branch" });
+                        if (Projectiles.TryGetValue("branch", out Item projectile))
+                        {
+                            projectile.SetPosition(positionX, positionY);
+                            projectile.Appear();
                             Casting = true;
                         }
                     }

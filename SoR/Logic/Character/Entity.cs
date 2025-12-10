@@ -77,7 +77,7 @@ namespace SoR.Logic.Character
         public int Speed { get; set; }
 
         /*
-         * Add a specified number of an item to inventory.
+         * Add specified number of item to inventory.
          */
         public void AddToInventory(Item item, int number)
         {
@@ -280,36 +280,6 @@ namespace SoR.Logic.Character
         }
 
         /*
-         * Wait for a collision.
-         */
-        public void WaitForCollisionSeconds(GameTime gameTime)
-        {
-            if (collisionSeconds > 0)
-            {
-                collisionSeconds = SecondsRemaining(gameTime, collisionSeconds);
-            }
-            else
-            {
-                Colliding = false;
-            }
-        }
-
-        /*
-         * Wait to move.
-         */
-        public void WaitForPauseSeconds(GameTime gameTime)
-        {
-            if (pauseSeconds > 0)
-            {
-                pauseSeconds = SecondsRemaining(gameTime, pauseSeconds);
-            }
-            else
-            {
-                Pausing = false;
-            }
-        }
-
-        /*
          * Define what happens on collision with an entity.
          */
         public virtual void EntityCollision(Entity entity, GameTime gameTime)
@@ -360,6 +330,39 @@ namespace SoR.Logic.Character
         }
 
         /*
+         * Define what happens on collision with an item.
+         */
+        public virtual void PickUpItem(int number, Item item, GameTime gameTime)
+        {
+            if (!Colliding)
+            {
+                animTwo = defaultAnim;
+                movementAnimation = "hit";
+                collisionSeconds = 1.5f;
+                pauseSeconds = 0.5f;
+                Colliding = true;
+                Pausing = true;
+
+                Inventory.Add(item, number);
+            }
+        }
+
+        /*
+         * Wait for a collision.
+         */
+        public void WaitForCollisionSeconds(GameTime gameTime)
+        {
+            if (collisionSeconds > 0)
+            {
+                collisionSeconds = SecondsRemaining(gameTime, collisionSeconds);
+            }
+            else
+            {
+                Colliding = false;
+            }
+        }
+
+        /*
          * Stop moving.
          */
         public void PauseMoving(GameTime gameTime)
@@ -368,6 +371,21 @@ namespace SoR.Logic.Character
             {
                 pauseSeconds = 0.5f;
                 Pausing = true;
+            }
+        }
+
+        /*
+         * Wait to move.
+         */
+        public void WaitForPauseSeconds(GameTime gameTime)
+        {
+            if (pauseSeconds > 0)
+            {
+                pauseSeconds = SecondsRemaining(gameTime, pauseSeconds);
+            }
+            else
+            {
+                Pausing = false;
             }
         }
 
