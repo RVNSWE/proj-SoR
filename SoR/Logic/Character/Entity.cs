@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SoR.Logic.GameMap;
 using Spine;
 using System.Collections.Generic;
-using static System.Windows.Forms.AxHost;
 
 namespace SoR.Logic.Character
 {
@@ -62,10 +61,11 @@ namespace SoR.Logic.Character
         protected const float maxStatValue = 100;
 
         public bool GamePaused { get; set; }
-        public List<Rectangle> ImpassableArea { get; protected set; } // Public, as this will vary
+        public List<Rectangle> ImpassableArea { get; protected set; }
         public Dictionary<string, Item> Projectiles { get; set; }
         public Dictionary<string, float> Stats { get; set; }
         public Dictionary<Item, int> Inventory { get; set; }
+        public Item HeldItem { get; set; }
         public bool Player { get; set; }
         public bool Colliding { get; set; }
         public bool Pausing { get; set; }
@@ -142,12 +142,12 @@ namespace SoR.Logic.Character
         /*
          * Choose projectile to create.
          */
-        public virtual void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY) {}
+        public virtual void CreateProjectile(string projectileType, GraphicsDevice GraphicsDevice, float positionX, float positionY) { }
 
         /*
-         * Return left hand bone if facing up or down, otherwise back hand bone if facing right, otherwise front hand bone.
+         * Returns the name of the left hand bone.
          */
-        public string CheckHand()
+        public string LeftHand()
         {
             if (isFacing == "U_idle" || isFacing == "D_idle")
             {
@@ -158,6 +158,22 @@ namespace SoR.Logic.Character
                 return "HB";
             }
             return "HF";
+        }
+
+        /*
+         * Returns the name of the right hand bone.
+         */
+        public string RightHand()
+        {
+            if (isFacing == "U_idle" || isFacing == "D_idle")
+            {
+                return "HL";
+            }
+            if (isFacing == "R_idle")
+            {
+                return "HF";
+            }
+            return "HB";
         }
 
         /*
@@ -343,6 +359,7 @@ namespace SoR.Logic.Character
                 Colliding = true;
                 Pausing = true;
 
+                HeldItem = item;
                 Inventory.Add(item, number);
             }
         }

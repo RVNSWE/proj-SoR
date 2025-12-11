@@ -511,6 +511,12 @@ namespace SoR.Logic
                                         render.FinishDrawingSkeleton();
                                     }
                                 }
+                                if (entity.HeldItem != null && entity.HeldItem.Behind)
+                                {
+                                    render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                    render.DrawItemSkeleton(entity.HeldItem);
+                                    render.FinishDrawingSkeleton();
+                                }
                                 render.StartDrawingSkeleton(GraphicsDevice, camera);
                                 render.DrawEntitySkeleton(entity);
                                 render.FinishDrawingSkeleton();
@@ -525,6 +531,12 @@ namespace SoR.Logic
                                         render.DrawItemSkeleton(projectile);
                                         render.FinishDrawingSkeleton();
                                     }
+                                }
+                                if (entity.HeldItem != null && !entity.HeldItem.Behind)
+                                {
+                                    render.StartDrawingSkeleton(GraphicsDevice, camera);
+                                    render.DrawItemSkeleton(entity.HeldItem);
+                                    render.FinishDrawingSkeleton();
                                 }
                             }
                         }
@@ -678,12 +690,19 @@ namespace SoR.Logic
 
                     if (Entities.TryGetValue("player", out Entity player))
                     {
-                        foreach (var item in tempItems)
+                        if (player.HeldItem != null)
                         {
-                            if (item.Value.CollidesWith(player))
+                            player.HeldItem = null;
+                        }
+                        else
+                        {
+                            foreach (var item in tempItems)
                             {
-                                player.PickUpItem(1, item.Value, gameTime);
-                                Items.Remove(item.Key);
+                                if (item.Value.CollidesWith(player))
+                                {
+                                    player.PickUpItem(1, item.Value, gameTime);
+                                    Items.Remove(item.Key);
+                                }
                             }
                         }
                     }
@@ -692,7 +711,7 @@ namespace SoR.Logic
                 {
                     if (!player.Casting)
                     {
-                        Bone handBone = player.GetSkeleton().FindBone(player.CheckHand());
+                        Bone handBone = player.GetSkeleton().FindBone(player.LeftHand());
 
                         player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
                     }

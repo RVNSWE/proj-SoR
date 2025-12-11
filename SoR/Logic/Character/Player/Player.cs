@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SoR.Hardware.Input;
 using SoR.Logic.Character.Projectiles;
 using Spine;
 using System.Collections.Generic;
-using static System.Windows.Forms.AxHost;
 
 namespace SoR.Logic.Character.Player
 {
@@ -144,6 +142,7 @@ namespace SoR.Logic.Character.Player
 
             Projectiles = [];
             Inventory = [];
+            HeldItem = null;
         }
 
         /*
@@ -269,7 +268,7 @@ namespace SoR.Logic.Character.Player
                 {
                     if (Casting)
                     {
-                        UpdateProjectile(gameTime, projectile);
+                        UpdateProjectile(gameTime, projectile, RightHand());
                     }
                     else
                     {
@@ -288,19 +287,41 @@ namespace SoR.Logic.Character.Player
 
                     projectile.UpdatePosition(gameTime, graphics);
                 }
+
+                if (HeldItem != null)
+                {
+                    UpdateProjectile(gameTime, HeldItem, LeftHand());
+                }
             }
         }
 
         /*
-         * Projectile follows the Player hand bone, plays vanish animation shortly before
-         * disappearing, and is removed from Projectiles when intn runs out.
+         * Update the position of the held item.
          */
-        public void UpdateProjectile(GameTime gameTime, Item projectile)
+        public void UpdateHeldItem(GameTime gameTime, string bone)
         {
-            Bone handBone = skeleton.FindBone(CheckHand());
+            Bone handBone = skeleton.FindBone(bone);
+            HeldItem.SetPosition(handBone.WorldX, handBone.WorldY);
+
+            if (bone == "HB")
+            {
+                HeldItem.Behind = true;
+            }
+            else
+            {
+                HeldItem.Behind = false;
+            }
+        }
+
+        /*
+         * Update the position of the projectile.
+         */
+        public void UpdateProjectile(GameTime gameTime, Item projectile, string bone)
+        {
+            Bone handBone = skeleton.FindBone(bone);
             projectile.SetPosition(handBone.WorldX, handBone.WorldY);
 
-            if (CheckHand() == "HB")
+            if (bone == "HB")
             {
                 projectile.Behind = true;
             }
@@ -316,13 +337,13 @@ namespace SoR.Logic.Character.Player
         }
 
         /*
-         * Launch the projectile away from the Player.
+         * Launch the projectile away.
          */
         public void LaunchProjectile(Item projectile)
         {
             if (!projectile.Cast)
             {
-                Bone handBone = skeleton.FindBone(CheckHand());
+                Bone handBone = skeleton.FindBone(RightHand());
                 float x = handBone.WorldX;
                 float y = handBone.WorldY;
                 int magnifier = 5;
