@@ -428,6 +428,11 @@ namespace SoR.Logic.Character
 
             if (!Frozen)
             {
+                if (HeldItem != null)
+                {
+                    HeldItem.UpdatePosition(gameTime, graphics);
+                }
+
                 foreach (var projectile in Projectiles.Values)
                 {
                     projectile.UpdatePosition(gameTime, graphics);
@@ -452,6 +457,11 @@ namespace SoR.Logic.Character
 
             skeleton.X = position.X;
             skeleton.Y = position.Y;
+
+            if (HeldItem != null)
+            {
+                HeldItem.UpdateAnimations(gameTime);
+            }
 
             foreach (var projectile in Projectiles.Values)
             {

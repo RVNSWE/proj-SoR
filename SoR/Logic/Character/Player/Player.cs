@@ -264,6 +264,12 @@ namespace SoR.Logic.Character.Player
                 AdjustXPosition(ImpassableArea);
                 AdjustYPosition(ImpassableArea);
 
+                if (HeldItem != null)
+                {
+                    UpdateHeldItem(gameTime, LeftHand());
+                    HeldItem.UpdatePosition(gameTime, graphics);
+                }
+
                 if (Projectiles.TryGetValue("fireball", out Item projectile))
                 {
                     if (Casting)
@@ -286,11 +292,6 @@ namespace SoR.Logic.Character.Player
                     }
 
                     projectile.UpdatePosition(gameTime, graphics);
-                }
-
-                if (HeldItem != null)
-                {
-                    UpdateProjectile(gameTime, HeldItem, LeftHand());
                 }
             }
         }

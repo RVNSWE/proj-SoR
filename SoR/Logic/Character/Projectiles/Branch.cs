@@ -104,42 +104,5 @@ namespace SoR.Logic.Character.Projectiles
 
             ImpassableArea = impassableArea;
         }
-
-        public override void Appear()
-        {
-            movementAnimation = "appear";
-        }
-
-        public override void Vanish(GameTime gameTime)
-        {
-            if (!Vanishing)
-            {
-                LifeTime = 0.5f;
-                CountDistance = 0;
-                Vanishing = true;
-            }
-
-            float deltaTime = GameLogic.GetTime(gameTime);
-            movementAnimation = "vanish";
-            LifeTime -= deltaTime;
-        }
-
-        /*
-         * Animate redirection.
-         */
-        public override void RedirectAnimation(int newDirection)
-        {
-            switch (newDirection)
-            {
-                case 1:
-                    movementAnimation = "idle";
-                    GetSkeleton().ScaleX = 1;
-                    break;
-                case 2:
-                    movementAnimation = "idle";
-                    GetSkeleton().ScaleX = -1;
-                    break;
-            }
-        }
     }
 }
