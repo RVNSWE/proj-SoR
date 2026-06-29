@@ -23,9 +23,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Content\Entities\**" />
+    <Compile Remove="Resources\**" />
     <EmbeddedResource Remove="Content\Entities\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="Content\Entities\**" />
+    <None Remove="Resources\**" />
     <Page Remove="Content\Entities\**" />
+    <Page Remove="Resources\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="SoR\Hardware\Graphics\GraphicsSettingsTemp.cs" />
@@ -51,7 +55,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\spine-runtimes-4.2\spine-monogame\spine-monogame\spine-monogame.csproj" />
+    <ProjectReference Include="..\spine-runtimes-4.3\spine-runtimes-4.3\spine-monogame\spine-monogame\spine-monogame.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Extended">
@@ -71,9 +75,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Properties\Settings.settings">

@@ -84,7 +84,7 @@ namespace SoR.Logic.Character.Mobs
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
             hitboxAttachment = skeleton.GetAttachment("hitbox", "hitbox");
-            slot.Attachment = hitboxAttachment;
+            slot.Pose.Attachment = hitboxAttachment;
             skeleton.SetAttachment("hitbox", "hitbox");
 
             // Initialise skeleton renderer with premultiplied alpha

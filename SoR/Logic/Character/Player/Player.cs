@@ -75,10 +75,12 @@ namespace SoR.Logic.Character.Player
             };
 
             // Load texture atlas and attachment loader
-            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC4.atlas"), new XnaTextureLoader(GraphicsDevice));
+            atlas = new Atlas(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\MC6.atlas"), new XnaTextureLoader(GraphicsDevice));
             atlasAttachmentLoader = new AtlasAttachmentLoader(atlas);
-            json = new SkeletonJson(atlasAttachmentLoader);
-            json.Scale = 0.5f;
+            json = new SkeletonJson(atlasAttachmentLoader)
+            {
+                Scale = 0.5f
+            };
 
             // Initialise skeleton json
             skeletonData = json.ReadSkeletonData(Globals.GetResourcePath("Content\\SoR Resources\\Entities\\Player\\skeleton.json"));
@@ -89,8 +91,10 @@ namespace SoR.Logic.Character.Player
             Skin = "down";
 
             // Setup animation
-            animStateData = new AnimationStateData(skeleton.Data);
-            animStateData.DefaultMix = 0.1f;
+            animStateData = new AnimationStateData(skeleton.Data)
+            {
+                DefaultMix = 0.1f
+            };
             animState = new AnimationState(animStateData);
             animState.Apply(skeleton);
 
@@ -100,7 +104,7 @@ namespace SoR.Logic.Character.Player
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
             hitboxAttachment = skeleton.GetAttachment("hitbox", "hitbox");
-            slot.Attachment = hitboxAttachment;
+            slot.Pose.Attachment = hitboxAttachment;
             skeleton.SetAttachment("hitbox", "hitbox");
 
             hitbox = new SkeletonBounds();
@@ -302,8 +306,8 @@ namespace SoR.Logic.Character.Player
         public void UpdateHeldItem(GameTime gameTime, string bone)
         {
             Bone handBone = skeleton.FindBone(bone);
-            HeldItem.SetPosition(handBone.WorldX, handBone.WorldY);
-
+            HeldItem.SetPosition(handBone.Pose.WorldX, handBone.Pose.WorldY);
+            
             if (bone == "HB")
             {
                 HeldItem.Behind = true;
@@ -320,7 +324,7 @@ namespace SoR.Logic.Character.Player
         public void UpdateProjectile(GameTime gameTime, Item projectile, string bone)
         {
             Bone handBone = skeleton.FindBone(bone);
-            projectile.SetPosition(handBone.WorldX, handBone.WorldY);
+            projectile.SetPosition(handBone.Pose.WorldX, handBone.Pose.WorldY);
 
             if (bone == "HB")
             {
@@ -345,8 +349,8 @@ namespace SoR.Logic.Character.Player
             if (!projectile.Cast)
             {
                 Bone handBone = skeleton.FindBone(RightHand());
-                float x = handBone.WorldX;
-                float y = handBone.WorldY;
+                float x = handBone.Pose.WorldX;
+                float y = handBone.Pose.WorldY;
                 int magnifier = 5;
 
                 if (idle)

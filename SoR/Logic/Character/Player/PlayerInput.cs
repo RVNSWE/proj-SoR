@@ -27,7 +27,7 @@ namespace SoR.Logic.Character.Player
                     break;
             }
 
-            skeleton.SetSlotsToSetupPose();
+            skeleton.SetupPoseSlots();
             animState.Apply(skeleton);
         }
 

@@ -63,7 +63,7 @@ namespace SoR.Logic.Character.Projectiles
             // Create hitbox
             slot = skeleton.FindSlot("hitbox");
             hitboxAttachment = skeleton.GetAttachment("hitbox", "hitbox");
-            slot.Attachment = hitboxAttachment;
+            slot.Pose.Attachment = hitboxAttachment;
             skeleton.SetAttachment("hitbox", "hitbox");
 
             hitbox = new SkeletonBounds();

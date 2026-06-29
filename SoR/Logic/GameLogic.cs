@@ -713,7 +713,7 @@ namespace SoR.Logic
                     {
                         Bone handBone = player.GetSkeleton().FindBone(player.LeftHand());
 
-                        player.CreateProjectile("fireball", GraphicsDevice, handBone.WorldX, handBone.WorldY);
+                        player.CreateProjectile("fireball", GraphicsDevice, handBone.Pose.WorldX, handBone.Pose.WorldY);
                     }
                     else
                     {

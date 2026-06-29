@@ -190,7 +190,7 @@ namespace SoR.Logic.Character
         public void UpdateSkin(string skin)
         {
             skeleton.SetSkin(skeletonData.FindSkin(skin));
-            skeleton.SetSlotsToSetupPose();
+            skeleton.SetupPoseSlots();
             animState.Apply(skeleton);
         }
 
@@ -474,7 +474,7 @@ namespace SoR.Logic.Character
             animState.Apply(skeleton);
 
             // Update skeletal transformations
-            skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
+            skeleton.UpdateWorldTransform(Physics.Update);
         }
 
         /*

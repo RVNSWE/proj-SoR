@@ -101,7 +101,7 @@ namespace SoR.Logic.GameMap
             animState.Apply(skeleton);
 
             // Update skeletal transformations
-            skeleton.UpdateWorldTransform(Skeleton.Physics.Update);
+            skeleton.UpdateWorldTransform(Physics.Update);
         }
 
         /*
